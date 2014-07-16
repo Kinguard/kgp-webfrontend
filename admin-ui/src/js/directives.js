@@ -1,0 +1,1 @@
+var opiaDirectives = angular.module('opiaDirectives', []);

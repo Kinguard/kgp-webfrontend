@@ -1,0 +1,16 @@
+
+<form ng-controller="Mail__DeleteReceiverCtrl" form-status="status" class="form-group-table" name="duForm" ng-submit="submit(duForm)">
+  
+  <h2 class="mbot2 text-center">Are you sure you want do delete <span class="entity">{{editReceiver.address}}</span>?</h2>
+
+  <p class="form-buttons text-center">
+  <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">No, cancel</a>
+  <button type="submit" class="btn btn-primary" autofocus>Yes, delete receiver</button>
+  </p>
+
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Deleting...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">User deleted</alert></div>
+
+</form>

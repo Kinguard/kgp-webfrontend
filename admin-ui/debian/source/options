@@ -1,0 +1,9 @@
+extend-diff-ignore = "(^|/)(\.pc|\.sass-cache|*~|\.settings|\.project|build|public_dist|node_modules)$"
+tar-ignore = "node_modules"
+tar-ignore="\.pc"
+tar-ignore = "\.sass-cache"
+tar-ignore = "\.settings"
+tar-ignore = "\.project"
+tar-ignore = "public_dist"
+tar-ignore = "build"
+

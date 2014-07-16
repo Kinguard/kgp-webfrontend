@@ -1,0 +1,1 @@
+var opiaControllers = angular.module('opiaControllers', []);

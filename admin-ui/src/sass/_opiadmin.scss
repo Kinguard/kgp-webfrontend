@@ -1,0 +1,475 @@
+@import "variables";
+
+
+
+/*** MIXINS ***/
+@mixin prefixed($name, $argument) {
+  #{$name}: $argument;
+  -webkit-#{$name}: $argument;
+  -ms-#{$name}: $argument;
+  -moz-#{$name}: $argument;
+  -o-#{$name}: $argument;
+}
+@mixin MOBILE {
+  @media (max-width: $screen-sm - 1px){ 
+    @content
+  }
+}
+@mixin SCREEN {
+  @media (min-width: $screen-sm){ 
+    @content
+  }
+}
+@mixin clearfix {
+  &:before, &:after {
+    display: table;
+    content: " ";
+  }
+  &:after {
+    clear: both;
+  }
+}
+@mixin keyframes($name){
+  @keyframes $name { @content }
+  @-webkit-keyframes $name { @content }
+  @-ms-keyframes $name { @content }
+  @-moz-keyframes $name { @content }
+  @-o-keyframes $name { @content }
+}
+
+@mixin border {
+  & { border: 1px solid $gray-light; border-radius: $border-radius-base; }
+}
+
+
+
+
+/*
+html { font-size: 80%; }
+body { font-size: 100%; }
+*/
+
+h1,.h1 { font-size: 24px;  line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+h2,.h2 { font-size: 1.1em; line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+h3,.h3 { font-size: 1em;   line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+h4,.h4 { font-size: 1em;   line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+h5,.h5 { font-size: 1em;   line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+h6,.h6 { font-size: 1em;   line-height: $line-height-default; font-weight: 300; margin: 0; padding: 0; }
+
+html { -webkit-font-smoothing: antialiased; }
+body { line-height: $line-height-default; }
+
+a { cursor: pointer; }
+
+img { width: 100%; height: auto; }
+
+
+html.rgba hr { border-color: rgba($black,0.075); }
+
+
+
+
+/*** COMPONENTS ***/
+.text-size-80 { font-size: 80%; line-height: $line-height-default; }
+.text-size-90 { font-size: 90%; line-height: $line-height-default; }
+.text-size-125 { font-size: 125%; line-height: $line-height-default; }
+.text-size-150 { font-size: 150%; line-height: $line-height-default; }
+.text-size-200 { font-size: 200%; line-height: $line-height-default; }
+.color-default { color: $text-color; }
+.color-green { color: $green; }
+.color-blue { color: $blue; }
+.color-yellow { color: $yellow; }
+.color-red { color: $red; }
+.mtop2 { margin-top: 2em; }
+.mtop1 { margin-top: 1em; }
+.mtop05 { margin-top: 0.5em; }
+.mbot2 { margin-bottom: 2em; }
+.mbot1 { margin-bottom: 1em; }
+.mbot05 { margin-bottom: 0.5em; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-thin { font-weight: thin !important; }
+.text-normal { font-weight: normal !important; }
+.text-bold { font-weight: bold !important; }
+
+.link { cursor: pointer; }
+.fullwidth { width: 100%; }
+.nobr { white-space: nowrap; }
+
+.container { width: auto; max-width: $screen-lg; }
+
+.entity { white-space: nowrap; font-style: italic; }
+
+
+.btn { border-width: $btn-border-width; font-size: 1em; @include prefixed(transition,0.3s);
+  &.btn-lg { font-size: 1.2em; }
+  &.btn-sm { font-size: 0.9em; }
+  &.btn-xs { font-size: 0.8em; }
+  
+  &.btn-fb { background: $facebookblue; color: $white; }
+}
+.alert { margin-top: 10px; }
+
+
+
+.round { position: relative;
+  .round-format img { width: 100%; height: auto; }
+  .round-inner { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; border-radius: 50%; overflow: hidden; text-align: center; }
+  .round-fill { height: 100%; width: 100%; border-radius: 50%; }
+}
+
+.form-box { background: $white; @include border; padding: 50px; }
+
+.form-group {
+  label { font-weight: normal; }
+  &.disabled {
+    label,.form-control { color: $gray; }
+  }
+}
+.control { white-space: nowrap; position: relative; 
+  .form-control { padding-right: 50px; color: $black; display: inline-block; }
+  .icon-ok,.icon-err,.icon-hint { display: inline-block; position: relative; left: -40px; top: 7px; width: 25px; height: 25px; border-radius: 50%; overflow: hidden; }
+  &.control-sm {
+    .form-control { padding: 6px 12px; height: 35px; padding-right: 36px; }
+    .icon-ok,.icon-err,.icon-hint { width: 18px; height: 18px; left: -28px; top: 4px; }
+  }
+}
+.icon-err { background: $redalert url(../img/icons/error.png) no-repeat center center; background-size: cover; }
+.icon-ok { background: $greensuccess url(../img/icons/check.png) no-repeat center center; background-size: cover; }
+.icon-hint { background: $warningyellow; }
+
+.form-control-sm { width: 50%; }
+.form-buttons { margin-top: 3em; }
+
+.form-group-table { position: relative;
+  @include SCREEN {
+    .form-group { display: table; width: 100%;
+      label,.control-label { display: table-cell; width: 30%; padding-right: 20px; vertical-align: middle; }
+      .control { display: table-cell; width: 70%; vertical-align: middle; 
+        label { display: block; width: auto; padding: 0; }
+      }
+    }
+  }
+  .form-buttons { text-align: right; }
+  //.alert { position: absolute; width: 100%; }
+}
+
+
+.progress { margin: 0; height: 26px;  
+  .progress-bar { line-height: 26px; text-shadow: -1px 1px 0 rgba($black,0.4); }
+}
+
+.nav-tabs {
+  li {
+    a { min-width: 130px; text-align: center; }
+  }
+}
+.tab-content { margin: 2em 0; }
+
+.table-options { float: right; @include clearfix; }
+
+.ng-table { @include border; overflow: hidden; background: $white; font-size: 0.9em;
+  th { background: $black; color: $white; text-align: left; font-weight: normal; border-bottom: 0; 
+    &.sortable { 
+      div:before, div:after { border-color: $white transparent; }
+      &.sort-desc, &.sort-asc { background: $black-dark; text-shadow: none; 
+        div:before, div:after { border-color: $white transparent; opacity: 1; }
+      }
+    }
+  }
+  tfoot { display: none; }
+  tr {
+    td:first-child,th:first-child { padding-left: 20px; }
+    td:last-child,th:last-child { padding-right: 20px; }
+    td { @include prefixed(transition,0.5s); }
+    // bootstrap .table-stripe force us to use !important... :(
+    &.success    td { background: $state-success-bg !important; }
+    &.invalid    td { background: $state-danger-bg !important; }
+    &.error      td { background: $state-danger-bg !important; }
+    &.submitting td { background: $state-info-bg !important; }
+    
+    &.ng-table-group td { background: $gray-lighter; }
+    &.new td { border-top: 2px dashed $gray-light; }
+  } 
+  tbody.new { border-top: 0; 
+    tr.new td { border-top-width: 3px; }
+  }
+
+  .menu { vertical-align: middle;
+    .icon {  position: relative; top: -2px; }
+    a.icon { opacity: 0.5; } 
+    a.icon:hover { opacity: 0.75; }
+    nav { display: none; position: absolute; z-index: 2; background: $white; @include border; 
+      ul { margin: 0; padding: 5px 0; 
+        li { margin: 0; padding: 0;
+          a { display: block; padding: 5px 20px; font-size: 0.9em; color: $black; 
+            &:hover { background: $gray-light; }
+          }
+        }
+      }
+    }
+    &:hover { 
+      nav { display: block; }
+    }
+  }
+
+  tr.new {
+    &.closed { cursor: pointer; }
+  }
+
+  .modal-content & > thead > tr > th, 
+  .modal-content & > thead > tr > td, 
+  .modal-content & > tbody > tr > th, 
+  .modal-content & > tbody > tr > td, 
+  .modal-content & > tfoot > tr > th, 
+  .modal-content & > tfoot > tr > td { padding: 10px 5px; }
+}
+
+.tooltip { font-size: 16px; max-width: none;
+  .tooltip-inner { padding: 10px 15px; white-space: nowrap; max-width: none }
+}
+
+
+/*.modal { overflow: hidden; 
+  &.fade .modal-dialog { @include prefixed(transform, translate(50%, 0)); }
+  &.in .modal-dialog { @include prefixed(transform, translate(0, 0)); }
+   
+}*/
+.modal-dialog { 
+  //@include SCREEN { width: 700px; } 
+  .modal-content { box-shadow: none; background: none; margin: 0; border: 0; background: $gray-lighter;
+    header { padding: 30px 50px; background: $white; position: relative;
+      .close-modal {  position: absolute; width: 36px; height: 36px; right: 50px; top: 28px; }
+    } 
+    article { padding: 50px; }
+    
+  }
+}
+
+
+
+
+/*** ANIMATIONS ***/
+
+@include keyframes(rotate){
+  from { @include prefixed(transform, rotate(0deg)); }
+  to { @include prefixed(transform, rotate(359deg)); }
+}
+.loadicon { @include prefixed(animation, rotate 0.7s infinite linear); }
+
+
+@include keyframes(slide-in-from-right){
+  0% { display: block; position: absolute; width: 100%; left: 100%; }
+  99% { left: 0; }
+  100% { position: relative; }
+}
+@include keyframes(slide-in-from-left){
+  0% { display: block; position: absolute; width: 100%; left: -100%; }
+  99% { left: 0; }
+  100% { position: relative; }
+}
+@include keyframes(slide-out-to-right){
+  0% { display: block; position: absolute; width: 100%; left: 0; }
+  99% { display: block; left: 100%; }
+  100% { display: none; }
+}
+@include keyframes(slide-out-to-left){
+  0% { display: block; position: absolute; width: 100%; left: 0; }
+  99% { display: block; left: -100%; }
+  100% { display: none; }
+}
+
+.slide {
+  &.ng-enter,&.ng-leave { @include prefixed(transition, 0.5s); position: absolute; width: 100%; 
+    .buttons { display: none; }
+  }
+  &.ng-enter { left: 120%; }
+  &.ng-enter-active { left: 0; }
+  &.ng-leave { left: 0; }
+  &.ng-leave-active { left: -120%; }
+}
+.slide-right {
+  .slide {
+    &.ng-enter { left: -120%; }
+    &.ng-enter-active { left: 0; }
+    &.ng-leave { left: 0; }
+    &.ng-leave-active { left: 120%; }
+  }
+}
+
+@include keyframes(fade-in){
+  from { @include prefixed(opacity, 0); }
+  to { @include prefixed(opacity, 1); }
+}
+@include keyframes(fade-out){
+  from { @include prefixed(opacity, 1); }
+  to { @include prefixed(opacity, 0); }
+}
+.fader { position: relative; }
+.fade { display: block !important; @include prefixed(opacity, 1);
+  //&.ng-enter, &.ng-leave { position: absolute; }
+  &.ng-hide-add, &.ng-enter { @include prefixed(animation, fade-in 0.5s); z-index: 2; }
+  &.ng-hide-remove, &.ng-leave { @include prefixed(animation, fade-out 0.5s); z-index: 1; }
+}
+
+@include keyframes(pop-up){
+  from { @include prefixed(transform, scale(0)); @include prefixed(opacity, 0); }
+  to { @include prefixed(transform, scale(1)); @include prefixed(opacity, 1); }
+}
+@include keyframes(pop-down){
+  from { @include prefixed(transform, scale(1)); @include prefixed(opacity, 1); }
+  to { @include prefixed(transform, scale(0)); @include prefixed(opacity, 0); }
+}
+.pop--disabled { 
+  &.ng-hide-add, &.ng-enter { display: block !important; @include prefixed(animation, pop-down 0.5s); }
+  &.ng-hide-remove, &.ng-leave { @include prefixed(animation, pop-up 0.5s); }
+}
+
+@include keyframes(loading-circle){
+  0% { background: $orange; }
+  50% { background: $white; }
+  100% { background: $orange; }
+  /*25% { background: $white; }
+  50% { background: $orange; }
+  75% { background: $black; }
+  100% { background: $orange; } */
+}
+
+
+/*** LAYOUT SPECIFICS ***/
+
+#loading { display: none;background: rgba($black, 0.75); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;
+  #loading-text { width: 150px; height: 150px; border-radius: 50%; background: $orange; position: absolute; top: 50%; left: 50%; margin-left: -100px; margin-top: -100px; padding: 10px; @include prefixed(animation, loading-circle 2s infinite);
+    .inner { width: 100%; height: 100%; background: $black; border-radius: 50%; text-align: center; padding-top: 50px; font-size: 13px; letter-spacing: 3px; font-weight: bold; color: $white; text-transform: uppercase; }
+  }
+
+}
+
+#login-bg { position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 1; background: url(../img/bg-pattern.gif) no-repeat left bottom; background-size: cover; border: 10px solid $orange; }
+#login {  width: 440px; position: absolute; top: 50%; left: 50%; z-index: 2; margin: -200px 0 0 -220px; padding: 50px; background: $white; @include border; }
+@include MOBILE {
+  #login { position: relative; top: 0; left: 0; margin: 50px 30px; width: auto; }
+}
+
+
+#panel { background: $black; overflow: auto;
+  h1 { margin: 0; padding: 0; display: table; width: 100%; background: $black-darker;
+    a { display: table-cell; vertical-align: middle; height: $header-height; 
+      &.logo { padding: 20px 20px 20px 50px;
+        img { width: 112px; height: auto; }
+      }
+      &.menu { width: $menu-width-collapsed; }
+    }
+  }
+
+  nav { margin-top: 36px;
+    a { display: block; padding: 12px 40px; color: $white; text-decoration: none; font-size: 0.9em; text-transform: uppercase; 
+      i { display: inline-block; width: 40px; height: 40px; background-repeat: no-repeat; background-position: center center; background-size: cover; opacity: 0.5; }
+      strong { display: inline-block; padding-left: 15px;
+        span { font-weight: normal; text-transform: none; white-space: nowrap; }
+      }
+      &:hover { //background:  $black-light; 
+        i { opacity: 0.75; }
+      }
+    }
+    a { display: table; width: 100%;
+      i, strong { display: table-cell; vertical-align: middle; }
+    }
+    .active a { background: $orange; 
+      i { opacity: 1; }
+    }
+  }
+}
+nav {
+  .home    i { background-image: url(../img/icons/menu/home.png);    }
+  .me      i { background-image: url(../img/icons/menu/profile.png); }
+  .users   i { background-image: url(../img/icons/menu/users.png);   }
+  .mail    i { background-image: url(../img/icons/menu/mail.png);    }
+  .network i { background-image: url(../img/icons/menu/network.png); }
+  .backup  i { background-image: url(../img/icons/menu/backup.png);  }
+  .update  i { background-image: url(../img/icons/menu/update.png);  }
+  .logout  i { background-image: url(../img/icons/menu/logout.png);  }
+}
+
+#home-list {
+  a { display: table; width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 30px; @include clearfix; overflow: hidden; text-decoration: none; @include prefixed(transition, 0.3s); 
+    &:hover { @include prefixed(transform, scale(1.05)); box-shadow: 0 0 10px rgba($black,0.2); }
+    i,strong { display: table-cell; padding: 8%; background-repeat: no-repeat; background-position: center center; background-size: 60%; background-color: $orange; overflow: hidden; white-space: nowrap; }
+    i { width: 120px; min-width: 120px; }
+    strong { color: $black; background: $white; }
+  }
+  @include SCREEN {
+    li:nth-child(odd) { clear: both; }
+  }
+}
+
+@include SCREEN {
+  html { overflow-y: scroll; }
+  #panel { position: fixed; top: 0; left: 0; bottom: 0; width: $menu-width; }
+  body { padding-left: $menu-width; }
+
+  html.collapsed {
+    body { padding-left: $menu-width-collapsed; }
+    #panel { width: $menu-width-collapsed; 
+      h1 {
+        .logo { display: none; }
+      }
+      nav {
+        a { padding: 7px 15px;
+          i { width: 50px; height: 50px; }
+          strong { display: none; }
+        }
+      }
+    }
+  }
+}
+@include MOBILE {
+  #panel {
+    h1 {
+      a { display: table-cell; vertical-align: middle; height: $header-height - 40px; 
+        &.logo { padding: 5px 0 5px 20px;
+          img { width: 90px; height: auto; }
+        }
+        &.menu { width: $menu-width-collapsed; }
+      }
+    }
+  }
+
+  html.collapsed {
+    #panel { 
+      nav { display: none; }
+    }
+  }
+}
+
+
+
+html.admin {
+  body { background: $gray-lighter;}
+  main {
+    header {  padding: 32px 50px; background: $white; height: $header-height;
+      .alt { color: $gray; }
+    }
+    article { padding: 50px; }
+  }
+}
+
+
+
+/*** Users & Groups ***/
+.ng-table {
+  th,td {
+    &.menu { width: 50px; }
+    &.displayname {  }
+    &.username { width: 30%; }
+    &.type { width: 15%; }
+    &.action { width: 90px; text-align: right; }
+
+    &.email { width: 50%; }
+    &.include { width: 140px; text-align: center; }
+  }
+}
+
+
+
+

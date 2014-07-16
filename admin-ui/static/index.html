@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/frames.css">
+<link rel="stylesheet" type="text/css" href="css/popbox.css">
+<link rel="shortcut icon" href="/img/favicon.png" />
+<script src="js/jquery.min.js"></script>
+<script src="js/popbox.min.js"></script>
+<script src="js/texts.js"></script>
+</head>
+
+<body id="op_wrapper">
+<div id="op_nav">
+
+</div>
+
+<div id="top_header">
+	<span class="hidden" id="label_curr_user">Logged in as: </span><span id="current_user">Not logged in</span>
+	<div class='popbox' id="opi-apps">
+	  <a class='open' href='#'><img src="img/opi-apps.png" /></a>
+	  <div class='collapse'>
+		<!--  Content of box goes here -->
+	    <div class='box' id="app-box">
+	      <div class='arrow'></div>
+	      <div class='arrow-border'></div>
+	      <a href="#" class="close"><img id="nav-box-close" src="img/close.png" /></a>
+			<div id="op_nav">
+			<button id="button_mail" class="nav_button close" target="frame_mail">
+				<div class="nav_control" id="nav_mail"> </div>
+				<div class="nav_text" id="txt_nav_mail">Mail</div>
+			</button>
+			<button id="button_oc_files" class="nav_button close" target="frame_oc_files">
+				<div class="nav_control" id="nav_files"> </div>
+				<div class="nav_text" id="txt_nav_files">Files</div>
+			</button>
+			<button id="button_oc_cal" class="nav_button close" target="frame_oc_cal">
+				<div class="nav_control" id="nav_cal"> </div>
+				<div class="nav_text" id="txt_nav_cal">Calendar</div>
+			</button>
+			<button id="button_oc_contacts" class="nav_button close" target="frame_oc_contacts">
+				<div class="nav_control" id="nav_contacts"> </div>
+				<div class="nav_text" id="txt_nav_contacts">Contacts</div>
+			</button>
+			<button id="button_oc_gallery" class="nav_button close" target="frame_oc_gallery">
+				<div class="nav_control" id="nav_gallery"> </div>
+				<div class="nav_text" id="txt_nav_gallery">Image<br>Gallery</div>
+			</button>
+			<button id="button_admin" class="nav_button close" target="frame_admin">
+				<div class="nav_control" id="nav_admin"> </div>
+				<div class="nav_text" id="txt_nav_admin">Admin</div>
+			</button>
+		</div>
+	    </div>
+	  </div>
+	</div>
+	<div id="top-nav-logout">
+		<a href="#" class="top-nav" alt="Logout"><img src=img/logout_grey.png /></a>
+	</div>
+</div>
+
+
+<div id="content">
+	<iframe class="subpage z2 z0" id="frame_admin" src = "admin.html"></iframe>
+	<iframe class="subpage z1" id="frame_loading" src = "loading.html"></iframe>
+	<iframe class="subpage z3" id="frame_mail" src = "/mail"></iframe>
+	<iframe class="subpage z4" id="frame_oc_cal" src = "loading.html"></iframe>
+	<iframe class="subpage z5" id="frame_oc_files" src = "loading.html"></iframe>
+	<iframe class="subpage z6" id="frame_oc_contacts" src = "loading.html"></iframe>
+	<iframe class="subpage z7" id="frame_oc_gallery" src = "loading.html"></iframe>
+</div>
+</body>
+
+<script>
+
+var FramesLoaded = {};
+var currentFrame = 0;
+var Frame_ref = {};
+
+
+var FrameOrder = [
+	"frame_admin",
+	"frame_mail",
+	"frame_oc_files",
+	"frame_oc_cal",
+	"frame_oc_contacts",
+	"frame_oc_gallery"		
+];
+
+/*var FrameOrder = [
+              	"frame_admin",
+              	"frame_oc_cal"
+];
+*/
+
+var FrameSrc = {
+		frame_admin		  :	  "/admin.html",
+		frame_mail        :   "/mail/index.php",
+		frame_oc_files    :   "/oc/index.php/apps/files/",
+		frame_oc_cal      :   "/oc/index.php/apps/calendar/",
+		frame_oc_contacts :   "/oc/index.php/apps/contacts/",
+		frame_oc_gallery  :   "/oc/index.php/apps/gallery/"	
+};
+var activeFrame = FrameOrder[0];
+
+
+var TimeoutLeaveID;
+
+$(document).ready(function() {
+	 $('.popbox').popbox();
+});
+
+function set_name(name) {
+	$("#current_user").text(name);
+}
+function load_frame(id) {
+	$("#"+id).attr("src",FrameSrc[id]);
+	
+}
+
+var RC_waitlogin = false;
+var OC_waitlogin = false;
+var RC_waitlogout = false;
+var OC_waitlogout = false;
+var ADM_waitlogout = false;
+
+function login(args) {
+	RC_waitlogin = true;
+	OC_waitlogin = true;
+
+	$.post( "/oc/", { user: args.username, password: args.password }, function( data ) { 
+		OC_waitlogin = false;
+		if(! RC_waitlogin) {
+			load_nextframe();		
+		}
+	});
+	// get token from RC page
+	token = $("#frame_mail").contents().find("input[name='_token']").val();
+	$.post( "/mail/?_task=login", { 
+		_user: 'test', 
+		_pass: 'test',
+		_token: token,
+		_task: 'login',
+		_action: 'login',
+		_timezone : '',
+		_url : '_task=login'
+		}, function( data,status ) {
+		RC_waitlogin = false;
+		if(! OC_waitlogin) {
+			load_nextframe();		
+		}
+	} );
+
+}
+
+function redirect() {
+	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
+		console.log("Redirecting");
+		location.href="/";
+	}	
+}
+
+function logout() {
+	RC_waitlogout = true;
+	OC_waitlogout = true;
+	ADM_waitlogout = true;
+
+	$("#top_header").hide();
+	$("#app-box").hide();
+
+	$.get("/oc/index.php?logout=true", function(data,status) {
+		console.log("OC logout: " + status);
+		OC_waitlogout = false;
+		redirect();
+	});
+	$.get("/mail/?_task=logout", function(data,status) {
+		RC_waitlogout = false;
+		redirect();
+	});
+	
+	$.ajax({
+	    url: '/api/session',
+	    type: 'DELETE',
+	    success: function(result,status) {
+	        // logged out
+	    	ADM_waitlogout = false;
+	    	redirect();
+	     },
+	    error: function(xhr,StrStatus,error) {
+	    	ADM_waitlogout = false;
+	    	if(xhr.status == 405) { // session already deleted
+	    		console.log("ADM already logged out.");
+	    	} else {
+		    	console.log("ADM logout fail: "+error);
+	    	}
+	    	redirect();
+	    }
+	});
+}
+
+function load_nextframe() {
+	$("#label_curr_user").show();
+	$("#top_header").show();
+	$("#app-box").show();
+	if(OC_waitlogin || RC_waitlogin) {
+		console.log("Not loading, waiting for login process");		
+		return false;
+	}
+
+
+    TimeoutLeaveID = setTimeout(function() {
+		  $("#app-box").hide(800);
+	}, 6000);
+
+    currentFrame++;
+	load_frame(FrameOrder[currentFrame]);
+}
+
+$(".subpage").load( function() {
+	if(currentFrame > 0) {
+		FramesLoaded[FrameOrder[currentFrame]] = true;
+		//console.log("Loaded frame: "+FrameOrder[currentFrame]);
+		if(activeFrame == FrameOrder[currentFrame]) {
+			// the frame is active, so hide the loader page and show the real one.
+			$("#frame_loading").removeClass("z0");
+			$(this).addClass("z0");
+			$("#op_nav button[target='"+FrameOrder[currentFrame]+"']").children("div").addClass("active");
+			
+		}
+		if( ( (currentFrame+1) < FrameOrder.length) && (currentFrame > 0) ) {
+			currentFrame++;
+			load_frame(FrameOrder[currentFrame]);
+		}
+		/*
+		// get a reference to the body element of the frame
+		$('body', $(FrameOrder[currentFrame]).contents()).click( function() {
+			console.log("click");
+		});
+		*/
+	} else {
+		if($(this).attr('id') == FrameOrder[0]) {
+			FramesLoaded[FrameOrder[0]] = true; // admin frame is loaded by "default"
+			
+		}
+	}
+});
+
+$(".nav_button").click(function() {
+	activeFrame = $(this).attr("target");
+	// add a class to top-header so it can be styled dependent on the current app being shown.
+	$("#top_header").removeClass (function (index, css) {
+    	return (css.match (/\bframe_\S+/g) || []).join(' ');
+	});
+	$("#top_header").addClass(activeFrame);
+	$(".nav_button").children("div").removeClass("active");
+	$(this).children("div").addClass("active");
+	$(".subpage").removeClass("z0");
+	if(FramesLoaded[activeFrame]) {
+		$("#"+activeFrame).addClass("z0");
+	} else {
+		$("#frame_loading").addClass("z0");
+	}
+	$("#page_header").html(texts[activeFrame]);
+});
+
+
+$("#app-box").mouseenter(function() {
+	  clearTimeout(TimeoutLeaveID);
+});
+
+$("#app-box").mouseleave(function() {
+	  TimeoutLeaveID = setTimeout(function() {
+		  $("#app-box").hide(800);
+	  }, 4000);
+});
+
+
+$("#op_nav button").hover(function() {
+	$(this).children().toggleClass("hover");
+});		
+
+$("#top-nav-logout a").click(function(e) {
+	e.preventDefault();
+	logout();
+});
+
+
+
+</script>
+
+</html>

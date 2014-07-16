@@ -1,0 +1,140 @@
+@CHARSET "UTF-8";
+.hidden {
+	display:none;
+}
+.z0 {	z-index : 0 !important;}
+.z1 {	z-index : -1;}
+.z2 {	z-index : -2;}
+.z3 {	z-index : -3;}
+.z4 {	z-index : -4;}
+.z5 {	z-index : -5;}
+.z6 {	z-index : -6;}
+.z7 {	z-index : -7;}
+.z8 {	z-index : -8;}
+
+#top_header {
+	position:fixed; right: 10px; top: 0px;
+	z-index : 100;
+	display : none;
+	font-size : small;
+}
+#top_header.frame_mail {
+	color : #FFF;	
+}
+#top-nav-logout {
+	display : inline-block;
+	margin-left : 40px;
+}
+
+#top-nav-logout img {
+	width : 45px;
+	vertical-align : middle;
+}
+#app-box {
+	padding-top : 10px;
+}
+#app-box a {
+	position:absolute;
+	right : 2px;
+	top : 2px;
+}
+
+#content {
+/*	position:absolute; left: 0; right: 0; top: 0; bottom:4px;*/
+}
+
+#op_wrapper iframe{
+	position:absolute; left: 0; right: 0; top: 0; bottom:4px;
+	width: 100%;
+	height : 100%;
+	border : 0px;
+	overflow : auto;
+}
+#op_nav #nav_OP_logo {
+	margin : 10px 5px 50px;
+}
+
+#op_nav button {
+	margin : 0px 5px 0px;
+}
+#op_nav button {
+	width : 50px;
+	height : 70px;
+	background : none repeat scroll 0 0 rgba(0,0,0,0);
+	padding : 3px;
+	border : 0px;
+	display : block;
+	cursor : pointer;
+}
+#op_nav div.active {
+	cursor : default !important;
+	color : #FFFFFF;
+}
+
+#op_nav div.nav_control {
+	cursor : pointer;
+	background-image : url('../img/OP_ICONS_COMBINED.png');
+	width : 50px;
+	height : 45px;
+}
+#op_nav div.nav_control.hover,#op_nav div.nav_control.active {
+	background-image : url('../img/OP_ICONS_COMBINED_white.png');
+}
+#op_nav .nav_text {
+	color : #666;
+	font-size : 10px;
+}
+#op_nav .hover {
+	color : #FFFFFF;
+}
+#nav_mail {
+	background-position : 248px 0px;
+}
+#nav_files {
+	background-position : 198px 0px;
+}
+#nav_contacts {
+	background-position : 150px 0px;
+}
+#nav_cal {
+	background-position : 296px 0px;
+}
+#nav_gallery {
+	background-position : 48px 0px;
+}
+#nav_admin {
+	background-position : 98px 0px;
+}
+
+#op_nav #nav_trigger {
+	width : 60px;
+	height : 23px;
+	position : absolute;
+	left : 53px;
+	top : 30%%;
+	background : #f18700;
+	z-index : 1000;
+	padding: 0 auto;
+	border-bottom-left-radius : 15px;
+	-moz-border-bottom-left-radius: 15px;
+	border-bottom-right-radius : 15px;
+	-moz-border-bottom-right-radius: 15pxx;
+}
+.rotate {
+
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}

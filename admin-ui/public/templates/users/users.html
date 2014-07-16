@@ -1,0 +1,8 @@
+<header><h1>Users &amp; Groups</h1></header>
+<article>
+<tabset ng-init="actives = [!isTab('groups'), isTab('groups')]">
+  <tab heading="{{'Users' | translate}}" select="gotoPath('/users')" active="actives[0]"><div ng-include="'./templates/users/list--users.html'"></div></tab>
+  <tab heading="{{'Groups' | translate}}" select="gotoPath('/users/groups')" active="actives[1]"><div ng-include="'./templates/users/list--groups.html'"></div></tab>
+</tabset>
+
+</article>

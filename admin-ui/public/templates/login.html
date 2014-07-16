@@ -1,0 +1,15 @@
+<div id="login-bg"></div>
+<section id="login" ng-controller="LoginCtrl">
+  <form ng-submit="tryLogin()">
+    <p class="form-group">
+      <label for="loginUsername">Username:</label>
+      <input type="text" name="username" id="loginUsername" ng-model="login.username" class="form-control">
+    </p>
+    <p class="form-group">
+      <label for="loginPassword">Password:</label>
+      <input type="password" name="password" id="loginPassword" ng-model="login.password" class="form-control">
+    </p>
+    <p class="form-buttons"><button class="btn btn-primary fullwidth" type="submit">Sign in</button></p>
+    <alert type="'danger'" class="pop" ng-show="status=='error'" close="status=''">Invalid username or password</p>
+  </form>
+</section>

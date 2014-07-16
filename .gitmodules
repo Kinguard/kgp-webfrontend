@@ -1,0 +1,6 @@
+[submodule "admin-ui/libs/ng-table"]
+	path = admin-ui/libs/ng-table
+	url = https://github.com/esvit/ng-table.git
+[submodule "admin-ui/libs/bootstrap-sass"]
+  path = admin-ui/libs/ng-table
+  url = https://github.com/twbs/bootstrap-sass.git

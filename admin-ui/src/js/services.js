@@ -1,0 +1,1 @@
+var opiaServices = angular.module('opiaServices',['ngResource']);

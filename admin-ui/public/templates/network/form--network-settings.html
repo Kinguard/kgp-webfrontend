@@ -1,0 +1,84 @@
+<div class="form-box">
+<form ng-controller="Network__SettingsCtrl" class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)">
+
+  <p class="form-group">
+    <label for="ns-type-dynamic"><strong>Use DHCP</strong></label>
+    <span class="control">
+      <input type="radio" ng-model="settings.type" value="dynamic" id="ns-type-dynamic" class="">
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-type-static"><strong>Use Static IP</strong></label>
+    <span class="control">
+      <input type="radio" ng-model="settings.type" value="static" id="ns-type-static" class="">
+    </span>
+  </p>
+  
+  <div ng-show="settings.type=='static'">
+    <p class="form-group">
+      <label for="ns-ipnumber">Static IPv4 Address</label>
+      <span class="control">
+        <input type="text" ng-model="settings.ipnumber" id="ns-ipnumber" class="form-control" ng-required="useStatic()" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
+      </span>
+    </p>
+    <p class="form-group">
+      <label for="ns-netmask">Subnet Mask</label>
+      <span class="control">
+        <input type="text" ng-model="settings.netmask" id="ns-netmask" class="form-control" ng-required="useStatic()" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
+      </span>
+    </p>
+    <p class="form-group">
+      <label for="ns-gateway">Default Gateway</label>
+      <span class="control">
+        <input type="text" ng-model="settings.gateway" id="ns-gateway" class="form-control" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
+      </span>
+    </p>
+    <p class="form-group">
+      <label for="ns-dns1">Primary DNS</label>
+      <span class="control">
+        <input type="text" ng-model="settings.dns1" id="ns-dns1" class="form-control" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
+      </span>
+    </p>
+    <p class="form-group">
+      <label for="ns-dns2">Secondary DNS</label>
+      <span class="control">
+        <input type="text" ng-model="settings.dns2" id="ns-dns2" class="form-control" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
+      </span>
+    </p>
+  </div>
+  
+  <hr>
+
+  <p class="form-group">
+    <label for="ns-port443">Enable port for HTTPS (443)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['443'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port443" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port25">Enable port for SMTP (25)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['25'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port25" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port143">Enable port for IMAP (143)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['143'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port143" />
+    </span>
+  </p>
+  <hr>
+
+
+  <p class="form-buttons">
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </p>
+
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
+
+
+</form>
+</div>

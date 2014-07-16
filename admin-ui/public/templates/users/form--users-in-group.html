@@ -1,0 +1,26 @@
+<form ng-controller="Groups__UsersInGroupCtrl" form-status="status" class="form-group-table" name="uigForm" ng-submit="submit(uigForm)">
+
+  <table ng-table="tableParams" class="table table-striped">
+    <tr ng-repeat="user in users | orderBy:['-inGroup','displayname']">
+      <td data-title="'In Group'" header-class="include" class="include">
+        <input type="checkbox" ng-model="user.inGroup" />
+      </td>
+      <td data-title="'User'" header-class="user" class="user">
+        {{user.displayname}} ({{user.username}})
+      </td>
+    </tr>
+  </table>
+
+
+  <p class="form-buttons">
+  <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">Cancel</a>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+  </p>
+
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
+
+</form>
+

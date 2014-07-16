@@ -1,0 +1,12 @@
+Source: opi-webfrontend
+Section: unknown
+Priority: extra
+Maintainer: PA Nilsson <pa@openproducts.se>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+
+Package: opi-webfrontend
+Architecture: all
+Depends: ${misc:Depends}
+Description: OPI Admin Webinterface
+ OPI administrative webinterface used to configure the device.

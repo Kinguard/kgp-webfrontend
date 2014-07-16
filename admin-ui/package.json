@@ -1,0 +1,37 @@
+{
+  "name": "opiadmin",
+  "title": "OPI Admin UI",
+  "description": "Assets package with grunted CSS/SASS, JS, ftp-deploy etc.",
+  "version": "0.1.0",
+  "homepage": "",
+  "author": {
+    "name": "PA Nilsson",
+    "email": "pa@openproducts.se"
+  },
+  "bugs": "",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {},
+  "keywords": [],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-qunit": "~0.2.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.4.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-ftpscript": "~0.1.7",
+    "grunt-debian-package": "~0.1.9"
+  }
+}
