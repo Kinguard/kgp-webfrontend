@@ -1,3 +1,9 @@
+opi-webfrontend (1.1) testing; urgency=low
+
+  * Fixed redirect on logout 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 16 Jul 2014 22:00:16 +0200
+
 opi-webfrontend (1.0) testing; urgency=low
 
   * Initial release 
