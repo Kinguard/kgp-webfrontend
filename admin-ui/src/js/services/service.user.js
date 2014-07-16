@@ -30,7 +30,10 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
           if(_.isFunction(args.success)) args.success(data,status);
           // log into owncloud
           // console.log("Trying to log in to OwnCloud");
-          window.parent.login(args.login);
+	  if(window.self !== window.top) {
+	      window.parent.login(args.login);
+	  }
+
         } else { // failed
           if(_.isFunction(args.error)) args.error(data,status);
         }
@@ -40,7 +43,10 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
       var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
       Session.logout(function(data,status){
         success(data,status);
-        window.parent.logout();
+	if(window.self !== window.top) {
+	      console.log("logout OC/RC");
+	      window.parent.logout();
+	  }
       });
     }
   };

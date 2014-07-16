@@ -40,9 +40,11 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
   }).triggerHandler('resize');
   
 
-  console.log("Loading remaining frames");
-  window.parent.set_name(User.username);
-  window.parent.load_nextframe();
+  if(window.self !== window.top) {
+      console.log("Loading remaining frames");
+      window.parent.set_name(User.username);
+      window.parent.load_nextframe();
+  }
 
   
   // watch user's timeout

@@ -155,7 +155,7 @@ function login(args) {
 function redirect() {
 	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
 		console.log("Redirecting");
-		location.href="/";
+		location.href="/admin";
 	}	
 }
 
@@ -178,7 +178,7 @@ function logout() {
 	});
 	
 	$.ajax({
-	    url: '/api/session',
+	    url: '/admin/index.php/api/session',
 	    type: 'DELETE',
 	    success: function(result,status) {
 	        // logged out
