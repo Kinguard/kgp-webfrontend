@@ -1,7 +1,7 @@
 <form ng-controller="Groups__UsersInGroupCtrl" form-status="status" class="form-group-table" name="uigForm" ng-submit="submit(uigForm)">
 
   <table ng-table="tableParams" class="table table-striped">
-    <tr ng-repeat="user in users | orderBy:['-inGroup','displayname']">
+    <tr ng-repeat="user in users | orderBy:['displayname']">
       <td data-title="'In Group'" header-class="include" class="include">
         <input type="checkbox" ng-model="user.inGroup" />
       </td>

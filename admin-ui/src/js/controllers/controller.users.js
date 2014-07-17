@@ -107,6 +107,10 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
     // add new user
     Users.add($scope.newUser, function(user){
       $scope.status = 'success';
+      console.log("User added, trigger change password");
+      $scope.newUser.id = user.id;
+      //console.log($scope.newUser);
+      $scope.changePassword($scope.newUser);
       $scope.loadUsers(function(){
         $scope.setRowClass(user.id);
         $scope.reloadTable();

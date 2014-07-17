@@ -12,6 +12,7 @@ admin-ui/.sass-cache
 admin-ui/.pc
 admin-ui/.project
 admin-ui/.settings
+admin-ui/.buildpath
 opi-webfrontend*.upload
 opi-webfrontend*.changes
 opi-webfrontend*.deb

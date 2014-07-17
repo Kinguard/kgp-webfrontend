@@ -111,6 +111,9 @@ opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','ngTabl
       $scope.loadGroups(function(){
         $scope.setRowClass(group.id);
         $scope.reloadTable();
+        // trigger edit group
+        $scope.newGroup.id = group.id;
+        $scope.edit($scope.newGroup);
         $scope.new(null);
       });
     }, function(r){
