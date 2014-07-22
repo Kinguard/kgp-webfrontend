@@ -42,22 +42,33 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
     logout: function(args){
       var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
       Session.logout(function(data,status){
-    	  console.log("User service logout");
+    	  //console.log("User service logout");
     	  success(data,status);
     	  if(window.self !== window.top) {
-    		  console.log("logout OC/RC");
-    		  window.parent.logout();
+    		  //console.log("logout OC/RC");
+    		  window.parent.logout(1);
     	  }
       });
     },
     shutdown: function(args){
         var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
         Session.logout(function(data,status){
-      	  console.log("User service shutdown");
+      	  //console.log("User service shutdown");
       	  success(data,status);
       	  if(window.self !== window.top) {
-      		  console.log("logout OC/RC");
-      		  window.parent.logout(false); 
+      		  //console.log("logout OC/RC");
+      		  window.parent.logout(0); 
+      	  }
+        });
+      },
+    reboot: function(args){
+        var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
+        Session.logout(function(data,status){
+      	  //console.log("User service reboot");
+      	  success(data,status); 
+      	  if(window.self !== window.top) {
+      		  //console.log("logout OC/RC");
+      		  window.parent.logout(100); 
       	  }
         });
       }

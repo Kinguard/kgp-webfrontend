@@ -152,57 +152,14 @@ function login(args) {
 
 }
 
-function redirect() {
-	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
-		console.log("Redirecting");
-		location.href="/admin";
-	}	
-}
 
-function logout() {
-	RC_waitlogout = true;
-	OC_waitlogout = true;
-	ADM_waitlogout = true;
-
-	$("#top_header").hide();
-	$("#app-box").hide();
-
-	$.get("/oc/index.php?logout=true", function(data,status) {
-		console.log("OC logout: " + status);
-		OC_waitlogout = false;
-		redirect();
-	});
-	$.get("/mail/?_task=logout", function(data,status) {
-		RC_waitlogout = false;
-		redirect();
-	});
-	
-	$.ajax({
-	    url: '/admin/index.php/api/session',
-	    type: 'DELETE',
-	    success: function(result,status) {
-	        // logged out
-	    	ADM_waitlogout = false;
-	    	redirect();
-	     },
-	    error: function(xhr,StrStatus,error) {
-	    	ADM_waitlogout = false;
-	    	if(xhr.status == 405) { // session already deleted
-	    		console.log("ADM already logged out.");
-	    	} else {
-		    	console.log("ADM logout fail: "+error);
-	    	}
-	    	redirect();
-	    }
-	});
-}
 
 function load_nextframe() {
 	$("#label_curr_user").show();
 	$("#top_header").show();
 	$("#app-box").show();
 	if(OC_waitlogin || RC_waitlogin) {
-		console.log("Not loading, waiting for login process");		
+		//console.log("Not loading, waiting for login process");		
 		return false;
 	}
 
@@ -215,10 +172,67 @@ function load_nextframe() {
 	load_frame(FrameOrder[currentFrame]);
 }
 
+function redirect(timeout) {
+	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
+		if(timeout > 0) {
+			setTimeout(function() {
+				location.href="/admin";		  
+			}, timeout*1000);
+		}
+		
+	}	
+}
+
+function logout(timeout) {
+	RC_waitlogout = true;
+	OC_waitlogout = true;
+	ADM_waitlogout = true;
+	//console.log("INDEX timeout:"+timeout);
+	$("#top_header").hide();
+	$("#app-box").hide();
+
+	$.get("/oc/index.php?logout=true", function(data,status) {
+		//console.log("OC logout done");
+	}).fail(function(){
+		//console.log("OC logout call failed");
+	}).always(function(){
+		OC_waitlogout = false;
+		redirect(timeout);
+	});
+	$.get("/mail/?_task=logout", function(data,status) {
+		//console.log("RC logout done");
+	}).fail(function(){
+		//console.log("RC logout call failed");
+	}).always(function(){
+		RC_waitlogout = false;
+		redirect(timeout);
+	});
+	
+	$.ajax({
+	    url: '/admin/index.php/api/session',
+	    type: 'DELETE',
+	    success: function(result,status) {
+	        // logged out
+	    	ADM_waitlogout = false;
+	    	redirect(timeout);
+	     },
+	    error: function(xhr,StrStatus,error) {
+	    	ADM_waitlogout = false;
+	    	if(xhr.status == 405) { // session already deleted
+	    		//console.log("ADM already logged out.");
+	    	} else {
+		    	//console.log("ADM logout fail: "+error);
+	    	}
+	    	redirect(timeout);
+	    }
+	});
+}
+
+
 $(".subpage").load( function() {
 	if(currentFrame > 0) {
 		FramesLoaded[FrameOrder[currentFrame]] = true;
-		//console.log("Loaded frame: "+FrameOrder[currentFrame]);
+		////console.log("Loaded frame: "+FrameOrder[currentFrame]);
 		if(activeFrame == FrameOrder[currentFrame]) {
 			// the frame is active, so hide the loader page and show the real one.
 			$("#frame_loading").removeClass("z0");
@@ -233,7 +247,7 @@ $(".subpage").load( function() {
 		/*
 		// get a reference to the body element of the frame
 		$('body', $(FrameOrder[currentFrame]).contents()).click( function() {
-			console.log("click");
+			//console.log("click");
 		});
 		*/
 	} else {

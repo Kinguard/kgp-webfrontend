@@ -1,0 +1,42 @@
+<header><h1>System Shutdown</h1></header>
+<article>
+<h2 class="mbot1">Confirm System Shutdown</h2>
+<div class="form-box">
+
+  <p class="form-group">
+     <span>Press the 'Continue' button to confirm reboot / shutdown of OPI</span>
+  </p>
+
+<form class="form-group-table" form-status="status" name="sdForm" ng-submit="submit(sdForm)">
+  <div class="form-group">
+      <div class="control-label">Please select action</div>
+      <div class="control">
+        <div class="row">
+		      <div class="col-sm-3 col-xs-6"><label for="sd-reboot"><input type="radio" ng-model="settings.action" id="sd-reboot" value="reboot"> Reboot</label></div>
+	    </div>
+	  </div>
+  </div>
+  <div class="form-group">
+      <div class="control-label"></div>
+      <div class="control">
+        <div class="row">
+		      <div class="col-sm-3 col-xs-6"><label for="sd-shutdown"><input type="radio" ng-model="settings.action" id="sd-shutdown" value="shutdown"> Shutdown</label></div>
+	    </div>
+      </div>
+  </div>
+
+  <p class="form-buttons">
+    <button type="submit" class="btn btn-primary" >Continue</button>
+  </p>
+
+
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Sending request ...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">Terminating processes ...</alert></div>
+
+
+</form>
+
+</div>
+</article>
