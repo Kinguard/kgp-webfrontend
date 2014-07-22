@@ -15,8 +15,13 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
 
   $scope.logout = function(){
     User.logout(function(){
-      console.log("Redirecting from admin controller");
-      $window.location = '/templates/logout.html';
+       if(window.self !== window.top) {
+           console.log("Admin child frame redirect");
+    	   $window.location = 'templates/logout.html';
+       } else {
+    	   console.log("Admin top frame redirect");
+    	   top.location.href = "admin.html";
+       }
     });
   }
 

@@ -113,4 +113,12 @@ opiaServices.factory('UpdateAPI', ['OPI','$resource',function(opi,$resource){
   );
 }]);
 
+opiaServices.factory('ShutdownAPI', ['OPI','$resource',function(opi,$resource){
+	  return $resource(
+	                  opi.apiUrl+'shutdown', 
+	                  {  },
+	                  {  }
+	  );
+	}]);
+
 

@@ -66,6 +66,10 @@ opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','
       templateUrl: 'templates/update/update.html',
       controller: 'UpdateCtrl'
     })
+    .when('/shutdown', {
+      templateUrl: 'templates/shutdown/shutdown.html',
+      controller: 'ShutdownCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     })

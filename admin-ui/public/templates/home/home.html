@@ -38,6 +38,12 @@
             <strong>System Update Configuration</strong>
           </a>
         </li>
+        <li class="col-sm-6 shutdown" ng-show="user.isAdmin()">
+          <a href="#/shutdown">
+            <i></i>
+            <strong>Shutdown OPI</strong>
+          </a>
+        </li>
         <li class="col-sm-6 logout">
           <a href="#/logout" ng-click="logout()">
             <i></i>
