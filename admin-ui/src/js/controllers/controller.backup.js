@@ -11,6 +11,7 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','_','Mo
   $scope.loadBackupStatus = function(callback){
     $scope.backupStatus = Backup.getStatus(function(){
       if(String($scope.backupStatus.date).length <= 10) $scope.backupStatus.date *= 1000;
+      if(! $scope.backupStatus.message) $scope.backupStatus.message = ""; 
       if(_.isFunction(callback)) callback();
     });
   }
