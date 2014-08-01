@@ -172,18 +172,21 @@ function load_nextframe() {
 	load_frame(FrameOrder[currentFrame]);
 }
 
-function redirect(timeout) {
+function redirect(timeout,url) {
+	if(!url) {
+		url = "/admin";
+	}
 	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
 		if(timeout > 0) {
 			setTimeout(function() {
-				location.href="/admin";		  
+				location.href=url;		  
 			}, timeout*1000);
 		}
 		
 	}	
 }
 
-function logout(timeout) {
+function logout(timeout,url) {
 	RC_waitlogout = true;
 	OC_waitlogout = true;
 	ADM_waitlogout = true;
@@ -197,7 +200,7 @@ function logout(timeout) {
 		//console.log("OC logout call failed");
 	}).always(function(){
 		OC_waitlogout = false;
-		redirect(timeout);
+		redirect(timeout,url);
 	});
 	$.get("/mail/?_task=logout", function(data,status) {
 		//console.log("RC logout done");
@@ -205,7 +208,7 @@ function logout(timeout) {
 		//console.log("RC logout call failed");
 	}).always(function(){
 		RC_waitlogout = false;
-		redirect(timeout);
+		redirect(timeout,url);
 	});
 	
 	$.ajax({
@@ -214,7 +217,7 @@ function logout(timeout) {
 	    success: function(result,status) {
 	        // logged out
 	    	ADM_waitlogout = false;
-	    	redirect(timeout);
+	    	redirect(timeout,url);
 	     },
 	    error: function(xhr,StrStatus,error) {
 	    	ADM_waitlogout = false;
@@ -223,7 +226,7 @@ function logout(timeout) {
 	    	} else {
 		    	//console.log("ADM logout fail: "+error);
 	    	}
-	    	redirect(timeout);
+	    	redirect(timeout,url);
 	    }
 	});
 }
