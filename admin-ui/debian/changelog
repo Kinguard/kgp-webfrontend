@@ -1,4 +1,10 @@
-opi-webfrontend (1.3) vili; urgency=low
+opi-webfrontend (1.4) vili; urgency=low
+
+  * Fixed issues with redirect on reboot/shutdown
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 01 Aug 2014 14:09:45 +0200
+
+opi-webfrontend (1.3) testing; urgency=low
 
   * Added support for shutdown and reboot
 
