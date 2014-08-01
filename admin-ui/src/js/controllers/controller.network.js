@@ -14,10 +14,14 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
     $scope.settings = Network.getSettings(callback);
     $scope.ports = {
       '25':  Network.getPort({'param2':25}),
+      '80': Network.getPort({'param2':80}),
       '143': Network.getPort({'param2':143}),
-      '443': Network.getPort({'param2':443})
+      '443': Network.getPort({'param2':443}),
+      '993': Network.getPort({'param2':993}),
+      '2525': Network.getPort({'param2':2525})
     };
   }
+  
   $scope.loadSettings();
 
 
