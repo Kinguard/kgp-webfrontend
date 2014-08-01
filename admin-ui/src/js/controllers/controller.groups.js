@@ -39,7 +39,7 @@ opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','ngTabl
   }
 
   $scope.usernamesInGroup = function(group){
-    return _.map(group.users, function(user){ return user.username });
+    return _.map(group.users, function(user){ return user.name });
   }
 
 
