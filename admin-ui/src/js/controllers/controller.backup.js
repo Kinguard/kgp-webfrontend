@@ -50,6 +50,7 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','_','Mo
 
     Backup.setSettings($scope.settings, function(){
       $scope.status = 'success';
+      $scope.loadQuota();
     }, function(){
       $scope.status = 'error';
     })
