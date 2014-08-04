@@ -51,7 +51,7 @@
     </div>
     <hr>
 
-    <div class="form-group">
+    <div ng-show="backupStatus.date" class="form-group">
       <div class="control-label">Last Backup</div>
       <div class="control"><small>{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</small></div>
     </div>
@@ -63,7 +63,7 @@
       <div class="control-label">Status message</div>
       <div class="control"><small>{{backupStatus.info}}</small></div>
     </div>
-    <hr>
+    <hr ng-show="backupStatus.date">
 
   </div>
 
