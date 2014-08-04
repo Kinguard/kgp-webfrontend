@@ -20,6 +20,9 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','_','Mo
   $scope.loadQuota = function(callback){
     $scope.quota = Backup.getQuota(function(){
       $scope.quota.percent = Math.round($scope.quota.used / $scope.quota.total * 100);
+      if ( $scope.quota.percent < 5) {
+    	  $scope.quota.percent = 1;
+      } 
       $scope.quota.status = 'success';
       if($scope.quota.percent > 50) $scope.quota.status = 'warning';
       if($scope.quota.percent > 85) $scope.quota.status = 'danger'; 
