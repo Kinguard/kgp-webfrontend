@@ -27,7 +27,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
         // collect each domain's addresses
         var load = Mail.getReceivers({domain:domainItem.domain}, function(receivers){
-
+        console.log(receivers);
           // clean up (delete) un-used domains
           if(receivers.length <= 0) 
             Mail.deleteReceiverDomain({domain:domainItem.id}); 
@@ -38,7 +38,8 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
             receiver['domainItem'] = domainItem;            
             // add user as property
             receiver['userItem'] = _.findWhere($scope.users, {id:receiver.user});
-            receiver['userDisplayname'] = receiver['userItem'].displayname;
+            if(!angular.isUndefined(receiver['userItem']))
+            	receiver['userDisplayname'] = receiver['userItem'].displayname;
             
             // add to real receiver list
             loadedReceivers.push(receiver);

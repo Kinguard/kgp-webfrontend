@@ -35,15 +35,24 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
   $scope.submit = function(form){ 
     if(form.$invalid) return;
 
-    Network.setSettings($scope.settings, function(){
-      $scope.status = 'success';
-    }, function(){
+    Network.setSettings($scope.settings,
+    function(){
+      if($scope.status != "error") $scope.status = 'success';
+    },
+    function(){
       $scope.status = 'error';
     });
+
     // save ports
     _.each($scope.ports, function(value, key){
       Network.setPort({ 'param2':key }, { 
         'enabled': value.enabled>0 ? 'True' : 'False'
+      },
+      function() {
+    	  if($scope.status != "error") $scope.status = 'success';
+      },
+      function() {
+          $scope.status = 'error';
       });
     });
   }
