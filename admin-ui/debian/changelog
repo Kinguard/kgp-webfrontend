@@ -1,3 +1,10 @@
+opi-webfrontend (1.7) vili; urgency=low
+
+  * Fixed owncloud first login
+  * Updated error handling on missing/outdated session
+
+ -- PA Nilsson <pa@openproducts.se>  Sat, 09 Aug 2014 17:52:17 +0200
+
 opi-webfrontend (1.6) vili; urgency=low
 
   * Loading and viewing last visited page on reload / login

@@ -20,6 +20,13 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
 
         // callback
         if(_.isObject(args) && _.isFunction(args[0])) args[0](data);
+      },
+      function() {
+    	  console.log("Faild request");
+    	  // TODO: Fix redirect / logout call
+	  	  if(window.self !== window.top) {
+			  window.parent.logout(1,"/admin");
+		  }
       });
     },
     login: function(args){ // args = { username, password [,success] [,error] }

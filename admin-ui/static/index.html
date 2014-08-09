@@ -139,9 +139,9 @@ function login(args) {
 	OC_waitlogin = true;
 
 	// get login args from owncloud page
-	$("<div id='oc_login'>").load("/oc/index.php?login=true form[name='login']",function() {
+	$("<div id='oc_login'>").load("/oc/index.php?login=true form",function() {
 		if($(this).contents().find("input[name='install']").val()) {
-			oc_args = { adminlogin: args.username, adminpass: args.password };
+			oc_args = { adminlogin: args.username, adminpass: args.password, 'adminpass-clone': args.password };
 		} else {
 			oc_args = { user: args.username, password: args.password };	
 		}
