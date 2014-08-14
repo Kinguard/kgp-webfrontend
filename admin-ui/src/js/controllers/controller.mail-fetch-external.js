@@ -140,7 +140,8 @@ opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','Use
   $scope.users = Users.query();
 
   $scope.isEditing = function(){
-    return $scope.editMailbox.id > 0;
+	if($scope.editMailbox.id !== undefined) return true;
+	return false;
   }
   $scope.lookedForDetails = false;
   $scope.needDetails = function(){
