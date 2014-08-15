@@ -77,7 +77,8 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
       headline: 'Add External Mailbox',
       editMailbox: $scope.newMailbox 
     });
-    modal.result.then(function(addedMailbox){console.log(addedMailbox);
+    modal.result.then(function(addedMailbox){
+      //console.log(addedMailbox);
       if(_.isObject(addedMailbox)){
         $timeout(function(){
           $scope.setRowClass(addedMailbox.id,'success');
@@ -143,33 +144,39 @@ opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','Use
 	if($scope.editMailbox.id !== undefined) return true;
 	return false;
   }
-  $scope.lookedForDetails = false;
-  $scope.needDetails = function(){
-    return $scope.isEditing() || $scope.lookedForDetails;
-  }
+
   $scope.validMailbox = function(mailbox){
-    if(!_.isObject(mailbox)) mailbox = $scope.editMailbox; 
-    return !!mailbox.host && !!mailbox.identity;
+	    if(!_.isObject(mailbox)) mailbox = $scope.editMailbox; 
+	    return !!mailbox.host && !!mailbox.identity;
+	  }
+
+  $scope.lookedForDetails = false;
+
+  $scope.needDetails = function(){
+	    return $scope.isEditing() || $scope.lookedForDetails;
+	  }
+
+  // Look for mailbox account settings
+  var newmailbox = MailboxSettings.getByMailboxObject($scope.editMailbox, true, true); // true1 = use default if not found, true2 = merge objects
+  $scope.lookedForDetails = !$scope.validMailbox(newmailbox);
+
+  if($scope.lookedForDetails) {
+    $timeout(function(){ $scope.status = ''; }, 50);
   }
+
   $scope.submit = function(form){
     if(form.$invalid) return;
-
-    // Look for mailbox account settings
-    if(!$scope.lookedForDetails){
-      var newmailbox = MailboxSettings.getByMailboxObject($scope.editMailbox, true, true); // true1 = use default if not found, true2 = merge objects
-      $scope.lookedForDetails = !$scope.validMailbox(newmailbox);
-      if($scope.lookedForDetails) {
-        $timeout(function(){ $scope.status = ''; }, 50);
-        return; // didn't find any
-      }
-    }
 
     var func_onSuccess = function(result){ 
       $scope.status = 'success';
       $scope.$modalInstance.close(result);
     };
-    var func_onError = function(){
-      $scope.status = 'error';
+    var func_onError = function(result){
+     if(result.status == 409) {
+    	 $scope.status="conflict";
+     } else {
+    	 $scope.status = 'error';
+     }
     };
 
     if($scope.isEditing()){
