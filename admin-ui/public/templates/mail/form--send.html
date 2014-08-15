@@ -12,7 +12,7 @@
     <p class="form-group">
       <label for="ms-relay">Outbound SMTP Server</label>
       <span class="control">
-        <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" required  validation-icon="'Please specify' | translate ">
+        <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-required="settings.usecustom"  validation-icon="'Please specify' | translate ">
       </span>
     </p>
     <p class="form-group">
