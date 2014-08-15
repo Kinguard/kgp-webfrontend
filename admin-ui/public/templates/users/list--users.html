@@ -33,12 +33,16 @@
 
     <!-- Column: Username -->
     <td data-title="'Username'" sortable="'username'" header-class="username" class="username">
-      <span ng-if="!editing(user)">
+      <span>  
+      {{user.username}}
+      </span>
+      <!-- <span ng-if="!editing(user)">  
       {{user.username}}
       </span>
       <span ng-if="editing(user)" class="control control-sm">
         <input type="text" ng-model="editUser.username" class="form-control input-sm" required validation-icon="'Please specify' | translate " ui-keyup="{'esc':'edit({})'}" />
       </span>
+      -->
     </td>
 
     <!-- Column: Type -->
