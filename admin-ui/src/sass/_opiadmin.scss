@@ -354,7 +354,7 @@ html.rgba hr { border-color: rgba($black,0.075); }
 
 #panel { background: $black; overflow: auto;
   h1 { margin: 0; padding: 0; display: table; width: 100%; background: $black-darker;
-    a { display: table-cell; vertical-align: middle; height: $header-height; 
+    span { display: table-cell; vertical-align: middle; height: $header-height; 
       &.logo { padding: 20px 20px 20px 50px;
         img { width: 112px; height: auto; }
       }
