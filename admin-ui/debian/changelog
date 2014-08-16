@@ -1,3 +1,10 @@
+opi-webfrontend (1.8) vili; urgency=low
+
+  * Displying which groups the user is a member of
+  * Fixed CPU usage in FF on first page
+
+ -- PA Nilsson <pa@openproducts.se>  Sat, 16 Aug 2014 15:41:04 +0200
+
 opi-webfrontend (1.7) vili; urgency=low
 
   * Fixed owncloud first login
