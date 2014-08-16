@@ -46,14 +46,8 @@
     </td>
 
     <!-- Column: Type -->
-    <td data-title="'Type'" sortable="'type'" header-class="type" class="type">
-      <span ng-if="!editing(user)">
-      {{user.type}}
-      </span>
-      <span ng-if="editing(user)" class="control control-sm">
-        <select ng-model="editUser.type" ng-options="t as t for t in userTypes" class="form-control input-sm">
-        </select>
-      </span>
+    <td data-title="'Groups'" sortable="'groups'" header-class="group" class="group">
+      <span>{{getUserGroups(user).join(", ")}}</span>
     </td>
 
     <!-- Column: Action -->

@@ -11,8 +11,15 @@ opiaControllers.controller('UsersCtrl', ['$scope','$route','$location',function(
 
 opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService',function($scope,Users,ngTableParams,$filter,opi,$timeout,Helpers,Modals){
   $scope.loadUsers  = function(callback){
-    $scope.users = Users.query(callback);
+    $scope.users = Users.query(function() {
+	    _.each($scope.users, function(user){
+	        user['groups'] = Users.groups({id:user.id});
+	      });
+	    // make the callback, if any
+	    if(_.isFunction(callback)) callback();
+    });
   }
+  
   $scope.loadUsers(function(){
     $scope.users = $filter('orderBy')($scope.users, 'displayname');
     $scope.setTableParams();
@@ -41,6 +48,9 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
     $scope.tableParams.reload();
   }
 
+  $scope.getUserGroups = function(user) {
+	return _.map(user.groups, function(group){ return group.id });
+  }
 
   $scope.submit = function(form){
     if($scope.editUser.id)

@@ -22,6 +22,10 @@ opiaServices.factory('UserAPI', ['OPI','$resource',function(opi,$resource){
                     'changePassword': { 
                       method: 'POST', 
                       params: { action:'changepassword' } 
+                    },
+                    'groups': {
+                    	method: 'GET', isArray : true,
+                    	params: { action: 'groups'}
                     }
                   }
   );
@@ -67,7 +71,6 @@ opiaServices.factory('ExternalMailAPI', ['OPI','$resource',function(opi,$resourc
                   opi.apiUrl+'fetchmail/accounts/:id', 
                   { id:'@id' },
                   { 
-                  
                     'update': { method: 'PUT' }
                   }
   );
