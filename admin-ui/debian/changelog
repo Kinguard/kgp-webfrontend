@@ -1,3 +1,9 @@
+opi-webfrontend (1.9) vili; urgency=low
+
+  * Fixed redirect issue when using portforward on alternate ports
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 18 Aug 2014 09:10:55 +0200
+
 opi-webfrontend (1.8) vili; urgency=low
 
   * Displying which groups the user is a member of

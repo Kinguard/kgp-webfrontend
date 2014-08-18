@@ -196,13 +196,18 @@ function load_nextframe() {
 }
 
 function redirect(timeout,url) {
+	/*
 	if(!url) {
 		url = "/admin";
 	}
+	*/
 	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
 		if(timeout > 0) {
 			setTimeout(function() {
+				/*
 				location.href=url;		  
+				*/
+				location.href="/admin/index.html";
 			}, timeout*1000);
 		}
 		
