@@ -132,6 +132,9 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
     });
   }
 
+  $scope.regexUsername = function(){
+	    return Helpers.regexUsername;
+	  }
 
   $scope.changePassword = function(user){
     Modals.open('./templates/me/form--change-password.html', { 
