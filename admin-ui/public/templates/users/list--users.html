@@ -84,7 +84,7 @@
     </td>
     <td class="username">
       <span class="control control-sm">
-        <input type="text" ng-model="newUser.username" class="form-control input-sm" required validation-icon="'Please specify' | translate " ui-keyup="{'esc':'new(null)'}" />
+        <input type="text" ng-model="newUser.username" class="form-control input-sm" ng-pattern="regexUsername()" required validation-icon="'Please specify' | translate " ui-keyup="{'esc':'new(null)'}" />
       </span>
     </td>
     <td class="type">
