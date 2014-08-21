@@ -125,7 +125,7 @@ opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','ngTabl
 
   $scope.users = function(group){
     var modal = Modals.open('./templates/users/form--users-in-group.html', { 
-      headline: 'Manage Users (' + group.name + ')',
+      headline: "Manage Users in group '" + group.id + "'",
       editGroup: group 
     });
     modal.result.then(function(result){
