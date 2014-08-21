@@ -68,6 +68,9 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
   }
   $scope.loadSettings();
 
+  $scope.regexOpiname = function(){
+	    return Helpers.regexOpiname;
+  }
 
   $scope.submit = function(form){ 
     if(form.$invalid) return;

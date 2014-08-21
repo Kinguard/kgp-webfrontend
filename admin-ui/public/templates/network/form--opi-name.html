@@ -5,7 +5,16 @@
     <p class="form-group">
       <label for="on-name">Your OPI Name</label>
       <span class="control">
-        <input type="text" ng-model="settings.opiname" id="on-name" class="form-control form-control-sm" required validation-icon="'Please specify' | translate ">
+        <input 	type="text"
+        		ng-model="settings.opiname"
+        		id="on-name"
+        		class="form-control form-control-sm"
+        		required
+        		validation-icon="'Invalid or not available name' | translate "
+        		ng-remote-validate="network/checkopiname"
+        		ng-pattern="regexOpiname()"
+        		name="opiname"
+        >
       </span>
     </p>
     <p class="form-group">
