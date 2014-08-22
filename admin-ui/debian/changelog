@@ -1,3 +1,9 @@
+opi-webfrontend (1.11) vili; urgency=low
+
+  * Invalidte user if backend not responding
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 22 Aug 2014 11:46:00 +0200
+
 opi-webfrontend (1.10) vili; urgency=low
 
   * Added support for setopiname
