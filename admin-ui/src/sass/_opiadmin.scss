@@ -166,7 +166,14 @@ html.rgba hr { border-color: rgba($black,0.075); }
 }
 .tab-content { margin: 2em 0; }
 
-.table-options { float: right; @include clearfix; }
+.table-options { 
+	float: right; @include clearfix;
+}
+@-moz-document url-prefix() {
+	.table-options { 
+        margin-top: -40px;
+    }
+}
 
 .ng-table { @include border; overflow: hidden; background: $white; font-size: 0.9em;
   th { background: $black; color: $white; text-align: left; font-weight: normal; border-bottom: 0; 
