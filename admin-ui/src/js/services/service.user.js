@@ -22,8 +22,8 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
         if(_.isObject(args) && _.isFunction(args[0])) args[0](data);
       },
       function() {
-    	  console.log("Faild request");
-    	  // TODO: Fix redirect / logout call
+    	  // invalidate authentication variables
+          angular.extend(user, {authenticated: false, isAdmin : false});
 	  	  if(window.self !== window.top) {
 			  window.parent.logout(1,"/admin");
 		  }
@@ -49,12 +49,15 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
     logout: function(args){
       var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
       Session.logout(function(data,status){
-    	  //console.log("User service logout");
     	  success(data,status);
     	  if(window.self !== window.top) {
     		  //console.log("logout OC/RC");
     		  window.parent.logout(1,"/admin");
     	  }
+      },
+      function(){
+    	  // make sure to invalidate authentication variables
+          angular.extend(user, {authenticated: false, isAdmin : false});
       });
     },
     shutdown: function(args){
