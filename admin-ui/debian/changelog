@@ -1,3 +1,10 @@
+opi-webfrontend (1.10) vili; urgency=low
+
+  * Added support for setopiname
+  * Fixed issue with showing groupname while editing the group
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 22 Aug 2014 08:47:28 +0200
+
 opi-webfrontend (1.9) vili; urgency=low
 
   * Fixed redirect issue when using portforward on alternate ports
