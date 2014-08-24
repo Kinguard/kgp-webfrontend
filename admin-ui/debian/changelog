@@ -1,3 +1,9 @@
+opi-webfrontend (1.12) vili; urgency=low
+
+  * Fixed mailbox settings for GMail pop3 server
+
+ -- PA Nilsson <pa@openproducts.se>  Sun, 24 Aug 2014 14:41:12 +0200
+
 opi-webfrontend (1.11) vili; urgency=low
 
   * Invalidte user if backend not responding

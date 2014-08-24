@@ -12,7 +12,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
     'gmail.com': {
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
-        mailbox.host = 'pop3.gmail.com';
+        mailbox.host = 'pop.gmail.com';
         mailbox.identity = mailbox.email || '';
         mailbox.encrypt = 1;
         return mailbox;
