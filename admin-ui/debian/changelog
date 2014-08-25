@@ -1,3 +1,9 @@
+opi-webfrontend (1.13) vili; urgency=low
+
+  * Added SSL support for gmail pop server
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 25 Aug 2014 14:48:52 +0200
+
 opi-webfrontend (1.12) vili; urgency=low
 
   * Fixed mailbox settings for GMail pop3 server
