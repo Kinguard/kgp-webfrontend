@@ -180,8 +180,12 @@ opiaControllers.controller('Groups__DeleteGroupCtrl', ['$scope','_',function($sc
 
 
 
-opiaControllers.controller('Groups__UsersInGroupCtrl', ['$scope','UserAPI','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','_',function($scope,Users,Groups,ngTableParams,$filter,opi,$timeout,Helpers,_){
+opiaControllers.controller('Groups__UsersInGroupCtrl', ['$scope','UserAPI','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Users,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
   $scope.editGroup = $scope.modalParams.editGroup;
+
+  $scope.disable_Edit = function(user,group) {
+	  return (user.username == UserService.id) && (group.name == 'admin');
+  };
 
   $scope.loadUsers  = function(callback){
     $scope.usersInGroup = Groups.getUsers({groupid:$scope.editGroup.id}, function(){

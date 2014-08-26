@@ -3,7 +3,7 @@
   <table ng-table="tableParams" class="table table-striped">
     <tr ng-repeat="group in groups | orderBy:['-includeUser','name']">
       <td data-title="'Include User'" header-class="include" class="include">
-        <input type="checkbox" ng-model="group.includeUser" />
+        <input type="checkbox" ng-model="group.includeUser" ng-disabled="disable_Edit(editUser,group)"/>
       </td>
       <td data-title="'Group Name'" header-class="groupname" class="groupname">
         {{group.name}}

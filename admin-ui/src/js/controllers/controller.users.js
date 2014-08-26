@@ -178,7 +178,6 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
   $scope.whoami = function() {
 	  return UserService.id;
   }
-
 }]);
 
 
@@ -199,9 +198,12 @@ opiaControllers.controller('Users__DeleteUserCtrl', ['$scope','_',function($scop
 
 
 
-opiaControllers.controller('Users__GroupsToUserCtrl', ['$scope','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,_){
+opiaControllers.controller('Users__GroupsToUserCtrl', ['$scope','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
   $scope.editUser = $scope.modalParams.editUser;
 
+  $scope.disable_Edit = function(user,group) {
+	  return (user.username == UserService.id) && (group.name == 'admin');
+  };
   $scope.loadGroups  = function(callback){
     $scope.groups = Groups.query(function(){
       // load each group with its Users
@@ -240,7 +242,7 @@ opiaControllers.controller('Users__GroupsToUserCtrl', ['$scope','GroupAPI','ngTa
         // still saving, check again later
         $timeout(checkQueue, 200);
       }
-    }
+    };
     checkQueue();
 
   }

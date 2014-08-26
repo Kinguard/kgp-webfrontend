@@ -1,3 +1,9 @@
+opi-webfrontend (1.15) vili; urgency=low
+
+  * Removed possibility to delete current user from admin group
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 10:44:37 +0200
+
 opi-webfrontend (1.14) vili; urgency=low
 
   * Updated "Fetch external mail" to show correct username
