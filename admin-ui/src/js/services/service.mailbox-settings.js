@@ -5,7 +5,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
     'default': {
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
-        mailbox.identity = mailbox.email || '';
+        mailbox.identity = mailbox.identity || mailbox.email || '';
         return mailbox;
       }
     },
@@ -13,7 +13,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = 'pop.gmail.com';
-        mailbox.identity = mailbox.email || '';
+        mailbox.identity = mailbox.identity || mailbox.email || '';
         mailbox.encrypt = 1;
         return mailbox;
       }
@@ -23,7 +23,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = 'pop3.outlook.com';
-        mailbox.identity = mailbox.email || '';
+        mailbox.identity = mailbox.identity || mailbox.email || '';
         mailbox.encrypt = 1;
         return mailbox;
       }
@@ -33,7 +33,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = 'mail.yahoo.com';
-        mailbox.identity = String(mailbox.email+'@').split('@')[0];
+        mailbox.identity = mailbox.identity || String(mailbox.email+'@').split('@')[0] || '';
         mailbox.encrypt = 1;
         return mailbox;
       }

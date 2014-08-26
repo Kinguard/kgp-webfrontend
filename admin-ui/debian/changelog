@@ -1,3 +1,9 @@
+opi-webfrontend (1.14) vili; urgency=low
+
+  * Updated "Fetch external mail" to show correct username
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 08:18:08 +0200
+
 opi-webfrontend (1.13) vili; urgency=low
 
   * Added SSL support for gmail pop server
