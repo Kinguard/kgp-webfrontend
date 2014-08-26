@@ -178,7 +178,7 @@ opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','Use
     	 $scope.status = 'error';
      }
     };
-    $scope.editMailbox.encrypt = $scope.encrypt>0 ? '1' : '0';
+    $scope.editMailbox.encrypt = $scope.editMailbox.encrypt>0 ? '1' : '0';
     if($scope.isEditing()){
       // update 
       ExternalMail.update({id:$scope.editMailbox.id}, $scope.editMailbox, func_onSuccess, func_onError);
