@@ -1,3 +1,15 @@
+opi-webfrontend (1.18) vili; urgency=low
+
+  * Updated css so that Firefox does not use 100% CPU doing nothing
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 17:25:57 +0200
+
+opi-webfrontend (1.17) vili; urgency=low
+
+  * Moved jQuery bindings to inside document ready.
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 14:45:05 +0200
+
 opi-webfrontend (1.16) vili; urgency=low
 
   * Moved frames.js back to root folder to get paths correct
