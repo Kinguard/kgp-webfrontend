@@ -1,3 +1,9 @@
+opi-webfrontend (1.19) vili; urgency=low
+
+  * Updated "Fetch external custom account" encryption variable
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 20:20:34 +0200
+
 opi-webfrontend (1.18) vili; urgency=low
 
   * Updated css so that Firefox does not use 100% CPU doing nothing
