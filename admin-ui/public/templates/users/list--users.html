@@ -12,7 +12,7 @@
             <li class="edit"><a ng-click="edit(user)">Edit</a></li>
             <li class="chg-pwd"><a ng-click="changePassword(user)">Change Password</a></li>
             <li class="groups"><a ng-click="groups(user)">Manage Groups</a></li>
-            <li class="delete split"><a ng-click="delete(user)">Delete</a></li>  
+            <li class="delete split" ng-hide="user.username == whoami()"><a ng-click="delete(user)">Delete</a></li>  
           </ul>
         </nav>
       </span>

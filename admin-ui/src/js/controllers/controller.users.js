@@ -9,7 +9,7 @@ opiaControllers.controller('UsersCtrl', ['$scope','$route','$location',function(
 
 
 
-opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService',function($scope,Users,ngTableParams,$filter,opi,$timeout,Helpers,Modals){
+opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,ngTableParams,$filter,opi,$timeout,Helpers,Modals,UserService){
   $scope.loadUsers  = function(callback){
     $scope.users = Users.query(function() {
 	    _.each($scope.users, function(user){
@@ -175,7 +175,9 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
       }
     });
   }
-
+  $scope.whoami = function() {
+	  return UserService.id;
+  }
 
 }]);
 

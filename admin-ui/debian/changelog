@@ -1,6 +1,7 @@
 opi-webfrontend (1.14) vili; urgency=low
 
   * Updated "Fetch external mail" to show correct username
+  * Removed option to delete current user
 
  -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 08:18:08 +0200
 
