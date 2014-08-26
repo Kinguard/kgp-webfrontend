@@ -38,10 +38,6 @@ if( FrameOrder.indexOf(cookie_frame) > 0 ) {
 
 var TimeoutLeaveID;
 
-$(document).ready(function() {
-	 $('.popbox').popbox();
-});
-
 function set_name(name) {
 	$("#current_user").text(name);
 }
@@ -203,54 +199,58 @@ function close_menu(){
 	$("#app-box").hide(800);
 }
 
-$(".subpage").load( function() {
-	$(this).contents().find("body").click(function() {
-		close_menu();
+$(document).ready(function() {
+	 $('.popbox').popbox();
+
+	$(".subpage").load( function() {
+		$(this).contents().find("body").click(function() {
+			close_menu();
+		});
+		if(!FramesLoaded[FrameOrder[currentFrame]]) {
+			FramesLoaded[FrameOrder[currentFrame]] = true;
+			//console.log("Loaded frame: "+FrameOrder[currentFrame]);
+			if(activeFrame == FrameOrder[currentFrame]) {
+				// the frame is active, so hide the loader page and show the real one.
+				$("#frame_loading").removeClass("z0");
+				$(this).addClass("z0");
+				$("#op_nav button[target='"+FrameOrder[currentFrame]+"']").children("div").addClass("active");
+				
+			}
+			currentFrame++
+			while (FramesLoaded[currentFrame] && (currentFrame <= FrameOrder.length)) {
+				currentFrame++;
+			}
+			if(currentFrame < FrameOrder.length) load_frame(FrameOrder[currentFrame]);
+		}
 	});
-	if(!FramesLoaded[FrameOrder[currentFrame]]) {
-		FramesLoaded[FrameOrder[currentFrame]] = true;
-		//console.log("Loaded frame: "+FrameOrder[currentFrame]);
-		if(activeFrame == FrameOrder[currentFrame]) {
-			// the frame is active, so hide the loader page and show the real one.
-			$("#frame_loading").removeClass("z0");
-			$(this).addClass("z0");
-			$("#op_nav button[target='"+FrameOrder[currentFrame]+"']").children("div").addClass("active");
-			
-		}
-		currentFrame++
-		while (FramesLoaded[currentFrame] && (currentFrame <= FrameOrder.length)) {
-			currentFrame++;
-		}
-		if(currentFrame < FrameOrder.length) load_frame(FrameOrder[currentFrame]);
-	}
-});
-
-$(".nav_button").click(function() {
-	activeFrame = $(this).attr("target");
-	$(".nav_button").children("div").removeClass("active");
-	$(this).children("div").addClass("active");
-	$.cookie("current_frame",activeFrame);
-	view_frame(activeFrame);
-});
-
-
-$("#app-box").mouseenter(function() {
-	  clearTimeout(TimeoutLeaveID);
-});
-
-$("#app-box").mouseleave(function() {
-	  TimeoutLeaveID = setTimeout(function() {
-		  $("#app-box").hide(800);
-	  }, 4000);
-});
-
-
-$("#op_nav button").hover(function() {
-	$(this).children().toggleClass("hover");
-});		
-
-$("#top-nav-logout a").click(function(e) {
-	e.preventDefault();
-	view_frame("frame_loading");
-	logout(0.1,"/admin");
+	
+	$(".nav_button").click(function() {
+		activeFrame = $(this).attr("target");
+		$(".nav_button").children("div").removeClass("active");
+		$(this).children("div").addClass("active");
+		$.cookie("current_frame",activeFrame);
+		view_frame(activeFrame);
+	});
+	
+	
+	$("#app-box").mouseenter(function() {
+		  clearTimeout(TimeoutLeaveID);
+	});
+	
+	$("#app-box").mouseleave(function() {
+		  TimeoutLeaveID = setTimeout(function() {
+			  $("#app-box").hide(800);
+		  }, 4000);
+	});
+	
+	
+	$("#op_nav button").hover(function() {
+		$(this).children().toggleClass("hover");
+	});		
+	
+	$("#top-nav-logout a").click(function(e) {
+		e.preventDefault();
+		view_frame("frame_loading");
+		logout(0.1,"/admin");
+	});
 });
