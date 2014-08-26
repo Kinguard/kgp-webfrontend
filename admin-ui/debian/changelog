@@ -1,3 +1,9 @@
+opi-webfrontend (1.20) vili; urgency=low
+
+  * Force send of encryption variable for fetch mail accounts
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Aug 2014 21:11:22 +0200
+
 opi-webfrontend (1.19) vili; urgency=low
 
   * Updated "Fetch external custom account" encryption variable
