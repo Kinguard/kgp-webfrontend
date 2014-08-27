@@ -12,7 +12,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
     'gmail.com': {
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
-        mailbox.host = 'pop.gmail.com';
+        mailbox.host = mailbox.host || 'pop.gmail.com';
         mailbox.identity = mailbox.identity || mailbox.email || '';
         mailbox.encrypt = 1;
         return mailbox;
@@ -22,7 +22,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
       domainAliases: ['msn.com', 'live.se', 'outlook.com'],
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
-        mailbox.host = 'pop3.live.com';
+        mailbox.host = mailbox.host || 'pop3.live.com';
         mailbox.identity = mailbox.identity || mailbox.email || '';
         mailbox.encrypt = 1;
         return mailbox;
@@ -32,7 +32,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
       domainAliases: ['yahoo.se'],
       resolve: function(mailbox){
         if(!_.isObject(mailbox)) mailbox = {};
-        mailbox.host = 'pop.mail.yahoo.com';
+        mailbox.host = mailbox.host || 'pop.mail.yahoo.com';
         mailbox.identity = mailbox.identity || String(mailbox.email+'@').split('@')[0] || '';
         mailbox.encrypt = 1;
         return mailbox;
