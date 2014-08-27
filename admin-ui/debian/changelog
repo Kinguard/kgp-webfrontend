@@ -1,3 +1,9 @@
+opi-webfrontend (1.22) vili; urgency=low
+
+  * Fixed fetch mail settings for known types
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 27 Aug 2014 14:04:29 +0200
+
 opi-webfrontend (1.21) vili; urgency=low
 
   * Reenabled transitions
