@@ -400,7 +400,7 @@ nav {
 }
 
 #home-list {
-  a { display: table; width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 30px; @include clearfix; overflow: hidden; text-decoration: none; 
+  a { display: table; width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 30px; @include clearfix; overflow: hidden; text-decoration: none; @include prefixed(transition, 0.3s); 
     &:hover { @include prefixed(transform, scale(1.05)); box-shadow: 0 0 10px rgba($black,0.2); }
     i,strong { display: table-cell; padding: 8%; background-repeat: no-repeat; background-position: center center; background-color: $orange; overflow: hidden; white-space: nowrap; }
     i { width: 120px; min-width: 120px; }
