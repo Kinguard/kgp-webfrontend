@@ -1,4 +1,4 @@
-opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI','MailAPI','ExternalMailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService',function($scope,Users,Mail,ExternalMail,ngTableParams,$filter,opi,$timeout,Helpers,Modals){
+opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI','MailAPI','ExternalMailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ExternalMail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
   $scope.regexEmail = Helpers.regexEmail;
 
   $scope.mailboxes = [];
@@ -6,6 +6,7 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
   // first load users
   $scope.users = Users.query(function(){
     $scope.users = $filter('orderBy')($scope.users, ['displayname']);
+    $scope.users = $filter('userlist')($scope.users,CurrUser);
   });
 
 

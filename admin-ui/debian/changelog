@@ -1,3 +1,9 @@
+opi-webfrontend (1.24) vili; urgency=low
+
+  * Added userlist filter
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 28 Aug 2014 11:22:01 +0200
+
 opi-webfrontend (1.23) vili; urgency=low
 
   * Allowing user to save a custom host for known types.

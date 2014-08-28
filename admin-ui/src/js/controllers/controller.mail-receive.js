@@ -1,4 +1,4 @@
-opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService',function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals){
+opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
   $scope.regexEmail = Helpers.regexEmail;
 
   $scope.receivers = [];
@@ -6,7 +6,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
   // first load users
   $scope.users = Users.query(function(){
     $scope.users = $filter('orderBy')($scope.users, ['displayname']);
-
+    $scope.users = $filter('userlist')($scope.users,CurrUser);
     // when users are loaded, load receivers and map properties
     $scope.loadReceivers(function(){ 
       // sort by domain as default
@@ -17,7 +17,6 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
   });
 
-
   $scope.loadReceivers  = function(callback){
     // loop through each domain
     $scope.domains = Mail.getReceiverDomains(function(){
@@ -27,7 +26,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
         // collect each domain's addresses
         var load = Mail.getReceivers({domain:domainItem.domain}, function(receivers){
-        console.log(receivers);
+        //console.log(receivers);
           // clean up (delete) un-used domains
           if(receivers.length <= 0) 
             Mail.deleteReceiverDomain({domain:domainItem.id}); 
