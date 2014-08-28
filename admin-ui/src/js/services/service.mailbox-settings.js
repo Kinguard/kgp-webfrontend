@@ -14,7 +14,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = mailbox.host || 'pop.gmail.com';
         mailbox.identity = mailbox.identity || mailbox.email || '';
-        mailbox.encrypt = 1;
+        mailbox.encrypt = mailbox.encrypt || '1';
         return mailbox;
       }
     },
@@ -24,7 +24,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = mailbox.host || 'pop3.live.com';
         mailbox.identity = mailbox.identity || mailbox.email || '';
-        mailbox.encrypt = 1;
+        mailbox.encrypt = mailbox.encrypt || '1';
         return mailbox;
       }
     },
@@ -34,7 +34,7 @@ opiaServices.factory('MailboxSettings', ['_','$filter',function(_,$filter){
         if(!_.isObject(mailbox)) mailbox = {};
         mailbox.host = mailbox.host || 'pop.mail.yahoo.com';
         mailbox.identity = mailbox.identity || String(mailbox.email+'@').split('@')[0] || '';
-        mailbox.encrypt = 1;
+        mailbox.encrypt = mailbox.encrypt || '1';
         return mailbox;
       }
     }

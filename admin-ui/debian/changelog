@@ -1,3 +1,9 @@
+opi-webfrontend (1.25) vili; urgency=low
+
+  * Added user filter on fetch external mail dialog.
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 28 Aug 2014 11:51:40 +0200
+
 opi-webfrontend (1.24) vili; urgency=low
 
   * Added userlist filter

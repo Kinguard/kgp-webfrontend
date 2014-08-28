@@ -137,9 +137,11 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
 }]);
 
 
-opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','UserAPI','ExternalMailAPI','MailboxSettings','$timeout',function($scope,_,Users,ExternalMail,MailboxSettings,$timeout){
+opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','$filter','UserAPI','ExternalMailAPI','MailboxSettings','$timeout','UserService',function($scope,_,$filter,Users,ExternalMail,MailboxSettings,$timeout,CurrUser){
   $scope.editMailbox = _.isObject($scope.modalParams) ? $scope.modalParams.editMailbox : {};
   $scope.users = Users.query();
+  $scope.users = $filter('userlist')($scope.users,CurrUser);
+  
 
   $scope.isEditing = function(){
 	if($scope.editMailbox.id !== undefined) return true;
