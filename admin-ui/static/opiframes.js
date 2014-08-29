@@ -52,12 +52,8 @@ var RC_waitlogout = false;
 var OC_waitlogout = false;
 var ADM_waitlogout = false;
 
-function login(args) {
-	// called when admin UI has verified login, pass the same to the owncloud and roundcube
-	
+function login_OC(args) {
 	var oc_args = {};
-	RC_waitlogin = true;
-	OC_waitlogin = true;
 
 	// get login args from owncloud page
 	$("<div id='oc_login'>").load("/oc/index.php?login=true form",function() {
@@ -68,11 +64,20 @@ function login(args) {
 		}
 		$.post( "/oc/", oc_args, function( data ) { 
 			OC_waitlogin = false;
-			if(! RC_waitlogin) {
+			//if(! RC_waitlogin) {
 				load_nextframe();		
-			}
+			//}
 		});
 	});
+	
+}
+
+function login(args) {
+	// called when admin UI has verified login, pass the same to the owncloud and roundcube
+	
+	RC_waitlogin = true;
+	OC_waitlogin = true;
+
 	
 	// get token from RC page
 	$("<div id='rc_login'>").load("/mail/?_task=login #login-form",function() {
@@ -86,10 +91,13 @@ function login(args) {
 			_timezone : '',
 			_url : ''
 			}, function( data,status ) {
-			RC_waitlogin = false;
-			if(! OC_waitlogin) {
-				load_nextframe();		
-			}
+				RC_waitlogin = false;
+				/*
+				if(! OC_waitlogin) {
+					load_nextframe();		
+				}
+				*/
+				login_OC(args);
 		});
 	});
 }

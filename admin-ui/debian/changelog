@@ -1,3 +1,9 @@
+opi-webfrontend (1.26) vili; urgency=low
+
+  * Serialized login to RC / OC
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 29 Aug 2014 11:45:15 +0200
+
 opi-webfrontend (1.25) vili; urgency=low
 
   * Added user filter on fetch external mail dialog.
