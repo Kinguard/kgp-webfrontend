@@ -45,6 +45,11 @@
         <input type="text" ng-model="settings.dns2" id="ns-dns2" class="form-control" ng-pattern="regexIP()" validation-icon="'Invalid value' | translate ">
       </span>
     </p>
+    <p class="form-group">
+      <span class="control">
+      <i>Note that if changing to a different static IP, OPI will not respond any longer on the current IP.<br> This means that the status bar will not be updated and the url in your browser has to be manually updated to the new IP.</i>
+      </span>
+    </p>
   </div>
   
   <hr>

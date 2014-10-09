@@ -1,3 +1,9 @@
+opi-webfrontend (1.29) vili; urgency=low
+
+  * Added a text about loosing contact when changing static IP
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 09 Oct 2014 22:27:32 +0200
+
 opi-webfrontend (1.28) vili; urgency=low
 
   * Added support for shell access config
