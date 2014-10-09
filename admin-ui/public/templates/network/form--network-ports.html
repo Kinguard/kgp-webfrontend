@@ -1,0 +1,54 @@
+<div class="form-box">
+<form ng-controller="Network__PortCtrl" class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)">
+
+  <p class="form-group">
+    <label for="ns-port80">Enable port for HTTP (80)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['80'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port80" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port443">Enable port for HTTPS (443)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['443'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port443" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port25">Enable port for SMTP (25)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['25'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port25" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port143">Enable port for IMAP (143)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['143'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port143" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port993">Enable port for IMAPS (993)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['993'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port993" />
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ns-port2525">Alternate SMTP port (2525)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['2525'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port2525" />
+    </span>
+  </p>
+  <hr>
+
+
+  <p class="form-buttons">
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </p>
+
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
+
+
+</form>
+</div>

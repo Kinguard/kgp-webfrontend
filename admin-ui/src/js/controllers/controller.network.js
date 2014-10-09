@@ -12,14 +12,6 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
   // settings
   $scope.loadSettings = function(callback){
     $scope.settings = Network.getSettings(callback);
-    $scope.ports = {
-      '25':  Network.getPort({'param2':25}),
-      '80': Network.getPort({'param2':80}),
-      '143': Network.getPort({'param2':143}),
-      '443': Network.getPort({'param2':443}),
-      '993': Network.getPort({'param2':993}),
-      '2525': Network.getPort({'param2':2525})
-    };
   }
   
   $scope.loadSettings();
@@ -43,23 +35,43 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
       $scope.status = 'error';
     });
 
-    // save ports
-    _.each($scope.ports, function(value, key){
-      Network.setPort({ 'param2':key }, { 
-        'enabled': value.enabled>0 ? 'True' : 'False'
-      },
-      function() {
-    	  if($scope.status != "error") $scope.status = 'success';
-      },
-      function() {
-          $scope.status = 'error';
-      });
-    });
   }
 
 }]);
 
+opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
+	  // settings
+	  $scope.loadSettings = function(callback){
+	    $scope.ports = {
+	      '25':  Network.getPort({'param2':25}),
+	      '80': Network.getPort({'param2':80}),
+	      '143': Network.getPort({'param2':143}),
+	      '443': Network.getPort({'param2':443}),
+	      '993': Network.getPort({'param2':993}),
+	      '2525': Network.getPort({'param2':2525})
+	    };
+	  }
+	  
+	  $scope.loadSettings();
 
+	  $scope.submit = function(form){ 
+	    if(form.$invalid) return;
+
+	    // save ports
+	    _.each($scope.ports, function(value, key){
+	      Network.setPort({ 'param2':key }, { 
+	        'enabled': value.enabled>0 ? 'True' : 'False'
+	      },
+	      function() {
+	    	  if($scope.status != "error") $scope.status = 'success';
+	      },
+	      function() {
+	          $scope.status = 'error';
+	      });
+	    });
+	  }
+
+}]);
 
 opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
   // settings
@@ -84,4 +96,32 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
 
 }]);
 
+
+
+opiaControllers.controller('Network__ShellCtrl', ['$scope','$route','$location','$filter','ShellAPI','_',function($scope,$route,$location,$filter,Shell,_){
+	  // settings
+
+  $scope.loadSettings = function(callback){
+	$scope.settings = Shell.get(callback);
+  }
+
+  $scope.loadSettings();
+
+  $scope.submit = function(form){
+    if(form.$invalid) return;
+
+    $scope.settings.$save(function(){
+        console.log("Returned");
+        if($scope.settings.status == true) {
+          $scope.status = 'success';
+        } else {
+        	$scope.status = 'error';
+        }
+      }, function(){
+        $scope.status = 'error';
+      })
+
+    
+  }
+}]);
 

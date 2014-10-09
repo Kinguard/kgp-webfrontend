@@ -87,9 +87,12 @@ opiaServices.factory('NetworkAPI', ['OPI','$resource',function(opi,$resource){
                     'setPort': { method: 'PUT', params: { param1:'ports' } },
                     'getOpiName': { method: 'GET', params: { param1:'opiname' } },
                     'setOpiName': { method: 'POST', params: { param1:'opiname' } },
+                    'getShellAccess': { method: 'GET', params: { param1:'opiname' } },
+                    'setShellAccess': { method: 'POST', params: { param1:'opiname' } },
                   }
   );
 }]);
+
 
 
 opiaServices.factory('BackupAPI', ['OPI','$resource',function(opi,$resource){
@@ -115,6 +118,15 @@ opiaServices.factory('UpdateAPI', ['OPI','$resource',function(opi,$resource){
                   {  }
   );
 }]);
+
+opiaServices.factory('ShellAPI', ['OPI','$resource',function(opi,$resource){
+	  return $resource(
+	                  opi.apiUrl+'shell', 
+	                  {  },
+	                  {  }
+	  );
+}]);
+
 
 opiaServices.factory('ShutdownAPI', ['OPI','$resource',function(opi,$resource){
 	  return $resource(

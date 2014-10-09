@@ -1,3 +1,10 @@
+opi-webfrontend (1.28) vili; urgency=low
+
+  * Added support for shell access config
+  * Moved Automatic Port Forward to seperate tab
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 09 Oct 2014 21:58:22 +0200
+
 opi-webfrontend (1.27) vili; urgency=low
 
   * Removed hide tag of network setting options

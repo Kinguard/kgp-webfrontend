@@ -1,7 +1,9 @@
 <header><h1>Network Configuration</h1></header>
 <article>
-<tabset ng-init="actives = [!isTab('opiname'), isTab('opiname')]">
+<tabset ng-init="actives = [!isTab('ports') && !isTab('opiname') && !isTab('shellaccess'), isTab('ports'), isTab('opiname'), isTab('shellaccess')]">
   <tab heading="{{'Network Settings' | translate}}" select="gotoPath('/network')" active="actives[0]"><div ng-include="'./templates/network/form--network-settings.html'"></div></tab>
-  <tab heading="{{'Your OPI Name' | translate}}" select="gotoPath('/network/opiname')" active="actives[1]"><div ng-include="'./templates/network/form--opi-name.html'"></div></tab>
+  <tab heading="{{'Auto Port forward' | translate}}" select="gotoPath('/network/ports')" active="actives[1]"><div ng-include="'./templates/network/form--network-ports.html'"></div></tab>
+  <tab heading="{{'Your OPI Name' | translate}}" select="gotoPath('/network/opiname')" active="actives[2]"><div ng-include="'./templates/network/form--opi-name.html'"></div></tab>
+  <tab heading="{{'Shell Access' | translate}}" select="gotoPath('/network/shellaccess')" active="actives[3]"><div ng-include="'./templates/network/form--network-shell.html'"></div></tab>
 </tabset>
 </article>
