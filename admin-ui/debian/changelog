@@ -1,3 +1,9 @@
+opi-webfrontend (1.32) vili; urgency=low
+
+  * Try preventing page to be cached
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 14 Oct 2014 11:10:32 +0200
+
 opi-webfrontend (1.31) vili; urgency=low
 
   * Temporary fix line wrap on information texts in network settings
