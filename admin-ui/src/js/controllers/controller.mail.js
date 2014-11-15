@@ -8,13 +8,16 @@ opiaControllers.controller('MailCtrl', ['$scope','$route','$location',function($
 
 
 
-opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','$filter',function($scope,Mail,$filter){
+opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','Helpers','$filter',function($scope,Mail,Helpers,$filter){
   // settings
   $scope.loadSettings = function(callback){
     $scope.settings = Mail.getSmtpSettings(callback);
   }
   $scope.loadSettings();
 
+  $scope.regexFQDN = function(){
+	    return Helpers.regexFQDN;
+  }
 
 
   $scope.submit = function(form){

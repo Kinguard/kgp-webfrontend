@@ -78,6 +78,8 @@ opiaServices.factory('Helpers', ['_',function(_){
   helpers.regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
   helpers.regexUsername = /^[a-z]+$/;
   helpers.regexOpiname = /^[a-z0-9_-]+$/;
+  helpers.regexFQDN = /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)*[a-z]{2,63}$/;
+  
 
   return helpers;
 }]);

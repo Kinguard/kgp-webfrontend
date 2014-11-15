@@ -1,18 +1,48 @@
 <form ng-controller="Mail__SendCtrl" form-status="status" class="form-group-table" name="msForm" ng-submit="submit(msForm)">
   <p class="form-group">
+    <label for="ms-useopi"><strong>Use OPI to send mail</strong></label>
+    <span class="control">
+      <input type="radio" value="useopi" ng-model="settings.smtpsettings" id="ms-useopi" class="" name="smtp_settings">
+    </span>
+  </p>
+  <p class="form-group">
+    <label for="ms-useexternal"><strong>Use OpenProducts External mail server</strong></label>
+    <span class="control">
+      <input type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
+    </span>
+  </p>
+  <p class="form-group">
     <label for="ms-usecustom"><strong>Use Custom SMTP Settings</strong></label>
     <span class="control">
-      <input type="checkbox" ng-model="settings.usecustom" id="ms-usecustom" class="">
+      <input type="radio" value="usecustom" ng-model="settings.smtpsettings" id="ms-usecustom" class="" name="smtp_settings">
     </span>
   </p>
   <hr>
 
-  <div ng-show="settings.usecustom">
+  <div ng-show="settings.smtpsettings=='useexternal'">
+
+    <p class="form-group">
+      <label for="ms-sendexternal">Use OpenProducts SMTP server</label>
+      <span class="control">
+        <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal">
+      </span>
+    </p>
+    <p class="form-group">
+      <label for="ms-receiverelay">Recieve mail using OpenProoducts relay server</label>
+      <span class="control">
+        <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
+      </span>
+    </p>
+
+    <hr>
+  </div>
+
+  <div ng-show="settings.smtpsettings=='usecustom'">
 
     <p class="form-group">
       <label for="ms-relay">Outbound SMTP Server</label>
       <span class="control">
-        <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-required="settings.usecustom"  validation-icon="'Please specify' | translate ">
+        <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
       </span>
     </p>
     <p class="form-group">
@@ -32,7 +62,7 @@
       <div class="control">
         <div class="row">
           <div class="col-xs-5">
-            <input type="text" ng-model="settings.port" id="ms-port" class="form-control input-xs" validation-icon="'Please specify' | translate ">
+            <input type="text" ng-model="settings.port" id="ms-port" class="form-control input-xs" ng-pattern="/^[0-9]{1,7}$/" validation-icon="'Please specify' | translate ">
           </div>
         </div>
       </div>
