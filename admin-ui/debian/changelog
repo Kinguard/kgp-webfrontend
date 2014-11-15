@@ -1,3 +1,15 @@
+opi-webfrontend (1.34) vili; urgency=low
+
+  * Dont fail on restart of nginx
+
+ -- Tor Krill <tor@openproducts.se>  Mon, 20 Oct 2014 22:38:48 +0200
+
+opi-webfrontend (1.33) vili; urgency=low
+
+  * More cache control
+
+ -- Tor Krill <tor@openproducts.se>  Mon, 20 Oct 2014 16:16:11 +0200
+
 opi-webfrontend (1.32) vili; urgency=low
 
   * Try preventing page to be cached

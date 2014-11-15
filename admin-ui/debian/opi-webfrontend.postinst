@@ -20,7 +20,7 @@ set -e
 
 case "$1" in
     configure)
-	invoke-rc.d --quiet nginx restart
+	invoke-rc.d --quiet nginx restart || true
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
