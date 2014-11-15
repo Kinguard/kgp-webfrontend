@@ -1,3 +1,9 @@
+opi-webfrontend (1.35) vili; urgency=low
+
+  * Added initial support for OP external mail handling
+
+ -- PA Nilsson <pa@openproducts.se>  Sat, 15 Nov 2014 21:32:18 +0100
+
 opi-webfrontend (1.34) vili; urgency=low
 
   * Dont fail on restart of nginx
