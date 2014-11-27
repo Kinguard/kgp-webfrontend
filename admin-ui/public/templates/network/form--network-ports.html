@@ -26,6 +26,12 @@
     </span>
   </p>
   <p class="form-group">
+    <label for="ns-port587">Enable port for SMTP submission (143)</label>
+    <span class="control">
+      <input type="checkbox" ng-model="ports['587'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port587" />
+    </span>
+  </p>
+  <p class="form-group">
     <label for="ns-port993">Enable port for IMAPS (993)</label>
     <span class="control">
       <input type="checkbox" ng-model="ports['993'].enabled" ng-true-value="1" ng-false-value="0" id="ns-port993" />

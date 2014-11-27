@@ -1,3 +1,9 @@
+opi-webfrontend (1.36) vili; urgency=low
+
+  * Added port forward option for port 587
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 27 Nov 2014 12:23:04 +0100
+
 opi-webfrontend (1.35) vili; urgency=low
 
   * Added initial support for OP external mail handling
