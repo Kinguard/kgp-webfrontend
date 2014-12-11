@@ -1,3 +1,9 @@
+opi-webfrontend (1.38) vili; urgency=low
+
+  * Fixed request for port 587 
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 11 Dec 2014 10:24:31 +0100
+
 opi-webfrontend (1.37) vili; urgency=low
 
   * Fixed typo in UI on port 587
