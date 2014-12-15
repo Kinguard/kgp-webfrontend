@@ -47,6 +47,7 @@ opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','
 	      '80': Network.getPort({'param2':80}),
 	      '143': Network.getPort({'param2':143}),
 	      '443': Network.getPort({'param2':443}),
+	      '587': Network.getPort({'param2':587}),
 	      '993': Network.getPort({'param2':993}),
 	      '2525': Network.getPort({'param2':2525})
 	    };
