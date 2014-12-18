@@ -11,24 +11,17 @@
       <input type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
     </span>
   </p>
-  <p class="form-group">
-    <label for="ms-usecustom"><strong>Use Custom SMTP Settings</strong></label>
-    <span class="control">
-      <input type="radio" value="usecustom" ng-model="settings.smtpsettings" id="ms-usecustom" class="" name="smtp_settings">
-    </span>
-  </p>
-  <hr>
 
   <div ng-show="settings.smtpsettings=='useexternal'">
 
     <p class="form-group">
-      <label for="ms-sendexternal">Use OpenProducts SMTP server</label>
+      <label for="ms-sendexternal">Send mail via OpenProducts servers</label>
       <span class="control">
         <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal">
       </span>
     </p>
     <p class="form-group">
-      <label for="ms-receiverelay">Recieve mail using OpenProoducts relay server</label>
+      <label for="ms-receiverelay">Recieve OPI-mail via OpenProducts servers</label>
       <span class="control">
         <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
       </span>
@@ -36,6 +29,13 @@
 
     <hr>
   </div>
+
+  <p class="form-group">
+    <label for="ms-usecustom"><strong>Use Custom SMTP Settings</strong></label>
+    <span class="control">
+      <input type="radio" value="usecustom" ng-model="settings.smtpsettings" id="ms-usecustom" class="" name="smtp_settings">
+    </span>
+  </p>
 
   <div ng-show="settings.smtpsettings=='usecustom'">
 

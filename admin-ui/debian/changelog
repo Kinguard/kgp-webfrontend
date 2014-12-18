@@ -1,3 +1,10 @@
+opi-webfrontend (1.39) vili; urgency=low
+
+  * Fixed spelling on email config #239
+  * Rearanged option settings to fold out under option #240
+
+ -- Tor Krill <tor@openproducts.se>  Thu, 18 Dec 2014 20:15:49 +0100
+
 opi-webfrontend (1.38) vili; urgency=low
 
   * Fixed request for port 587 
