@@ -1,3 +1,9 @@
+opi-webfrontend (1.40) vili; urgency=low
+
+  * Add help blurb on change opi-name
+
+ -- Tor Krill <tor@openproducts.se>  Sat, 20 Dec 2014 15:19:02 +0100
+
 opi-webfrontend (1.39) vili; urgency=low
 
   * Fixed spelling on email config #239
