@@ -1,3 +1,10 @@
+opi-webfrontend (1.41) vili; urgency=low
+
+  * Forcing logout of old user on 'login'
+  * Fixed logout-issue from RC
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 10 Apr 2015 10:04:32 +0200
+
 opi-webfrontend (1.40) vili; urgency=low
 
   * Add help blurb on change opi-name

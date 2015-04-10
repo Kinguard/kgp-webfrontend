@@ -5,6 +5,7 @@ FramesLoaded['frame_admin'] = true;
 var currentFrame = 0;
 var allow_loadscript = false;
 var Frame_ref = {};
+var RC_token = "";
 
 
 var FrameOrder = [
@@ -46,8 +47,8 @@ function load_frame(id) {
 	$("#"+id).attr('src',FrameSrc[id]);
 }
 
-var RC_waitlogin = false;
-var OC_waitlogin = false;
+var RC_waitlogin = true;
+var OC_waitlogin = true;
 var RC_waitlogout = false;
 var OC_waitlogout = false;
 var ADM_waitlogout = false;
@@ -74,7 +75,19 @@ function login_OC(args) {
 
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
+
+	// only need to logout OC, RC handles change of user when a new login is done.
+	$.get("/oc/index.php?logout=true", function(data,status) {
+		console.log("OC preventive logout");
+	}).always(function(){
+		app_login(args);
+	});
 	
+}
+
+function app_login(args) {
+	
+	//console.log("App login");
 	RC_waitlogin = true;
 	OC_waitlogin = true;
 
@@ -92,11 +105,14 @@ function login(args) {
 			_url : ''
 			}, function( data,status ) {
 				RC_waitlogin = false;
-				/*
-				if(! OC_waitlogin) {
-					load_nextframe();		
+				var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
+				var match = token_pattern.exec(data);
+				try {
+					RC_token = match[1];
 				}
-				*/
+				catch(e) {
+					console.log("Failed to match request token");
+				}
 				login_OC(args);
 		});
 	});
@@ -143,6 +159,7 @@ function redirect(timeout,url) {
 	}	
 }
 
+
 function logout(timeout,url) {
 	RC_waitlogout = true;
 	OC_waitlogout = true;
@@ -158,7 +175,7 @@ function logout(timeout,url) {
 		OC_waitlogout = false;
 		redirect(timeout,url);
 	});
-	$.get("/mail/?_task=logout", function(data,status) {
+	$.get("/mail/?_task=logout&_token="+RC_token, function(data,status) {
 		//console.log("RC logout done");
 	}).fail(function(){
 		//console.log("RC logout call failed");
