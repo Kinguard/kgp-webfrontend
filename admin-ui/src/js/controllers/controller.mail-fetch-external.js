@@ -96,9 +96,10 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
 
 
   $scope.edit = function(mailbox){ 
+    $scope.require_pwd = false;
     var modal = Modals.open('./templates/mail/form--handle-external-mailbox.html', { 
       headline: 'Edit Mailbox (' + mailbox.email + ')',
-      editMailbox: mailbox 
+      editMailbox: mailbox,
     });
     modal.result.then(function(updatedMailbox){ 
       if(_.isObject(updatedMailbox)){
@@ -154,11 +155,17 @@ opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','$fi
 	  }
 
   $scope.lookedForDetails = false;
+  $scope.require_pwd = true;
 
   $scope.needDetails = function(){
 	    return $scope.isEditing() || $scope.lookedForDetails;
 	  }
 
+  $scope.requirePwd = function() {
+	  $scope.needDetails && $scope.require_pwd;
+  }
+ 
+ 
   // Look for mailbox account settings
   var newmailbox = MailboxSettings.getByMailboxObject($scope.editMailbox, true, true); // true1 = use default if not found, true2 = merge objects
   $scope.lookedForDetails = !$scope.validMailbox(newmailbox);
@@ -166,7 +173,7 @@ opiaControllers.controller('Mail__HandleExternalMailboxCtrl', ['$scope','_','$fi
   if($scope.lookedForDetails) {
     $timeout(function(){ $scope.status = ''; }, 50);
   }
-
+ 
   $scope.submit = function(form){
     if(form.$invalid) return;
 

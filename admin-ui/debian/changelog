@@ -1,3 +1,9 @@
+opi-webfrontend (1.42) vili; urgency=low
+
+  * Removed requirement on password to update fetchmail account
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 13 Apr 2015 11:08:15 +0200
+
 opi-webfrontend (1.41) vili; urgency=low
 
   * Forcing logout of old user on 'login'

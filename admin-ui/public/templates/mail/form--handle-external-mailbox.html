@@ -25,7 +25,7 @@
     <p class="form-group">
       <label for="hem-password">Password</label>
       <span class="control">
-        <input type="password" ng-model="editMailbox.password" id="hem-password" class="form-control" ng-required="needDetails()" validation-icon="'Please specify' | translate ">
+        <input type="password" ng-model="editMailbox.password" id="hem-password" class="form-control" ng-required="requirePwd()" validation-icon="'Please specify' | translate ">
       </span>
     </p>
     <p class="form-group" ng-show="needDetails()">
