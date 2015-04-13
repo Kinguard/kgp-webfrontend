@@ -78,7 +78,7 @@ function login(args) {
 
 	// only need to logout OC, RC handles change of user when a new login is done.
 	$.get("/oc/index.php?logout=true", function(data,status) {
-		console.log("OC preventive logout");
+		//console.log("OC preventive logout");
 	}).always(function(){
 		app_login(args);
 	});
@@ -93,26 +93,26 @@ function app_login(args) {
 
 	
 	// get token from RC page
-	$("<div id='rc_login'>").load("/mail/?_task=login #login-form",function() {
-		token = $(this).contents().find("input[name='_token']").val();
+	$.get("/mail/?_task=login", function(data) {
+		//token = $(data).contents().find("input[name='_token']").val();
+		var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
+		var match = token_pattern.exec(data);
+		try {
+			RC_token = match[1];
+		}
+		catch(e) {
+			console.log("Failed to match request token");
+		}
 		$.post( "/mail/?_task=login", { 
 			_user: args.username, 
 			_pass: args.password,
-			_token: token,
+			_token: RC_token,
 			_task: 'login',
 			_action: 'login',
 			_timezone : '',
 			_url : ''
 			}, function( data,status ) {
 				RC_waitlogin = false;
-				var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
-				var match = token_pattern.exec(data);
-				try {
-					RC_token = match[1];
-				}
-				catch(e) {
-					console.log("Failed to match request token");
-				}
 				login_OC(args);
 		});
 	});
