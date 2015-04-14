@@ -1,3 +1,10 @@
+opi-webfrontend (1.43) vili; urgency=low
+
+  * Removed unneccesary request to backend
+  * Fixed incorrect loading of img-file
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 14 Apr 2015 09:32:41 +0200
+
 opi-webfrontend (1.42) vili; urgency=low
 
   * Removed requirement on password to update fetchmail account
