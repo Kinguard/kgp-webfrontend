@@ -88,7 +88,7 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
   $scope.submit = function(form){ 
     if(form.$invalid) return;
 
-    Network.setOpiName({'param2':$scope.settings.opiname }, function(){
+    Network.setOpiName({'name':$scope.settings.opiname,"dnsenabled":$scope.settings.dnsenabled }, function(){
       $scope.status = 'success';
     }, function(){
       $scope.status = 'error';

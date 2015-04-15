@@ -1,3 +1,9 @@
+opi-webfrontend (1.44) vili; urgency=low
+
+  * Added UI support to turn off OPI DNS updater
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 15 Apr 2015 15:23:51 +0200
+
 opi-webfrontend (1.43) vili; urgency=low
 
   * Removed unneccesary request to backend
