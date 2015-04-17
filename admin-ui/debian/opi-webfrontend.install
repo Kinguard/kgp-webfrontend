@@ -2,5 +2,6 @@ webfrontend-nginx.conf /etc/nginx/apps/
 public/* /usr/share/opi-webadmin/frontend
 static/* /usr/share/opi-webadmin/frontend
 index.html /var/www/static
+favicon.png /var/www/static
 
 
