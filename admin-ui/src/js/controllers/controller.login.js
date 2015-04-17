@@ -1,6 +1,7 @@
 opiaControllers.controller('LoginCtrl', ['$scope','$rootScope','UserService','$timeout',function($scope,$rootScope,User,$timeout){
   $scope.login = {};
   $scope.status;
+  $scope.autofocus = true;
 
   var actions = {
     trying: function(){
