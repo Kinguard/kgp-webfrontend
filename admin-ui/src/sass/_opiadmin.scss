@@ -126,6 +126,7 @@ html.rgba hr { border-color: rgba($black,0.075); }
     label,.form-control { color: $gray; }
   }
 }
+
 .control { white-space: nowrap; position: relative; 
   .form-control { padding-right: 50px; color: $black; display: inline-block; }
   .icon-ok,.icon-err,.icon-hint { display: inline-block; position: relative; left: -40px; top: 7px; width: 25px; height: 25px; border-radius: 50%; overflow: hidden; }
@@ -143,11 +144,12 @@ html.rgba hr { border-color: rgba($black,0.075); }
 
 .form-group-table { position: relative;
   @include SCREEN {
-    .form-group { display: table; width: 100%;
-      label,.control-label { display: table-cell; width: 30%; padding-right: 20px; vertical-align: middle; }
-      .control { display: table-cell; width: 70%; vertical-align: middle; 
+    .form-group { display: table; width: 100%; max-width: 800px;
+      label,.control-label { display: table-cell; width: 50%; padding-right: 20px; vertical-align: middle; }
+      .control { display: table-cell; width: 50%; vertical-align: middle; 
         label { display: block; width: auto; padding: 0; }
       }
+      .subsection { padding-left : 25px; }
     }
   }
   .form-buttons { text-align: right; }

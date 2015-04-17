@@ -1,9 +1,9 @@
 <header><h1>E-mail Configuration</h1></header>
 <article>
 <tabset ng-init="actives = [!isTab('receive') && !isTab('fetch-external'), isTab('receive'), isTab('fetch-external')]">
-  <tab ng-if="user.isAdmin()" heading="{{'Send Mail' | translate}}" select="gotoPath('/mail')" active="actives[0]"><div ng-include="'./templates/mail/form--send.html'" class="form-box"></div></tab>
-  <tab heading="{{'Receive Mail' | translate}}" select="gotoPath('/mail/receive')" active="actives[1]"><div ng-include="'./templates/mail/list--receive.html'" class="form-box"></div></tab>
-  <tab heading="{{'Fetch External Mail' | translate}}" select="gotoPath('/mail/fetch-external')" active="actives[2]"><div ng-include="'./templates/mail/list--fetch-external.html'" class="form-box"></div></tab>
+  <tab ng-if="user.isAdmin()" heading="{{'OPI mail server config' | translate}}" select="gotoPath('/mail')" active="actives[0]"><div ng-include="'./templates/mail/form--send.html'" class="form-box"></div></tab>
+  <tab heading="{{'Local mail accounts' | translate}}" select="gotoPath('/mail/receive')" active="actives[1]"><div ng-include="'./templates/mail/list--receive.html'" class="form-box"></div></tab>
+  <tab heading="{{'Remote mail accounts' | translate}}" select="gotoPath('/mail/fetch-external')" active="actives[2]"><div ng-include="'./templates/mail/list--fetch-external.html'" class="form-box"></div></tab>
 </tabset>
 
 </article>

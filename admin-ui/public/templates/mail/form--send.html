@@ -15,13 +15,13 @@
   <div ng-show="settings.smtpsettings=='useexternal'">
 
     <p class="form-group">
-      <label for="ms-sendexternal">Send mail via OpenProducts servers</label>
+      <label for="ms-sendexternal" class="subsection">Send mail via OpenProducts servers</label>
       <span class="control">
         <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal">
       </span>
     </p>
     <p class="form-group">
-      <label for="ms-receiverelay">Recieve OPI-mail via OpenProducts servers</label>
+      <label for="ms-receiverelay" class="subsection">Recieve OPI-mail via OpenProducts servers</label>
       <span class="control">
         <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
       </span>
@@ -40,25 +40,25 @@
   <div ng-show="settings.smtpsettings=='usecustom'">
 
     <p class="form-group">
-      <label for="ms-relay">Outbound SMTP Server</label>
+      <label for="ms-relay" class="subsection">Outbound SMTP Server</label>
       <span class="control">
         <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
       </span>
     </p>
     <p class="form-group">
-      <label for="ms-username">Username</label>
+      <label for="ms-username" class="subsection">Username</label>
       <span class="control">
         <input type="text" ng-model="settings.username" id="ms-username" class="form-control">
       </span>
     </p>
     <p class="form-group">
-      <label for="ms-password">Password</label>
+      <label for="ms-password" class="subsection">Password</label>
       <span class="control">
         <input type="password" ng-model="settings.password" id="ms-password" class="form-control">
       </span>
     </p>
     <div class="form-group">
-      <label for="ms-port">Port</label>
+      <label for="ms-port" class="subsection">Port</label>
       <div class="control">
         <div class="row">
           <div class="col-xs-5">
