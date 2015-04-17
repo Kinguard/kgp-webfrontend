@@ -9,8 +9,17 @@ opiaControllers.controller('ShutdownCtrl', ['$scope','ShutdownAPI','$filter','Us
 	
   $scope.submit = function(form){
     if(form.$invalid) return;
+    if(form.$name == "sdForm_reboot") {
+    	newloc='templates/reboot.html';
+    	$scope.settings.action="reboot";
+    } else {
+    	newloc='templates/shutdown.html';
+    	$scope.settings.action="shutdown";
+    }
     $scope.settings.$save(function(response){
         $scope.status = 'success';
+        $window.location = newloc;
+        /*
         if(response.url) {
             User.reboot(response);
           	$window.location = 'templates/reboot.html';
@@ -18,8 +27,9 @@ opiaControllers.controller('ShutdownCtrl', ['$scope','ShutdownAPI','$filter','Us
             User.shutdown(response);
           	$window.location = 'templates/shutdown.html';
         }
+        */
       }, function(){
-        console.log("Error"); 
+        console.log("Error in shutdown controller"); 
       });
   }
 

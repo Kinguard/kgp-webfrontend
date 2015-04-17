@@ -126,6 +126,11 @@ html.rgba hr { border-color: rgba($black,0.075); }
     label,.form-control { color: $gray; }
   }
 }
+.form-group-btnonly {
+	display: inline-block;
+	margin: 20px;
+	button { width : 150px; } 
+}	
 
 .control { white-space: nowrap; position: relative; 
   .form-control { padding-right: 50px; color: $black; display: inline-block; }
