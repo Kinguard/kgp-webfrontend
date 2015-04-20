@@ -1,3 +1,9 @@
+opi-webfrontend (1.46) vili; urgency=low
+
+  * Fixed focus directive with minimized js file.
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 20 Apr 2015 15:35:42 +0200
+
 opi-webfrontend (1.45) vili; urgency=low
 
   * Reworked shutdown/reboot to buttons only

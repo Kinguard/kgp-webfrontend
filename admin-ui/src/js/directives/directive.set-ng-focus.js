@@ -1,4 +1,4 @@
-opiaDirectives.directive('focus', function($timeout, $parse) {
+opiaDirectives.directive('focus', ['$timeout','$parse', function($timeout, $parse) {
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
@@ -14,7 +14,7 @@ opiaDirectives.directive('focus', function($timeout, $parse) {
               $timeout(function() {
                   scope.$apply(attrs.focus + "=true");
               }, 0);
-          })
+          });
       }
-    }
-});
+    };
+}]);
