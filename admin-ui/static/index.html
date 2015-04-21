@@ -25,6 +25,22 @@
 
 </div>
 
+<div id="confirm_logout_backdrop" class="hidden"></div>
+<div id="confirm_logout" class="hidden">
+	<div class="logout_modal">
+		<header>
+			<h1 class="modal_header">Please confirm logout</h1>
+			<a class="close-modal" onclick="logout_cancel()"><img src="img/icons/close.png" /></a>
+		</header>
+		<div class="content">
+			<p>
+				<!-- logout fuction is bound when showing modal  -->
+				<button onclick="logout_cancel()" id="btn_logout_cancel" class="btn btn-default">Cancel</button>
+				<button id="btn_logout_confirm" class="btn btn-primary">Log out</button>
+			</p>
+		</div>
+	</div>
+</div>
 <div id="top_header">
 	<span class="hidden" id="label_curr_user">Logged in as: </span><span id="current_user">Not logged in</span>
 	<div class='popbox' id="opi-apps">

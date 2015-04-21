@@ -12,9 +12,105 @@
 .z7 {	z-index : -7;}
 .z8 {	z-index : -8;}
 
+#confirm_logout,#confirm_logout_backdrop {
+	position:fixed;
+    padding:0;
+    margin:-8px;   /* wrapper has an offset of 8px */
+    width: 100%;
+    height: 100%;
+}
+#confirm_logout_backdrop {
+    background : #000000;
+    opacity : 0;	
+	z-index : 99;
+}
+#confirm_logout {
+	z-index : 100;
+}
+
+#confirm_logout div.logout_modal {
+	background : #f7f7f7;
+	max-width : 500px;
+	width : 80%;
+	height : 300px;
+	margin : auto;
+	margin-top : 15%;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	opacity : 1;
+}
+#confirm_logout div.content {
+	padding : 50px;
+}
+#confirm_logout p {
+	text-align : center;
+}
+#confirm_logout header {
+  padding: 30px 50px;
+  background: white;
+  position: relative;
+}
+#confirm_logout h1 {
+  font-size: 24px;
+  line-height: 1.45em;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  font-family: "brandon-grotesque", sans-serif;
+}
+#confirm_logout a.close-modal {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  right: 50px;
+  top: 28px;
+  cursor : pointer;
+}
+.btn {
+  min-width : 150px;
+  border-width: 2px;
+  font-size: 1em;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 15px 30px;
+  font-size: 16px;
+  line-height: 1.45;
+  border-radius: 3px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn-primary {
+  color: white;
+  background-color: #f18800;
+  border-color: #f18800;
+}
+.btn-primary:hover {
+    background-color: #be6b00;
+    border-color: #b46500;
+    color: white;
+}
+.btn-default {
+  color: white;
+  background-color: #222222;
+  border-color: #222222;
+}
 #top_header {
 	position:fixed; right: 10px; top: 0px;
-	z-index : 100;
+	z-index : 99;
 	display : none;
 	font-size : small;
 }

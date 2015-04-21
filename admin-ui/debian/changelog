@@ -1,3 +1,9 @@
+opi-webfrontend (1.49) vili; urgency=low
+
+  * Added confirm dialog to logout button
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 21 Apr 2015 16:05:35 +0200
+
 opi-webfrontend (1.48) vili; urgency=low
 
   * Using display name in the list of fetchmail accounts

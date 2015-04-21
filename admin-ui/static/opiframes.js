@@ -168,8 +168,25 @@ function redirect(timeout,url) {
 	}	
 }
 
+function logout_cancel() {
+	$("#confirm_logout").addClass("hidden");
+	$("#confirm_logout_backdrop").addClass("hidden");
+	$("#confirm_logout_backdrop").css({ opacity: 0 });}
 
 function logout(timeout,url) {
+	$("#confirm_logout_backdrop").removeClass("hidden");
+	$("#confirm_logout_backdrop").animate({ 'opacity': 0.5 },100, function() {
+		$("#confirm_logout").removeClass("hidden");
+		$("#btn_logout_confirm").focus();
+	});
+	$("#btn_logout_confirm").click(function() {
+		$("#confirm_logout").addClass("hidden");
+		view_frame("frame_loading");
+		app_logout(timeout,url);
+	});
+}
+
+function app_logout(timeout,url) {
 	RC_waitlogout = true;
 	OC_waitlogout = true;
 	ADM_waitlogout = true;
@@ -284,7 +301,12 @@ $(document).ready(function() {
 	
 	$("#top-nav-logout a").click(function(e) {
 		e.preventDefault();
-		view_frame("frame_loading");
 		logout(0.1,"/admin");
+	});
+	$("#btn_logout_confirm").on('keydown',function(e){
+		if(e.which == 27) {
+			// hide dialog if 'esc' is pressed
+			logout_cancel();
+		}
 	});
 });
