@@ -6,6 +6,8 @@ var currentFrame = 0;
 var allow_loadscript = false;
 var Frame_ref = {};
 var RC_token = "";
+var current_user;
+var cookie;
 
 
 var FrameOrder = [
@@ -25,22 +27,29 @@ var FrameSrc = {
 		frame_oc_contacts :   "/oc/index.php/apps/contacts/",
 		frame_oc_gallery  :   "/oc/index.php/apps/gallery/"	
 };
-var activeFrame;
+var activeFrame = "frame_admin";
 
-cookie_frame = $.cookie("current_frame");
-if( FrameOrder.indexOf(cookie_frame) > 0 ) {
-	// admin_frame is on index '0'
-	activeFrame = $.cookie("current_frame");
-	FrameOrder.splice(FrameOrder.indexOf(activeFrame),1);
-	FrameOrder.splice(1,0,activeFrame);
-} else {
-	activeFrame = "frame_admin";
-}
 
 var TimeoutLeaveID;
 
 function set_name(name) {
 	$("#current_user").text(name);
+	current_user = name;
+	console.log($.cookie(current_user));
+	if($.cookie(current_user)) {
+		cookie = $.parseJSON($.cookie(current_user));
+	}
+	if( cookie && (FrameOrder.indexOf(cookie.current_frame) > 0) ) {
+		console.log("Index: " + FrameOrder.indexOf(cookie.current_frame));
+		// admin_frame is on index '0'
+		activeFrame = cookie.current_frame;
+		// reorder load sequence
+		FrameOrder.splice(FrameOrder.indexOf(activeFrame),1);
+		FrameOrder.splice(1,0,activeFrame);
+	} else {
+		console.log("Index: 0");
+		activeFrame = "frame_admin";
+	}
 }
 function load_frame(id) {
 	//console.log("loading frame: "+FrameSrc[id]);
@@ -129,7 +138,7 @@ function load_nextframe() {
 		return false;
 	}
 
-	if(!$.cookie("current_frame")) {
+	if(!cookie || !cookie.current_frame) {
 		// only show if we load directly after login
 		$("#app-box").show();
 	    TimeoutLeaveID = setTimeout(function() {
@@ -253,7 +262,7 @@ $(document).ready(function() {
 		activeFrame = $(this).attr("target");
 		$(".nav_button").children("div").removeClass("active");
 		$(this).children("div").addClass("active");
-		$.cookie("current_frame",activeFrame);
+		$.cookie(current_user,'{"current_frame" : "'+activeFrame+'"}');
 		view_frame(activeFrame);
 	});
 	

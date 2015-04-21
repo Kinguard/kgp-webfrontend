@@ -1,3 +1,9 @@
+opi-webfrontend (1.47) vili; urgency=low
+
+  * Added user based frame loading
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 21 Apr 2015 10:50:20 +0200
+
 opi-webfrontend (1.46) vili; urgency=low
 
   * Fixed focus directive with minimized js file.
