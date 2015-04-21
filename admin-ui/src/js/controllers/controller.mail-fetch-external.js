@@ -14,7 +14,7 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
     $scope.mailboxes = ExternalMail.query(callback);
   }
   $scope.loadMailboxes(function(){
-    $scope.mailboxes = $filter('orderBy')($scope.mailboxes, 'username');
+    $scope.mailboxes = $filter('orderBy')($scope.mailboxes, 'displayname');
     $scope.setTableParams();
   });
 
