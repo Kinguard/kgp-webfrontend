@@ -33,13 +33,12 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
       if(typeof args !== 'object') return;
       Session.login(args.login,function(data,headers){ 
         if(data){ // logged in
+  		  if(window.self !== window.top) {
+  	          // Call parent (frame wrapper) login function
+		      window.parent.login(args.login);
+		  }
           if(!args.preventUserRefresh) user.refresh();
           if(_.isFunction(args.success)) args.success(data,status);
-          // log into owncloud
-          // console.log("Trying to log in to OwnCloud");
-	  if(window.self !== window.top) {
-	      window.parent.login(args.login);
-	  }
 
         } else { // failed
           if(_.isFunction(args.error)) args.error(data,status);
@@ -51,6 +50,7 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
       Session.logout(function(data,status){
     	  success(data,status);
     	  if(window.self !== window.top) {
+  	          // Call parent (frame wrapper) logout function
     		  //console.log("logout OC/RC");
     		  window.parent.logout(1,"/admin");
     	  }
@@ -67,6 +67,7 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
       	  success(data,status);
         });
 		if(window.self !== window.top) {
+	        // Call parent (frame wrapper) logout function
 			//console.log("logout OC/RC");
 			window.parent.logout(0); 
 		}

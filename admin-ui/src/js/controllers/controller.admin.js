@@ -42,11 +42,11 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
     }
   }).triggerHandler('resize');
   
-
   if(window.self !== window.top) {
-      //console.log("Loading remaining frames");
-      window.parent.set_name(User.username);
-      window.parent.load_nextframe();
+	  if (User.isLogged()) {
+	      window.parent.set_name(User.username);
+	      window.parent.load_nextframe();
+	  }
   }
 
   

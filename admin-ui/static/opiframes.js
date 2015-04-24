@@ -35,19 +35,16 @@ var TimeoutLeaveID;
 function set_name(name) {
 	$("#current_user").text(name);
 	current_user = name;
-	console.log($.cookie(current_user));
 	if($.cookie(current_user)) {
 		cookie = $.parseJSON($.cookie(current_user));
 	}
 	if( cookie && (FrameOrder.indexOf(cookie.current_frame) > 0) ) {
-		console.log("Index: " + FrameOrder.indexOf(cookie.current_frame));
 		// admin_frame is on index '0'
 		activeFrame = cookie.current_frame;
 		// reorder load sequence
 		FrameOrder.splice(FrameOrder.indexOf(activeFrame),1);
 		FrameOrder.splice(1,0,activeFrame);
 	} else {
-		console.log("Index: 0");
 		activeFrame = "frame_admin";
 	}
 }
@@ -56,8 +53,8 @@ function load_frame(id) {
 	$("#"+id).attr('src',FrameSrc[id]);
 }
 
-var RC_waitlogin = true;
-var OC_waitlogin = true;
+var RC_waitlogin = false;
+var OC_waitlogin = false;
 var RC_waitlogout = false;
 var OC_waitlogout = false;
 var ADM_waitlogout = false;
@@ -84,6 +81,9 @@ function login_OC(args) {
 
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
+	//console.log("Login");
+	RC_waitlogin = true;
+	OC_waitlogin = true;
 
 	// only need to logout OC, RC handles change of user when a new login is done.
 	$.get("/oc/index.php?logout=true", function(data,status) {
@@ -94,24 +94,27 @@ function login(args) {
 	
 }
 
-function app_login(args) {
-	
-	//console.log("App login");
-	RC_waitlogin = true;
-	OC_waitlogin = true;
-
-	
-	// get token from RC page
-	$.get("/mail/?_task=login", function(data) {
-		//token = $(data).contents().find("input[name='_token']").val();
+function getRC_token(data) {
 		var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
 		var match = token_pattern.exec(data);
+	var token;
 		try {
-			RC_token = match[1];
+		token = match[1];
+		// console.log("Found RC token: " + token);
 		}
 		catch(e) {
 			console.log("Failed to match request token");
 		}
+	return token;
+}
+
+function app_login(args) {
+	
+	//console.log("APP Login");
+	// get token from RC page
+	$.get("/mail/?_task=login", function(data) {
+		//token = $(data).contents().find("input[name='_token']").val();
+		RC_token = getRC_token(data);
 		$.post( "/mail/?_task=login", { 
 			_user: args.username, 
 			_pass: args.password,
@@ -121,6 +124,7 @@ function app_login(args) {
 			_timezone : '',
 			_url : ''
 			}, function( data,status ) {
+				//RC_token = getRC_token(data);
 				RC_waitlogin = false;
 				login_OC(args);
 		});
@@ -173,7 +177,7 @@ function logout_cancel() {
 	$("#confirm_logout_backdrop").addClass("hidden");
 	$("#confirm_logout_backdrop").css({ opacity: 0 });}
 
-function logout(timeout,url) {
+function icon_logout(timeout,url) {
 	$("#confirm_logout_backdrop").removeClass("hidden");
 	$("#confirm_logout_backdrop").animate({ 'opacity': 0.5 },100, function() {
 		$("#confirm_logout").removeClass("hidden");
@@ -182,11 +186,11 @@ function logout(timeout,url) {
 	$("#btn_logout_confirm").click(function() {
 		$("#confirm_logout").addClass("hidden");
 		view_frame("frame_loading");
-		app_logout(timeout,url);
+		logout(timeout,url);
 	});
 }
 
-function app_logout(timeout,url) {
+function logout(timeout,url) {
 	RC_waitlogout = true;
 	OC_waitlogout = true;
 	ADM_waitlogout = true;
@@ -254,6 +258,10 @@ $(document).ready(function() {
 	 $('.popbox').popbox();
 
 	$(".subpage").load( function() {
+		if($(this).attr('id') == "frame_mail") {
+			// get the token from the page
+			RC_token = $(this).contents().find("input[name=_token]").val();
+		}
 		$(this).contents().find("body").click(function() {
 			close_menu();
 		});
@@ -301,7 +309,7 @@ $(document).ready(function() {
 	
 	$("#top-nav-logout a").click(function(e) {
 		e.preventDefault();
-		logout(0.1,"/admin");
+		icon_logout(0.1,"/admin");
 	});
 	$("#btn_logout_confirm").on('keydown',function(e){
 		if(e.which == 27) {
