@@ -1,3 +1,15 @@
+opi-webfrontend (1.51) vili; urgency=low
+
+  * Fixed redirect on reboot
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 24 Apr 2015 14:42:08 +0200
+
+opi-webfrontend (1.50) vili; urgency=low
+
+  * Fixed logout issues with RC and UI buttons
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 24 Apr 2015 14:12:19 +0200
+
 opi-webfrontend (1.49) vili; urgency=low
 
   * Added confirm dialog to logout button

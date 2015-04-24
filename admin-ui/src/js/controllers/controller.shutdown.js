@@ -18,16 +18,12 @@ opiaControllers.controller('ShutdownCtrl', ['$scope','ShutdownAPI','$filter','Us
     }
     $scope.settings.$save(function(response){
         $scope.status = 'success';
-        $window.location = newloc;
-        /*
         if(response.url) {
             User.reboot(response);
-          	$window.location = 'templates/reboot.html';
         } else {
             User.shutdown(response);
-          	$window.location = 'templates/shutdown.html';
         }
-        */
+        $window.location = newloc;
       }, function(){
         console.log("Error in shutdown controller"); 
       });

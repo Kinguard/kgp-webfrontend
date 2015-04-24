@@ -47,11 +47,12 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
     },
     logout: function(args){
       var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
+  	  //console.log("User service Logout");
       Session.logout(function(data,status){
     	  success(data,status);
     	  if(window.self !== window.top) {
   	          // Call parent (frame wrapper) logout function
-    		  //console.log("logout OC/RC");
+    		  //console.log("Logout OC/RC");
     		  window.parent.logout(1,"/admin");
     	  }
       },
@@ -75,13 +76,13 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
     reboot: function(args){
 		var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
 		//console.log("User service reboot: ");
-		Session.logout(function(data,status){
-			success(data,status);
-		});
 		if(window.self !== window.top) {
 			//console.log("logout OC/RC");
 			window.parent.logout(args.timeout,args.url); 
 		}
+		Session.logout(function(data,status){
+			success(data,status);
+		});
     }
   };
 
