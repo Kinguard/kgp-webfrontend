@@ -1,3 +1,15 @@
+opi-webfrontend (1.55) vili; urgency=medium
+
+  * Fixed alignment issue
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 29 Apr 2015 12:14:22 +0200
+
+opi-webfrontend (1.54) vili; urgency=medium
+
+  * Moved status to left column
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 29 Apr 2015 12:02:51 +0200
+
 opi-webfrontend (1.53) vili; urgency=medium
 
   * Fixed double status message on shutdown/reboot page

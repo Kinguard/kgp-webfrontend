@@ -8,6 +8,10 @@
 <form class="form-group-btnonly" form-status="status" name="sdForm_reboot" ng-submit="submit(sdForm_reboot)">
   <button type="submit" class="btn btn-primary" >Reboot</button>
   <input type="hidden" id="sd-reboot" value="reboot" ng-model="settings.action">
+  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+  <div form-status-message="submitting" class="pop"><alert type="'info'">Sending request ...</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="success" class="pop"><alert type="'success'">Terminating processes ...</alert></div>
 
 </form>
 
@@ -15,10 +19,6 @@
   <input type="hidden" id="sd-shutdown" value="shutdown" ng-model="settings.action">
   <button type="submit" class="btn btn-primary" >Shutdown</button>
 
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Sending request ...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">Terminating processes ...</alert></div>
 </form>
 
 

@@ -118,6 +118,10 @@ html.rgba hr { border-color: rgba($black,0.075); }
   .round-fill { height: 100%; width: 100%; border-radius: 50%; }
 }
 
+form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
+	height: 150px;
+	vertical-align: top;
+}
 .form-box { background: $white; @include border; padding: 50px; }
 
 .form-group {
