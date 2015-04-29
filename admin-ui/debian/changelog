@@ -1,3 +1,9 @@
+opi-webfrontend (1.53) vili; urgency=medium
+
+  * Fixed double status message on shutdown/reboot page
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 29 Apr 2015 11:36:00 +0200
+
 opi-webfrontend (1.52) vili; urgency=medium
 
   * Moved favicon to correct folder
