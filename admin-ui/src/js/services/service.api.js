@@ -87,6 +87,8 @@ opiaServices.factory('NetworkAPI', ['OPI','$resource',function(opi,$resource){
                     'setPort': { method: 'PUT', params: { param1:'ports' } },
                     'getOpiName': { method: 'GET', params: { param1:'opiname' } },
                     'setOpiName': { method: 'POST', params: { param1:'opiname' } },
+                    'getCertConfig': { method: 'GET', params: { param1:'CertSettings'} },
+                    'setCertConfig': { method: 'POST', params: { param1:'CertSettings'} },
                     'getShellAccess': { method: 'GET', params: { param1:'opiname' } },
                     'setShellAccess': { method: 'POST', params: { param1:'opiname' } },
                   }

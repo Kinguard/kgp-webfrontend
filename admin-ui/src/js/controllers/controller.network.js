@@ -78,6 +78,7 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
   // settings
   $scope.loadSettings = function(callback){
     $scope.settings = Network.getOpiName(callback);
+    $scope.CertSettings = Network.getCertConfig(callback);
   }
   $scope.loadSettings();
 
@@ -85,16 +86,41 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
 	    return Helpers.regexOpiname;
   }
 
+
   $scope.submit = function(form){ 
     if(form.$invalid) return;
 
     Network.setOpiName({'name':$scope.settings.opiname,"dnsenabled":$scope.settings.dnsenabled }, function(){
-      $scope.status = 'success';
+      if ( $scope.status != 'error') {
+        $scope.status = 'success';
+      }
     }, function(){
       $scope.status = 'error';
     });
+
+    if (! $scope.CertSettings.CustomKeyVal ) {
+      $scope.CertSettings.CustomKeyVal = "";
+    }
+    Network.setCertConfig({'CertType':$scope.CertSettings.CertType,'CustomCertVal':$scope.CertSettings.CustomCertVal,'CustomKeyVal':$scope.CertSettings.CustomKeyVal}, function() {
+      if ( $scope.status != 'error' ) {
+        $scope.status = 'success';
+      }
+    }, function(msg){
+      $scope.status = 'error';
+      if (msg['data'][1]) {
+        $scope.errormsg = "Error: " + msg['data'][1];
+      }
+
+    });
   }
 
+  $scope.changeRadio = function() {
+    if( $scope.CertSettings.CertType == "LETSENCRYPT") {
+      $scope.showLEnote = true;
+    } else {
+      $scope.showLEnote = false;
+    }
+  }
 }]);
 
 
@@ -112,7 +138,6 @@ opiaControllers.controller('Network__ShellCtrl', ['$scope','$route','$location',
     if(form.$invalid) return;
 
     $scope.settings.$save(function(){
-        console.log("Returned");
         if($scope.settings.status == true) {
           $scope.status = 'success';
         } else {
@@ -121,8 +146,6 @@ opiaControllers.controller('Network__ShellCtrl', ['$scope','$route','$location',
       }, function(){
         $scope.status = 'error';
       })
-
-    
   }
 }]);
 

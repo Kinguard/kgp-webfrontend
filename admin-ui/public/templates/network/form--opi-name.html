@@ -1,7 +1,7 @@
 <div class="form-box">
 <form ng-controller="Network__OpiNameCtrl" class="form-group-table" form-status="status" name="onForm" ng-submit="submit(onForm)">
 
-
+	<!-- DNS Settings -->
     <p class="form-group">
       <label for="on-dnsenable">Enable OPI DynDNS</label>
       <span class="control">
@@ -41,13 +41,96 @@
 	    </p>
 	</section>
 
+	<hr>
+
+	<!-- Certificate Settings -->
+    <p class="form-group" ng-show="CertSettings.CertStatus">
+    	<label></label>
+    	<span class="text-warning">
+	        Unable to retreive certificate for selected option, using fallback self signed certificate
+        </span>
+    </p>
+
+    <p class="form-group">
+      <label for="on_LECert">Use standard certificate (Signed by Let's Encrypt)</label>
+    	<span class="control">
+	        <input 	type="radio"
+	        		name="Certificate"
+	        		ng-model="CertSettings.CertType"
+	        		id="on-LECert"
+	        		ng-true-value="1" ng-false-value="0"
+	        		value = "LETSENCRYPT"
+	        		required 
+	        		ng-change=changeRadio()
+	        >
+        </span>
+    </p>
+
+    <p class="form-group">
+      <label for="on_CustomCert">Use Custom Certificate</label>
+    	<span class="control">
+	        <input 	type="radio"
+	        		name="Certificate"
+	        		ng-model="CertSettings.CertType"
+	        		id="on-CustomCert"
+	        		ng-true-value="1" ng-false-value="0"
+	        		value="CUSTOMCERT"
+	        		required 
+	        		ng-change=changeRadio()
+	        >
+      	</span>
+    </p>
+
+	<section ng-show ="CertSettings.CertType=='CUSTOMCERT'">
+	    <p class="form-group">
+	      <label for="CustomCert">Custom Certificate</label>
+	      <span class="control">
+	        <textarea
+	        		ng-model="CertSettings.CustomCertVal"
+	        		id="CustomCert"
+	        		class="form-control form-control-sm form-Certificate"
+	        		ng-required="CertSettings.CertType=='CUSTOMCERT'"
+	        		validation-icon="'Unable to validate certificate' | translate "
+	        		ng-remote-validate="network/checkcert"
+	        		name="CustomCert"
+	        ></textarea>
+	        <br />
+	      	<i>Please enter your Certificate here</i>
+	      </span>
+	    </p>
+
+	    <p class="form-group">
+	      <label for="CustomKey">Custom Key for above Certificate</label>
+	      <span class="control">
+	        <textarea
+	        		ng-model="CertSettings.CustomKeyVal"
+	        		id="CustomKey"
+	        		class="form-control form-control-sm form-Certificate"
+	        		validation-icon="'Unable to validate certificate key' | translate "
+	        		ng-remote-validate="network/checkkey"
+	        		name="CustomKey"
+	        		placeholder="Enter private key here. Even if a private key exists it is not shown for security reasons."
+	        ></textarea>
+	      	<br />
+	      	<i>Please enter your Certificate Key here</i>
+	      </span>
+	    </p>
+
+	</section>
+	<p class="form-group" ng-show="showLEnote">
+	  <span class="control text-warning" style="white-space: normal">
+	  <i>NOTE: Generation of Let's Encrypt Certificates takes a while, thus it may take a few minutes for the changes to be applied.</i>
+	  </span>
+	</p>
+
+
   <p class="form-buttons">
     <button type="submit" class="btn btn-primary">Save Changes</button>
   </p>
 
   <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
   <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+  <div form-status-message="error" class="pop"><alert type="'danger'">{{errormsg || "An error occurred. Please try again."}}</alert></div>
   <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
 
 

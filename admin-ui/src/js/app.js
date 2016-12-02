@@ -76,6 +76,7 @@ opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','
   ;
 
 
+
   $tooltipProvider.options({
     placement: 'right',
     popdownDelay: 0,

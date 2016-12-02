@@ -42,6 +42,7 @@ $gray-dark:              #222; //lighten(#000, 20%) !default;   // #333
 $gray:                   #999; // #555
 $gray-light:             #e1e1e1; //lighten(#000, 60%) !default;   // #999
 $gray-lighter:           #f7f7f7 !default; // #eee
+$gray-placeholder:		 #909090;
 
 $brand-primary:         $orange;
 $brand-success:         $green;
@@ -220,7 +221,7 @@ $input-border-radius:            $border-radius-base !default;
 $input-border-focus:             #66afe9 !default;
 
 //** Placeholder text color
-$input-color-placeholder:        $gray-light !default;
+$input-color-placeholder:        $gray-placeholder !default;
 
 //** Default `.form-control` height
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;

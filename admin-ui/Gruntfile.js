@@ -57,6 +57,12 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'build/js',
             src: '*.js',
+            dest: './target/js/'
+          },
+          {
+            expand: true,
+            cwd: 'build/js',
+            src: '*.js',
             dest: './public/js/'
           }
         ]
@@ -67,8 +73,15 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'build/css',
             src: '*.css',
+            dest: './target/css/'
+          },
+          {
+            expand: true,
+            cwd: 'build/css',
+            src: '*.css',
             dest: './public/css/'
           }
+
         ]
       }
     },
@@ -112,18 +125,18 @@ module.exports = function(grunt) {
         files: '<%= concat.js.src %>',
         tasks: ['js']
       },
-      jsdeploy: {
-        files: '<%= concat.js.src %>',
-        tasks: ['jsdeploy']
-      },
+      //jsdeploy: {
+      //  files: '<%= concat.js.src %>',
+      //  tasks: ['jsdeploy']
+      //},
       css: {
         files: 'src/sass/**/*',
         tasks: ['css']
       },
-      cssdeploy: {
-        files: 'src/sass/**/*',
-        tasks: ['cssdeploy']
-      }      
+      //cssdeploy: {
+      //  files: 'src/sass/**/*',
+      //  tasks: ['cssdeploy']
+      //}      
     },
   
     debian_package: {
@@ -174,9 +187,9 @@ module.exports = function(grunt) {
   // Default task.
   grunt.registerTask('default', ['js','css']);
   grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js','copy:js']);
-  grunt.registerTask('jsdeploy', ['js','ftpscript:js'+DEPLOY_MODE]);
+  //grunt.registerTask('jsdeploy', ['js','ftpscript:js'+DEPLOY_MODE]);
   grunt.registerTask('css', ['clean:css', 'sass','copy:css']);
-  grunt.registerTask('cssdeploy', ['css','ftpscript:css'+DEPLOY_MODE]);
+  //grunt.registerTask('cssdeploy', ['css','ftpscript:css'+DEPLOY_MODE]);
 
 
 

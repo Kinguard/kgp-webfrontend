@@ -42,8 +42,6 @@
 }
 
 
-
-
 /*
 html { font-size: 80%; }
 body { font-size: 100%; }
@@ -487,6 +485,13 @@ html.admin {
     &.email { width: 50%; }
     &.include { width: 140px; text-align: center; }
   }
+}
+
+/***  Network config ***/
+html.admin textarea.form-Certificate {
+  width : 100%;
+  height : 100px;
+  padding : 2px;
 }
 
 
