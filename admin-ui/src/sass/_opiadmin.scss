@@ -193,6 +193,9 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
       }
     }
   }
+  tr.ng-table-group-header th.sortable{
+    background: none;
+  }
   tfoot { display: none; }
   tr {
     td:first-child,th:first-child { padding-left: 20px; }
@@ -495,5 +498,7 @@ html.admin textarea.form-Certificate {
 }
 
 
-
+html.admin .form-group-table .form-group .control-label {
+  vertical-align: top;
+}
 

@@ -16,6 +16,7 @@ var opiaApp = angular.module('opiaApp', [
                            'ngCookies'
                            ]);
 
+
 opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','$tooltipProvider', function(localStorageServiceProvider, $routeProvider, $httpProvider,$tooltipProvider){
   localStorageServiceProvider.setPrefix('opia');
   // localStorageServiceProvider.setStorageCookieDomain('example.com');

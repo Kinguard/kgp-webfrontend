@@ -1,5 +1,7 @@
 opiaControllers.controller('UsersCtrl', ['$scope','$route','$location',function($scope,$route,$location){
   $scope.tab = $route.current.params.tab;
+  console.log("TAB: " + $scope.tab);
+  
   $scope.isTab = function(tabName){
     return ($scope.tab === tabName);
   }
@@ -9,7 +11,7 @@ opiaControllers.controller('UsersCtrl', ['$scope','$route','$location',function(
 
 
 
-opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,ngTableParams,$filter,opi,$timeout,Helpers,Modals,UserService){
+opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,ngTableParams,$filter,opi,$timeout,Helpers,Modals,UserService){
   $scope.loadUsers  = function(callback){
     $scope.users = Users.query(function() {
 	    _.each($scope.users, function(user){
@@ -26,6 +28,7 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
   });
   
   $scope.setTableParams = function(){
+    var retval;
     $scope.tableParams = new ngTableParams({
       //sorting: { displayname: 'asc' },
       total: 1,
@@ -33,13 +36,16 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','ngTablePa
     }, {
       counts: [],
       total: $scope.users.length, 
-      getData: function($defer, params){
+      getData: function(params){
         // Sort by params.sorting()
         if(params.sorting()){ 
           $scope.users = $filter('orderBy')($scope.users, params.orderBy());
         }
         // output data list
-        $defer.resolve($scope.users.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        console.log($scope.users);
+        retval = $scope.users.slice((params.page() - 1) * params.count(), params.page() * params.count());
+        console.log("Retval: " + retval);
+        return retval;
       }
     });
   }
@@ -198,7 +204,7 @@ opiaControllers.controller('Users__DeleteUserCtrl', ['$scope','_',function($scop
 
 
 
-opiaControllers.controller('Users__GroupsToUserCtrl', ['$scope','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
+opiaControllers.controller('Users__GroupsToUserCtrl', ['$scope','GroupAPI','NgTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
   $scope.editUser = $scope.modalParams.editUser;
 
   $scope.disable_Edit = function(user,group) {

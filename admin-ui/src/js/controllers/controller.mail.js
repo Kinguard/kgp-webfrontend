@@ -1,5 +1,11 @@
 opiaControllers.controller('MailCtrl', ['$scope','$route','$location',function($scope,$route,$location){
-  $scope.tab = $route.current.params.tab;
+  
+  if (typeof $route.current.params.tab === 'undefined') {
+    $scope.tab = "send";
+  } else {
+    $scope.tab = $route.current.params.tab;    
+  }
+
   $scope.isTab = function(tabName){
     return ($scope.tab === tabName);
   }
@@ -29,5 +35,4 @@ opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','Helpers','$fil
       $scope.status = 'error';
     })
   }
-
 }]);

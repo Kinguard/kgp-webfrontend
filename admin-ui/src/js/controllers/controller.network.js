@@ -6,8 +6,6 @@ opiaControllers.controller('NetworkCtrl', ['$scope','$route','$location',functio
 
 }]);
 
-
-
 opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
   // settings
   $scope.loadSettings = function(callback){
@@ -16,12 +14,15 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
   
   $scope.loadSettings();
 
-
   $scope.useStatic = function(){ return $scope.settings.type==='static'; }
 
+
   $scope.regexIP = function(){
-    return $scope.useStatic() ? Helpers.regexIP : /(.*)/ ;
+    console.log("Get regexIP");
+    //return $scope.useStatic() ? Helpers.regexIP : /(.*)/ ;
+    return Helpers.regexIP;
   }
+
 
 
   $scope.submit = function(form){ 
@@ -36,12 +37,12 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
     });
 
   }
-
 }]);
 
 opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
 	  // settings
 	  $scope.loadSettings = function(callback){
+      $scope.myport="1";
 	    $scope.ports = {
 	      '25':  Network.getPort({'param2':25}),
 	      '80': Network.getPort({'param2':80}),
@@ -51,6 +52,7 @@ opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','
 	      '993': Network.getPort({'param2':993}),
 	      '2525': Network.getPort({'param2':2525})
 	    };
+      $scope.myport=true;
 	  }
 	  
 	  $scope.loadSettings();

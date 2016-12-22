@@ -1,4 +1,4 @@
-opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,Modals,_){
+opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','_',function($scope,Groups,ngTableParams,$filter,opi,$timeout,Helpers,Modals,_){
   $scope.loadGroups  = function(callback){
     $scope.groups = Groups.query(function(){
       // load each group with its Users
@@ -23,13 +23,13 @@ opiaControllers.controller('Groups__GroupListCtrl', ['$scope','GroupAPI','ngTabl
     }, {
       counts: [],
       total: $scope.groups.length, 
-      getData: function($defer, params){
+      getData: function(params){
         // Sort by params.sorting()
         if(params.sorting()){ 
           $scope.groups = $filter('orderBy')($scope.groups, params.orderBy());
         }
         // output data list
-        $defer.resolve($scope.groups.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        return $scope.groups.slice((params.page() - 1) * params.count(), params.page() * params.count());
       }
     });
   }
@@ -180,7 +180,7 @@ opiaControllers.controller('Groups__DeleteGroupCtrl', ['$scope','_',function($sc
 
 
 
-opiaControllers.controller('Groups__UsersInGroupCtrl', ['$scope','UserAPI','GroupAPI','ngTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Users,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
+opiaControllers.controller('Groups__UsersInGroupCtrl', ['$scope','UserAPI','GroupAPI','NgTableParams','$filter','OPI','$timeout','Helpers','UserService','_',function($scope,Users,Groups,ngTableParams,$filter,opi,$timeout,Helpers,UserService,_){
   $scope.editGroup = $scope.modalParams.editGroup;
 
   $scope.disable_Edit = function(user,group) {

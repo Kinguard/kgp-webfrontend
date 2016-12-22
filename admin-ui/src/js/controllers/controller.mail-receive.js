@@ -1,4 +1,4 @@
-opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
+opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
   $scope.regexEmail = Helpers.regexEmail;
 
   $scope.receivers = [];
@@ -64,31 +64,61 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
   $scope.groupBy = 'domain'; 
   $scope.$watch('groupBy', function(newvalue){
+    console.log("New group order: "+newvalue);
     if($scope.receivers.length > 0)
       $scope.reloadTable();
   });
 
+  $scope.isGroupHeaderRowVisible = true;
+  $scope.isGroupable = isGroupable;
+  $scope.toggleGroupability = toggleGroupability;
+    
+
   $scope.setTableParams = function(){
+    var retval,myrec;
     $scope.tableParams = new ngTableParams({
       total: 1,
-      count: $scope.receivers.length
+      count: $scope.receivers.length,
+      group: { userDisplayname : 'asc' },
+
     }, {
-      groupBy: $scope.groupBy,
       counts: [],
       total: $scope.receivers.length, 
-      getData: function($defer, params){
+      getData: function(params){
         // Sort by params.sorting()
         if(params.sorting()){ 
           $scope.receivers = $filter('orderBy')($scope.receivers, params.orderBy());
         }
         // output data list
-        $defer.resolve($scope.receivers.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        myrec = $scope.receivers;
+        console.log("got data");
+        console.log(myrec);
+        retval =$scope.receivers.slice((params.page() - 1) * params.count(), params.page() * params.count()); 
+        return retval;
       }
     });
   }
+
+  function isGroupable($column){
+    console.log("isGroupable");
+    console.log($column);
+    return !!$column.groupable() || $column.groupField;
+  }
+  function toggleGroupability($column){
+    if ($column.groupable()) {
+      console.log("Groupable");
+      $column.groupField = $column.groupable();
+      $column.groupable.assign(self, false);
+    } else {
+      console.log("Not Groupable");
+      $column.groupable.assign(self, $column.groupField);
+    }
+  }
+
   $scope.reloadTable = function(){
-    $scope.tableParams.settings().groupBy = $scope.groupBy;
+    $scope.tableParams.settings().group = $scope.groupBy;
     $scope.tableParams.count($scope.receivers.length);
+    console.log("Receivers length:" + $scope.receivers.length);
     $scope.tableParams.reload();
   }
 
