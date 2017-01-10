@@ -1,4 +1,4 @@
-opiaServices.factory('ModalService', ['$modal','$routeParams','_',function($modal,$routeParams,_){
+opiaServices.factory('ModalService', ['$uibModal','$routeParams','_',function($modal,$routeParams,_){
   var modals = {
     login: function(resolve, params){
       return $modal.open({

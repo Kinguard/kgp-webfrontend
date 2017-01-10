@@ -18,8 +18,21 @@ module.exports = function(grunt) {
     concat: {
       js: {
         src: [
-              grunt.file.expand('src/js/libs/angular/angular.js'),
-              grunt.file.expand('src/js/libs/**/*.js', '!**/exclude/**/*'), 
+              grunt.file.expand('node_modules/underscore/underscore.js'),
+              grunt.file.expand('node_modules/angular/angular.js'),
+              grunt.file.expand('node_modules/angular-underscore/index.js'),
+              grunt.file.expand('node_modules/angular-animate/angular-animate.js'),
+              grunt.file.expand('node_modules/angular-cookies/angular-cookies.js'),
+              grunt.file.expand('node_modules/angular-gettext/dist/angular-gettext.js'),
+              grunt.file.expand('node_modules/angular-local-storage/dist/angular-local-storage.js'),
+              grunt.file.expand('node_modules/angular-resource/angular-resource.js'),
+              grunt.file.expand('node_modules/angular-route/angular-route.js'),
+              grunt.file.expand('node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js'),
+              grunt.file.expand('node_modules/angular-ui-utils/modules/**/*.js', '!node_modules/angular-ui-utils/**/demo/*', '!node_modules/angular-ui-utils/**/test/*' ), 
+
+
+              grunt.file.expand('node_modules/ng-table/bundles/ng-table.js'), 
+
               grunt.file.expand('src/js/filters.js','src/js/filters/*.js'),
               grunt.file.expand('src/js/directives.js','src/js/directives/*.js'),
               grunt.file.expand('src/js/services.js','src/js/services/*.js'),
@@ -57,23 +70,24 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'build/js',
             src: '*.js',
-            dest: './target/js/'
+            dest: './public/js/'
           },
           {
             expand: true,
             cwd: 'build/js',
             src: '*.js',
-            dest: './public/js/'
+            dest: './target/js/'
           }
+
         ]
       },
       css: {
         files: [
           {
             expand: true,
-            cwd: 'build/css',
+            cwd: 'node_modules/ng-table/bundles',
             src: '*.css',
-            dest: './target/css/'
+            dest: './public/css/'
           },
           {
             expand: true,
@@ -81,7 +95,16 @@ module.exports = function(grunt) {
             src: '*.css',
             dest: './public/css/'
           }
-
+        ]
+      },
+      target: {
+        files: [
+          {
+            expand: true,
+            cwd: 'public/',
+            src: '**',
+            dest: './target/'
+          }
         ]
       }
     },
@@ -122,7 +145,8 @@ module.exports = function(grunt) {
 
     watch: {
       js: {
-        files: '<%= concat.js.src %>',
+        //files: '<%= concat.js.src %>',
+        files: 'src/js/**/*.js',
         tasks: ['js']
       },
       //jsdeploy: {

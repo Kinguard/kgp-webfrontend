@@ -1,5 +1,5 @@
-
-<form ng-controller="Groups__GroupListCtrl" form-status="status" name="glForm" ng-submit="submit(glForm)">
+<div ng-controller="Groups__GroupListCtrl">
+<form form-status="status" name="glForm" ng-submit="submit(glForm)">
 <table ng-table="tableParams" class="table table-striped">
   <tr ng-repeat="group in $data" ng-dblclick="edit(group,true)" ng-class="rowClass[group.id]">
 
@@ -78,3 +78,4 @@
 
 </table>
 </form>
+</div>

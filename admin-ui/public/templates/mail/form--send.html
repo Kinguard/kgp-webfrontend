@@ -1,85 +1,87 @@
-<form ng-controller="Mail__SendCtrl" form-status="status" class="form-group-table" name="msForm" ng-submit="submit(msForm)">
-  <p class="form-group">
-    <label for="ms-useopi"><strong>Use OPI to send mail</strong></label>
-    <span class="control">
-      <input type="radio" value="useopi" ng-model="settings.smtpsettings" id="ms-useopi" class="" name="smtp_settings">
-    </span>
-  </p>
-  <p class="form-group">
-    <label for="ms-useexternal"><strong>Use OpenProducts External mail server</strong></label>
-    <span class="control">
-      <input type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
-    </span>
-  </p>
-
-  <div ng-show="settings.smtpsettings=='useexternal'">
-
+<div ng-controller="Mail__SendCtrl">
+  <form form-status="status" class="form-group-table" name="msForm" ng-submit="submit(msForm)">
     <p class="form-group">
-      <label for="ms-sendexternal" class="subsection">Send mail via OpenProducts servers</label>
+      <label for="ms-useopi"><strong>Use OPI to send mail</strong></label>
       <span class="control">
-        <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal">
+        <input type="radio" value="useopi" ng-model="settings.smtpsettings" id="ms-useopi" class="" name="smtp_settings">
       </span>
     </p>
     <p class="form-group">
-      <label for="ms-receiverelay" class="subsection">Recieve OPI-mail via OpenProducts servers</label>
+      <label for="ms-useexternal"><strong>Use OpenProducts External mail server</strong></label>
       <span class="control">
-        <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
+        <input type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
       </span>
     </p>
 
-    <hr>
-  </div>
+    <div ng-show="settings.smtpsettings=='useexternal'">
 
-  <p class="form-group">
-    <label for="ms-usecustom"><strong>Use Custom SMTP Settings</strong></label>
-    <span class="control">
-      <input type="radio" value="usecustom" ng-model="settings.smtpsettings" id="ms-usecustom" class="" name="smtp_settings">
-    </span>
-  </p>
+      <p class="form-group">
+        <label for="ms-sendexternal" class="subsection">Send mail via OpenProducts servers</label>
+        <span class="control">
+          <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal">
+        </span>
+      </p>
+      <p class="form-group">
+        <label for="ms-receiverelay" class="subsection">Recieve OPI-mail via OpenProducts servers</label>
+        <span class="control">
+          <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
+        </span>
+      </p>
 
-  <div ng-show="settings.smtpsettings=='usecustom'">
+      <hr>
+    </div>
 
     <p class="form-group">
-      <label for="ms-relay" class="subsection">Outbound SMTP Server</label>
+      <label for="ms-usecustom"><strong>Use Custom SMTP Settings</strong></label>
       <span class="control">
-        <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
+        <input type="radio" value="usecustom" ng-model="settings.smtpsettings" id="ms-usecustom" class="" name="smtp_settings">
       </span>
     </p>
-    <p class="form-group">
-      <label for="ms-username" class="subsection">Username</label>
-      <span class="control">
-        <input type="text" ng-model="settings.username" id="ms-username" class="form-control">
-      </span>
-    </p>
-    <p class="form-group">
-      <label for="ms-password" class="subsection">Password</label>
-      <span class="control">
-        <input type="password" ng-model="settings.password" id="ms-password" class="form-control">
-      </span>
-    </p>
-    <div class="form-group">
-      <label for="ms-port" class="subsection">Port</label>
-      <div class="control">
-        <div class="row">
-          <div class="col-xs-5">
-            <input type="text" ng-model="settings.port" id="ms-port" class="form-control input-xs" ng-pattern="/^[0-9]{1,7}$/" validation-icon="'Please specify' | translate ">
+
+    <div ng-show="settings.smtpsettings=='usecustom'">
+
+      <p class="form-group">
+        <label for="ms-relay" class="subsection">Outbound SMTP Server</label>
+        <span class="control">
+          <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
+        </span>
+      </p>
+      <p class="form-group">
+        <label for="ms-username" class="subsection">Username</label>
+        <span class="control">
+          <input type="text" ng-model="settings.username" id="ms-username" class="form-control">
+        </span>
+      </p>
+      <p class="form-group">
+        <label for="ms-password" class="subsection">Password</label>
+        <span class="control">
+          <input type="password" ng-model="settings.password" id="ms-password" class="form-control">
+        </span>
+      </p>
+      <div class="form-group">
+        <label for="ms-port" class="subsection">Port</label>
+        <div class="control">
+          <div class="row">
+            <div class="col-xs-5">
+              <input type="text" ng-model="settings.port" id="ms-port" class="form-control input-xs" ng-pattern="/^[0-9]{1,7}$/" validation-icon="'Please specify' | translate ">
+            </div>
           </div>
         </div>
       </div>
+
+      <hr>
     </div>
 
-    <hr>
-  </div>
+
+    <p class="form-buttons">
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </p>
+
+    <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+    <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
+    <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+    <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
 
 
-  <p class="form-buttons">
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-  </p>
-
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
-
-
-</form>
+  </form>
+</div>

@@ -1,4 +1,4 @@
-opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI','MailAPI','ExternalMailAPI','ngTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ExternalMail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
+opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI','MailAPI','ExternalMailAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ExternalMail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
   $scope.regexEmail = Helpers.regexEmail;
 
   $scope.mailboxes = [];
@@ -21,18 +21,21 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
   $scope.setTableParams = function(){
     $scope.tableParams = new ngTableParams({
       total: 1,
-      count: $scope.mailboxes.length
+      count: $scope.mailboxes.length,
+      group : "username",
     }, {
       //groupBy: 'username',
       counts: [],
       total: $scope.mailboxes.length, 
       getData: function($defer, params){ 
         // Sort by params.sorting()
-        if(params.sorting()){ 
+        if( (params != null) && params.sorting()){ 
           $scope.mailboxes = $filter('orderBy')($scope.mailboxes, params.orderBy());
         }
         // output data list
-        $defer.resolve($scope.mailboxes.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        if (params != null) {
+          $defer.resolve($scope.mailboxes.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+        }
       }
     });
   }

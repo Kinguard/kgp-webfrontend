@@ -1,4 +1,4 @@
-opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser){
+opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI','NgTableParams','$filter','OPI','$timeout','Helpers','ModalService','UserService',"_",function($scope,Users,Mail,ngTableParams,$filter,opi,$timeout,Helpers,Modals,CurrUser,_){
   $scope.regexEmail = Helpers.regexEmail;
 
   $scope.receivers = [];
@@ -14,7 +14,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
       $scope.setTableParams();
       
     });
-
+ 
   });
 
   $scope.loadReceivers  = function(callback){
@@ -38,7 +38,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
             // add user as property
             receiver['userItem'] = _.findWhere($scope.users, {id:receiver.user});
             if(!angular.isUndefined(receiver['userItem']))
-            	receiver['userDisplayname'] = receiver['userItem'].displayname;
+              receiver['userDisplayname'] = receiver['userItem'].displayname;
             
             // add to real receiver list
             loadedReceivers.push(receiver);
@@ -63,25 +63,23 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
 
   $scope.groupBy = 'domain'; 
-  $scope.$watch('groupBy', function(newvalue){
-    console.log("New group order: "+newvalue);
+
+  $scope.$watch('groupBy', function(){
     if($scope.receivers.length > 0)
-      $scope.reloadTable();
+      $scope.tableParams.group($scope.groupBy);
   });
 
-  $scope.isGroupHeaderRowVisible = true;
-  $scope.isGroupable = isGroupable;
-  $scope.toggleGroupability = toggleGroupability;
-    
+  $scope.isGroupHeaderRowVisible = false;
 
   $scope.setTableParams = function(){
     var retval,myrec;
     $scope.tableParams = new ngTableParams({
       total: 1,
       count: $scope.receivers.length,
-      group: { userDisplayname : 'asc' },
-
+      group: $scope.groupBy,
+  
     }, {
+      groupBy:$scope.groupBy,
       counts: [],
       total: $scope.receivers.length, 
       getData: function(params){
@@ -90,39 +88,13 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
           $scope.receivers = $filter('orderBy')($scope.receivers, params.orderBy());
         }
         // output data list
-        myrec = $scope.receivers;
-        console.log("got data");
-        console.log(myrec);
-        retval =$scope.receivers.slice((params.page() - 1) * params.count(), params.page() * params.count()); 
-        return retval;
+        // myrec = $scope.receivers;
+        // retval =$scope.receivers.slice((params.page() - 1) * params.count(), params.page() * params.count()); 
+        return $scope.receivers.slice((params.page() - 1) * params.count(), params.page() * params.count()); 
+        // return retval;
       }
     });
   }
-
-  function isGroupable($column){
-    console.log("isGroupable");
-    console.log($column);
-    return !!$column.groupable() || $column.groupField;
-  }
-  function toggleGroupability($column){
-    if ($column.groupable()) {
-      console.log("Groupable");
-      $column.groupField = $column.groupable();
-      $column.groupable.assign(self, false);
-    } else {
-      console.log("Not Groupable");
-      $column.groupable.assign(self, $column.groupField);
-    }
-  }
-
-  $scope.reloadTable = function(){
-    $scope.tableParams.settings().group = $scope.groupBy;
-    $scope.tableParams.count($scope.receivers.length);
-    console.log("Receivers length:" + $scope.receivers.length);
-    $scope.tableParams.reload();
-  }
-
-
 
   $scope.submit = function(form){
     if($scope.editReceiver.id)

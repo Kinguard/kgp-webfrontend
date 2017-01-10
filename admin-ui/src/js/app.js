@@ -9,15 +9,15 @@ var opiaApp = angular.module('opiaApp', [
                            'gettext',
                            'ui.bootstrap',
                            'ui.utils',
-                           'underscore',
                            'LocalStorageModule',
                            'ngRoute',
                            'ngAnimate',
-                           'ngCookies'
+                           'ngCookies',
+                           'underscore'
                            ]);
 
 
-opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','$tooltipProvider', function(localStorageServiceProvider, $routeProvider, $httpProvider,$tooltipProvider){
+opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','$uibTooltipProvider', function(localStorageServiceProvider, $routeProvider, $httpProvider,$tooltipProvider){
   localStorageServiceProvider.setPrefix('opia');
   // localStorageServiceProvider.setStorageCookieDomain('example.com');
   // localStorageServiceProvider.setStorageType('sessionStorage');

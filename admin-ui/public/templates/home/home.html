@@ -4,48 +4,48 @@
   <nav id="home-list">
       <ul class="list-unstyled row">
         <li class="col-sm-6 me">
-          <a href="#/me">
+          <a href="#!/me">
             <i></i>
             <strong>My Profile <span>({{user.displayname}})</span></strong>
           </a>
         </li>
         <li class="col-sm-6 users" ng-show="user.isAdmin()">
-          <a href="#/users">
+          <a href="#!/users">
             <i></i>
             <strong>Users &amp; Groups</strong>
           </a>
         </li>
         <li class="col-sm-6 mail">
-          <a href="#/mail">
+          <a href="#!/mail">
             <i></i><strong>E-mail Configuration</strong>
           </a>
         </li>
         <li class="col-sm-6 network" ng-show="user.isAdmin()">
-          <a href="#/network">
+          <a href="#!/network">
             <i></i>
             <strong>Network Configuration</strong>
           </a>
         </li>
         <li class="col-sm-6 backup" ng-show="user.isAdmin()">
-          <a href="#/backup">
+          <a href="#!/backup">
             <i></i>
             <strong>Backup Configuration</strong>
           </a>
         </li>
         <li class="col-sm-6 update" ng-show="user.isAdmin()">
-          <a href="#/update">
+          <a href="#!/update">
             <i></i>
             <strong>System Update Configuration</strong>
           </a>
         </li>
         <li class="col-sm-6 shutdown" ng-show="user.isAdmin()">
-          <a href="#/shutdown">
+          <a href="#!/shutdown">
             <i></i>
             <strong>Shutdown OPI</strong>
           </a>
         </li>
         <li class="col-sm-6 logout">
-          <a href="#/logout" ng-click="logout()">
+          <a href="#!/logout" ng-click="logout()">
             <i></i>
             <strong>Logout</strong>
           </a>

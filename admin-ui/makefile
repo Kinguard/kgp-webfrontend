@@ -1,4 +1,0 @@
-all:
-	grunt
-	echo ${DESTDIR}
-

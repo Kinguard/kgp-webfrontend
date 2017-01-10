@@ -22,6 +22,18 @@
   },
   "scripts": {},
   "devDependencies": {
+    "angular": "~1.6.0",
+    "angular-animate": "^1.6.0",
+    "angular-cookies": "^1.6.0",
+    "angular-gettext": "^2.3.8",
+    "angular-local-storage": "^0.5.0",
+    "angular-resource": "^1.6.0",
+    "angular-route": "^1.6.0",
+    "angular-ui-bootstrap": "^2.3.1",
+    "angular-ui-utils": "^0.1.1",
+    "angular-underscore": "0.0.3",
+    "bootstrap-sass": "~3.3",
+    "font-awesome": "~4.4.0",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-concat": "~0.3.0",
@@ -32,6 +44,8 @@
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt-debian-package": "~0.1.9",
-    "grunt-ftpscript": "~0.1.7"
+    "grunt-ftpscript": "~0.1.7",
+    "ng-table": "^3.0.1",
+    "underscore": "^1.8.3"
   }
 }
