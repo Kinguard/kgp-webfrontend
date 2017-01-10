@@ -1,16 +1,19 @@
 
 <div ng-controller="Mail__ReceiveListCtrl">
 <form  form-status="status" name="rlForm" ng-submit="submit(rlForm)">
-
 <div class="table-options">
   <p>
     <label for="rl-group-by" class="text-normal"><small>Group by:</small></label> 
-    <select id="rl-group-by" ng-model="groupBy"><option value="domain">Domain</option><option value="userDisplayname">Local User</option></select>
+      <select id="rl-group-by" ng-model="groupBy">
+        <option value="domain">Domain</option>
+        <option value="userDisplayname">Local User</option>
+      </select>
   </p>
 </div>
-<table ng-table="tableParams" class="table">
-  <tbody ng-repeat="group in $groups">
-  <tr class="ng-table-group link" ng-click="group.$hideRows = !group.$hideRows">
+
+<table ng-table="tableParams" class="table" show-group="false">
+  <tbody >
+  <tr ng-repeat-start="group in $groups" class="ng-table-group link" ng-click="group.$hideRows = !group.$hideRows">
     <td class="menu">
       <span class="icon" ng-if="group.$hideRows"><img src="./img/icons/add.png" alt="Show" /></span>
       <span class="icon" ng-if="!group.$hideRows"><img src="./img/icons/minus.png" alt="Hide" /></span>
@@ -20,7 +23,7 @@
      </td>
   </tr>
 
-  <tr ng-repeat="receiver in group.data" ng-hide="group.$hideRows" ng-class="rowClass[group.id]">
+  <tr ng-repeat="receiver in group.data" ng-hide="group.$hideRows" ng-class="rowClass[group.id]" ng-repeat-end>
 
     <!-- Column: Menu -->
     <td data-title="''" header-class="menu" class="menu">
@@ -42,7 +45,7 @@
     <!-- Column: User Count -->
     <td data-title="'Local User'" sortable="'userItem.displayname'" header-class="user" class="user">
       <span>
-      {{receiver.userItem.displayname}}
+      {{receiver.userDisplayname}}
       </span>
     </td>
 
