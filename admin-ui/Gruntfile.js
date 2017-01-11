@@ -85,12 +85,6 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: 'node_modules/ng-table/bundles',
-            src: '*.css',
-            dest: './public/css/'
-          },
-          {
-            expand: true,
             cwd: 'build/css',
             src: '*.css',
             dest: './public/css/'

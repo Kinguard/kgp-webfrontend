@@ -1,4 +1,4 @@
-opiaControllers.controller('ModalCtrl', ['$scope','$modalInstance','modalParams',function($scope,$modalInstance,modalParams){
+opiaControllers.controller('ModalCtrl', ['$scope','$uibModalInstance','modalParams',function($scope,$modalInstance,modalParams){
   $scope.modalParams = modalParams || {};
   $scope.$modalInstance = $modalInstance;
   $scope.isModal = true;

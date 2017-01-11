@@ -20,8 +20,13 @@
       <div class="control-label">Location</div>
       <div class="control">
         <div class="row">
-        <div class="col-sm-3 col-xs-6"><label for="b-location-remote"><input type="radio" ng-model="settings.location" value="remote" id="b-location-remote"> Remote</label></div>
-        <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="local" id="b-location-local"> Local</label></div>
+          <div class="col-sm-3 col-xs-6"><label for="b-location-remote"><input type="radio" ng-model="settings.location" value="op" id="b-location-remote"> OpenProducts Servers</label></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="amazon" id="b-location-local"> Amazon S3</label></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="local" id="b-location-local"> Local</label></div>
         </div>
       </div>
     </div>
@@ -40,7 +45,7 @@
       <div class="control-label">Backup Space Quota</div>
       <div class="control">
         <div class="row">
-          <div class="col-md-9 col-sm-8 col-xs-7"><progressbar value="quota.percent" type="{{quota.status}}"></progressbar></div>
+          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="quota.percent" type="{{quota.status}}"></uib-progressbar></div>
           <div class="col-md-3 col-sm-4 col-xs-5"><small>{{quota.used | bytes}} / {{quota.total | bytes}}</small></div>
         </div>
       </div>

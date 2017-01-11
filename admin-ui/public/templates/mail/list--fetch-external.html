@@ -1,7 +1,7 @@
 <div  ng-controller="Mail__ExternalMailboxListCtrl">
   <form form-status="status" name="emForm" ng-submit="submit(emForm)">
 
-  <table ng-table="tableParams" class="table table-hover">
+  <table ng-table="tableParams" class="table table-hover" show-group="false">
     <tr ng-repeat="mailbox in $data" ng-class="rowClass[mailbox.id]" ng-dblclick="edit(mailbox)">
 
       <!-- Column: Menu -->

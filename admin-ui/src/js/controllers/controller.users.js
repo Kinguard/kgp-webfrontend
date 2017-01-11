@@ -1,9 +1,12 @@
 opiaControllers.controller('UsersCtrl', ['$scope','$route','$location',function($scope,$route,$location){
-  $scope.tab = $route.current.params.tab;
-  console.log("TAB: " + $scope.tab);
-  
-  $scope.isTab = function(tabName){
-    return ($scope.tab === tabName);
+
+  switch ($route.current.params.tab) {
+    case "groups":
+      $scope.active = 1;
+      break;
+    default:
+      $scope.active = 0;
+      break;
   }
 
 }]);
@@ -42,9 +45,7 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','NgTablePa
           $scope.users = $filter('orderBy')($scope.users, params.orderBy());
         }
         // output data list
-        console.log($scope.users);
         retval = $scope.users.slice((params.page() - 1) * params.count(), params.page() * params.count());
-        console.log("Retval: " + retval);
         return retval;
       }
     });

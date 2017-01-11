@@ -13,6 +13,7 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
   $scope.loadMailboxes = function(callback){
     $scope.mailboxes = ExternalMail.query(callback);
   }
+
   $scope.loadMailboxes(function(){
     $scope.mailboxes = $filter('orderBy')($scope.mailboxes, 'displayname');
     $scope.setTableParams();
@@ -22,19 +23,19 @@ opiaControllers.controller('Mail__ExternalMailboxListCtrl', ['$scope','UserAPI',
     $scope.tableParams = new ngTableParams({
       total: 1,
       count: $scope.mailboxes.length,
-      group : "username",
+      //group : "username",
     }, {
       //groupBy: 'username',
       counts: [],
       total: $scope.mailboxes.length, 
-      getData: function($defer, params){ 
+      getData: function(params){ 
         // Sort by params.sorting()
         if( (params != null) && params.sorting()){ 
           $scope.mailboxes = $filter('orderBy')($scope.mailboxes, params.orderBy());
         }
         // output data list
         if (params != null) {
-          $defer.resolve($scope.mailboxes.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+          return $scope.mailboxes.slice((params.page() - 1) * params.count(), params.page() * params.count());
         }
       }
     });

@@ -1,8 +1,20 @@
 opiaControllers.controller('NetworkCtrl', ['$scope','$route','$location',function($scope,$route,$location){
-  $scope.tab = $route.current.params.tab;
-  $scope.isTab = function(tabName){
-    return ($scope.tab === tabName);
+
+  switch ($route.current.params.tab) {
+    case "opiname":
+      $scope.active = 1;
+      break;
+    case "ports":
+      $scope.active = 2;
+      break;
+    case "shellaccess":
+      $scope.active = 3;
+      break;
+    default:
+      $scope.active = 0;
+      break;
   }
+
 
 }]);
 
@@ -18,7 +30,7 @@ opiaControllers.controller('Network__SettingsCtrl', ['$scope','$route','$locatio
 
 
   $scope.regexIP = function(){
-    console.log("Get regexIP");
+    //console.log("Get regexIP");
     //return $scope.useStatic() ? Helpers.regexIP : /(.*)/ ;
     return Helpers.regexIP;
   }
@@ -124,7 +136,6 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
     }
   }
 }]);
-
 
 
 opiaControllers.controller('Network__ShellCtrl', ['$scope','$route','$location','$filter','ShellAPI','_',function($scope,$route,$location,$filter,Shell,_){

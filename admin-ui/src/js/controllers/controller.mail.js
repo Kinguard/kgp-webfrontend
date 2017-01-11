@@ -1,13 +1,18 @@
 opiaControllers.controller('MailCtrl', ['$scope','$route','$location',function($scope,$route,$location){
   
-  if (typeof $route.current.params.tab === 'undefined') {
-    $scope.tab = "send";
-  } else {
-    $scope.tab = $route.current.params.tab;    
-  }
-
-  $scope.isTab = function(tabName){
-    return ($scope.tab === tabName);
+  switch ($route.current.params.tab) {
+    case "receive":
+      $scope.active = 0;
+      break;
+    case "fetch-external":
+      $scope.active = 1;
+      break;
+    case "send":
+      $scope.active = 2;
+      break;
+    default:
+      $scope.active = 2;
+      break;
   }
 
 }]);

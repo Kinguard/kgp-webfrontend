@@ -1,15 +1,17 @@
-<form ng-controller="Users__DeleteUserCtrl" form-status="status" class="form-group-table" name="duForm" ng-submit="submit(duForm)">
-  
-  <h2 class="mbot2 text-center">Are you sure you want do delete <span class="entity">{{editUser.displayname}} ({{editUser.username}})</span>?</h2>
+<div  ng-controller="Users__DeleteUserCtrl">
+	<form form-status="status" class="form-group-table" name="duForm" ng-submit="submit(duForm)">
+	  
+	  <h2 class="mbot2 text-center">Are you sure you want do delete <span class="entity">{{editUser.displayname}} ({{editUser.username}})</span>?</h2>
 
-  <p class="form-buttons text-center">
-  <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">No, cancel</a>
-  <button type="submit" class="btn btn-primary">Yes, delete user</button>
-  </p>
+	  <p class="form-buttons text-center">
+	  <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">No, cancel</a>
+	  <button type="submit" class="btn btn-primary">Yes, delete user</button>
+	  </p>
 
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Deleting...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">User deleted</alert></div>
+	  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+	  <div form-status-message="submitting" class="pop"><alert type="'info'">Deleting...</alert></div>
+	  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+	  <div form-status-message="success" class="pop"><alert type="'success'">User deleted</alert></div>
 
-</form>
+	</form>
+</div>

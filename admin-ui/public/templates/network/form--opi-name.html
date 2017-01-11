@@ -5,10 +5,10 @@
     <p class="form-group">
       <label for="on-dnsenable">Enable OPI DynDNS</label>
       <span class="control">
-        <input 	type="checkbox"
-        		ng-model="settings.dnsenabled"
+        <input 	type="checkbox"	ng-model="settings.dnsenabled"
         		id="on-dnsenabled"
-        		ng-true-value="1" ng-false-value="0"
+        		ng-true-value="'1'"
+        		ng-false-value="'0'"
         >
       </span>
     </p>
@@ -58,7 +58,6 @@
 	        		name="Certificate"
 	        		ng-model="CertSettings.CertType"
 	        		id="on-LECert"
-	        		ng-true-value="1" ng-false-value="0"
 	        		value = "LETSENCRYPT"
 	        		required 
 	        		ng-change=changeRadio()
@@ -73,7 +72,6 @@
 	        		name="Certificate"
 	        		ng-model="CertSettings.CertType"
 	        		id="on-CustomCert"
-	        		ng-true-value="1" ng-false-value="0"
 	        		value="CUSTOMCERT"
 	        		required 
 	        		ng-change=changeRadio()

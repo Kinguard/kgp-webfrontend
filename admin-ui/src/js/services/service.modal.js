@@ -32,7 +32,7 @@ opiaServices.factory('ModalService', ['$uibModal','$routeParams','_',function($m
   }
 
   var openedModals = {};
-
+ 
   function open(templateUrl, params, replaceDefaults){ 
     //if(!_.isUndefined(openedModals[templateUrl])) return openedModals[templateUrl];
     closeAll();
@@ -47,6 +47,8 @@ opiaServices.factory('ModalService', ['$uibModal','$routeParams','_',function($m
     };
     if(_.isObject(replaceDefaults)) defaults = angular.extend(defaults, replaceDefaults);
 
+    console.log("Modal parameters");
+    console.log(defaults);
     openedModals[templateUrl] = $modal.open(defaults); 
     return openedModals[templateUrl];
   }

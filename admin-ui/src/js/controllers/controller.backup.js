@@ -10,6 +10,7 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
         $scope.show_bar = false;
       }
   }
+
   $scope.regexAWSKey = function(){
       console.log("Trying to validate AWS key");
       return Helpers.regexAWSKey;

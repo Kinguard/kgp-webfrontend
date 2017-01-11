@@ -1,9 +1,20 @@
 <header><h1>Network Configuration</h1></header>
 <article>
-<tabset ng-init="actives = [!isTab('ports') && !isTab('opiname') && !isTab('shellaccess'), isTab('ports'), isTab('opiname'), isTab('shellaccess')]">
-  <tab heading="{{'Network Settings' | translate}}" select="gotoPath('/network')" active="actives[0]"><div ng-include="'./templates/network/form--network-settings.html'"></div></tab>
-  <tab heading="{{'Auto Port forward' | translate}}" select="gotoPath('/network/ports')" active="actives[1]"><div ng-include="'./templates/network/form--network-ports.html'"></div></tab>
-  <tab heading="{{'Your OPI Name' | translate}}" select="gotoPath('/network/opiname')" active="actives[2]"><div ng-include="'./templates/network/form--opi-name.html'"></div></tab>
-  <tab heading="{{'Shell Access' | translate}}" select="gotoPath('/network/shellaccess')" active="actives[3]"><div ng-include="'./templates/network/form--network-shell.html'"></div></tab>
-</tabset>
+
+
+<uib-tabset active="active">
+      <uib-tab index="0" heading="{{'Network Settings' | translate}}">
+    	<div ng-include="'./templates/network/form--network-settings.html'" class="form-box"></div>
+      </uib-tab>
+      <uib-tab index="1" heading="{{'Your OPI Name' | translate}}">
+  		<div ng-include="'./templates/network/form--opi-name.html'" class="form-box"></div>
+      </uib-tab>
+      <uib-tab index="2" heading="{{'Auto Port forward' | translate}}">
+        <div ng-include="'./templates/network/form--network-ports.html'" class="form-box"></div>
+      </uib-tab>
+      <uib-tab index="3" heading="{{'Shell Access' | translate}}">
+  		<div ng-include="'./templates/network/form--network-shell.html'" class="form-box"></div>
+      </uib-tab>
+</uib-tabset>
+
 </article>

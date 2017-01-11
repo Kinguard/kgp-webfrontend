@@ -1,58 +1,59 @@
+<div  ng-controller="Mail__HandleExternalMailboxCtrl">
+  <form form-status="status" class="form-group-table" name="hemForm" ng-submit="submit(hemForm)">
+    
+    <alert type="'info'" ng-show="needDetails() && !isEditing()">Couldn't resolve settings for account. Please specify details.</alert>
 
-<form ng-controller="Mail__HandleExternalMailboxCtrl" form-status="status" class="form-group-table" name="hemForm" ng-submit="submit(hemForm)">
-  
-  <alert type="'info'" ng-show="needDetails() && !isEditing()">Couldn't resolve settings for account. Please specify details.</alert>
+
+      <p class="form-group">
+        <label for="hem-email">E-mail Address</label>
+        <span class="control">
+          <input type="text" ng-model="editMailbox.email" id="hem-email" class="form-control" required validation-icon="'Please specify' | translate ">
+        </span>
+      </p>
+      <p class="form-group" ng-show="needDetails()">
+        <label for="hem-host">Host</label>
+        <span class="control">
+          <input type="text" ng-model="editMailbox.host" id="hem-host" class="form-control" ng-required="needDetails()" validation-icon="'Please specify' | translate ">
+        </span>
+      </p>
+      <p class="form-group" ng-show="needDetails()">
+        <label for="hem-identity">Username</label>
+        <span class="control">
+          <input type="text" ng-model="editMailbox.identity" id="hem-identity" class="form-control" ng-required="needDetails()" validation-icon="'Please specify' | translate ">
+        </span>
+      </p>
+      <p class="form-group">
+        <label for="hem-password">Password</label>
+        <span class="control">
+          <input type="password" ng-model="editMailbox.password" id="hem-password" class="form-control" ng-required="requirePwd()" validation-icon="'Please specify' | translate ">
+        </span>
+      </p>
+      <p class="form-group" ng-show="needDetails()">
+        <label for="hem-encrypted">Use SSL</label>
+        <span class="control">
+          <input type="checkbox" ng-model="editMailbox.encrypt" ng-true-value="'1'" ng-false-value="'0'" id="hem-encrypted">
+        </span>
+      </p>
+      <p class="form-group">
+        <label for="hem-username">Local User</label>
+        <span class="control">
+          <select class="form-control input-sm" id="hem-username" ng-model="editMailbox.username" ng-options="u.username as u.displayname for u in users" required>
+          </select>
+        </span>
+      </p>
 
 
-    <p class="form-group">
-      <label for="hem-email">E-mail Address</label>
-      <span class="control">
-        <input type="text" ng-model="editMailbox.email" id="hem-email" class="form-control" required validation-icon="'Please specify' | translate ">
-      </span>
+
+    <p class="form-buttons">
+    <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">Cancel</a>
+    <button type="submit" class="btn btn-primary" ng-bind="isEditing() ? 'Save Account' : 'Add Account'"></button>
     </p>
-    <p class="form-group" ng-show="needDetails()">
-      <label for="hem-host">Host</label>
-      <span class="control">
-        <input type="text" ng-model="editMailbox.host" id="hem-host" class="form-control" ng-required="needDetails()" validation-icon="'Please specify' | translate ">
-      </span>
-    </p>
-    <p class="form-group" ng-show="needDetails()">
-      <label for="hem-identity">Username</label>
-      <span class="control">
-        <input type="text" ng-model="editMailbox.identity" id="hem-identity" class="form-control" ng-required="needDetails()" validation-icon="'Please specify' | translate ">
-      </span>
-    </p>
-    <p class="form-group">
-      <label for="hem-password">Password</label>
-      <span class="control">
-        <input type="password" ng-model="editMailbox.password" id="hem-password" class="form-control" ng-required="requirePwd()" validation-icon="'Please specify' | translate ">
-      </span>
-    </p>
-    <p class="form-group" ng-show="needDetails()">
-      <label for="hem-encrypted">Use SSL</label>
-      <span class="control">
-        <input type="checkbox" ng-model="editMailbox.encrypt" ng-true-value="1" ng-false-value="0" id="hem-encrypted">
-      </span>
-    </p>
-    <p class="form-group">
-      <label for="hem-username">Local User</label>
-      <span class="control">
-        <select class="form-control input-sm" id="hem-username" ng-model="editMailbox.username" ng-options="u.username as u.displayname for u in users" required>
-        </select>
-      </span>
-    </p>
 
+    <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
+    <div form-status-message="submitting" class="pop"><alert type="'info'">Checking...</alert></div>
+    <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
+    <div form-status-message="success" class="pop"><alert type="'success'">Account Saved</alert></div>
+    <div form-status-message="conflict" class="pop"><alert type="'danger'">Conflict with existing account</alert></div>
 
-
-  <p class="form-buttons">
-  <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">Cancel</a>
-  <button type="submit" class="btn btn-primary" ng-bind="isEditing() ? 'Save Account' : 'Add Account'"></button>
-  </p>
-
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Checking...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">Account Saved</alert></div>
-  <div form-status-message="conflict" class="pop"><alert type="'danger'">Conflict with existing account</alert></div>
-
-</form>
+  </form>
+</div>

@@ -69,8 +69,6 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
       $scope.tableParams.group($scope.groupBy);
   });
 
-  $scope.isGroupHeaderRowVisible = false;
-
   $scope.setTableParams = function(){
     var retval,myrec;
     $scope.tableParams = new ngTableParams({
@@ -95,6 +93,13 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
       }
     });
   }
+
+  $scope.reloadTable = function(){
+    //$scope.tableParams.settings().groupBy = $scope.groupBy;
+    //$scope.tableParams.count($scope.receivers.length);
+    $scope.tableParams.reload();
+  }
+
 
   $scope.submit = function(form){
     if($scope.editReceiver.id)
