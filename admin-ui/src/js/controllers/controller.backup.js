@@ -1,27 +1,32 @@
 opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helpers','_','ModalService',function($scope,Backup,$filter,Helpers,_,Modals){
   // settings
-  var curr_used, curr_quota, curr_location;
+  var curr_used, curr_quota;
 
   show_bar=function(location){
       console.log("Location: " + location);
-      if ((location == "op" || location == "local") && ( $scope.quota.used > 0 ) ) {
+      if ( location == "op" || location == "local" ) {
         $scope.show_bar = true;
       } else {
         $scope.show_bar = false;
       }
+      console.log("Show progressbar: " + $scope.show_bar);
   }
 
   $scope.regexAWSKey = function(){
-      console.log("Trying to validate AWS key");
-      return Helpers.regexAWSKey;
+    return Helpers.regexAWSKey;
+  }
+  $scope.regexAWSSecKey = function(){
+    return Helpers.regexAWSSecKey;
+  }
+  $scope.regexAWSbucket = function(){
+    return Helpers.regexAWSbucket;
   }
 
 
   $scope.loadSettings = function(callback){
     $scope.settings = Backup.getSettings(function(){ 
       $scope.settings.enabled = $filter('bool')($scope.settings.enabled); 
-      curr_location = $scope.settings.location;
-      show_bar(curr_location);
+      $scope.curr_location = $scope.settings.location;
       if(_.isFunction(callback)) callback();
     });
   }
@@ -40,9 +45,9 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
     $scope.quota = Backup.getQuota(function(){
       curr_used = $scope.quota.used;
       curr_quota = $scope.quota.total;
-      $scope.quota.percent = Math.round($scope.quota.used / $scope.quota.total * 100);
-      if ( $scope.quota.percent < 5) {
-    	  $scope.quota.percent = 1;
+      $scope.progbar_val = Math.round($scope.quota.used / $scope.quota.total * 100);
+      if ( $scope.progbar_val < 3) {
+    	  $scope.progbar_val = 3;
       } 
       $scope.quota.status = 'success';
       if($scope.quota.percent > 50) $scope.quota.status = 'warning';
@@ -62,6 +67,8 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
     $scope.loadQuota();
     $scope.loadSubscriptions();
   }
+
+  $scope.progbar_val = 50; // default value of progressbar
   $scope.loadAll();
 
 
@@ -78,7 +85,6 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
   }
 
 
-
   $scope.purchase = function(){
     var modal = Modals.open('./templates/backup/form--purchase.html', { 
       headline: 'Purchase Backup Storage'
@@ -92,7 +98,7 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
 
   $scope.changeRadio = function() {
     //$scope.loadQuota();
-    if( $scope.settings.location == curr_location) {
+    if( $scope.settings.location == $scope.curr_location) {
       $scope.quota.used = curr_used;
       $scope.quota.total = curr_quota;
     } else {

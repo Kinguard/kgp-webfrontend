@@ -20,10 +20,10 @@
       <div class="control-label">Location</div>
       <div class="control">
         <div class="row">
-          <div class="col-sm-3 col-xs-6"><label for="b-location-remote"><input type="radio" ng-model="settings.location" value="op" id="b-location-remote"> OpenProducts Servers</label></div>
+          <div class="col-sm-3 col-xs-6"><label for="b-location-op"><input type="radio" ng-model="settings.location" value="op" id="b-location-op"> OpenProducts Servers</label></div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="amazon" id="b-location-local"> Amazon S3</label></div>
+          <div class="col-sm-3 col-xs-6"><label for="b-location-amazon"><input type="radio" ng-model="settings.location" value="amazon" id="b-location-amazon"> Amazon S3</label></div>
         </div>
         <div class="row">
           <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="local" id="b-location-local"> Local</label></div>
@@ -40,13 +40,15 @@
       </div>
     </div>
     <hr>
-
-    <div class="form-group">
-      <div class="control-label">Backup Space Quota</div>
+    <div class="form-group" ng-show="settings.location == curr_location">
+      <div class="control-label">Backup Space</div>
       <div class="control">
-        <div class="row">
-          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="quota.percent" type="{{quota.status}}"></uib-progressbar></div>
+        <div ng-show="settings.location =='op' || settings.location =='local'" class="row">
+          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="progbar_val" type="{{quota.status}}"></uib-progressbar></div>
           <div class="col-md-3 col-sm-4 col-xs-5"><small>{{quota.used | bytes}} / {{quota.total | bytes}}</small></div>
+        </div>
+        <div ng-show="settings.location =='amazon'" class="row">
+          <div class="col-md-3 col-sm-4 col-xs-5">{{quota.used | bytes}} used.</div>
         </div>
       </div>
     </div>
@@ -54,20 +56,82 @@
       <div class="control-label">Purchase Backup Storage</div>
       <div class="control"><a ng-click="purchase()" class="btn btn-xs btn-primary">Purchase by code</a></div>
     </div>
-    <hr>
+    <hr ng-show="show_bar">
 
-    <div ng-show="backupStatus.date" class="form-group">
-      <div class="control-label">Last Backup</div>
-      <div class="control"><small>{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</small></div>
+    <div ng-show="settings.location=='amazon'">
+      <p class="form-group">
+        <label for="bs-awsseckey">Amazon Bucket to use</label>
+        <span class="control">
+          <input 
+            type="text" 
+            ng-model="settings.AWSbucket" 
+            name="AWSbucket"
+            class="form-control" 
+            ng-pattern="regexAWSbucket()"
+            ng-minlength="3" ng-maxlength="63"
+            validation-icon="'Invalid value' | translate ">
+        </span>
+      </p>
     </div>
-    <div ng-hide=true class="form-group">
-      <div class="control-label">View Backups</div>
-      <div class="control"><small><a href="http://www.google.com/?q=where to go?" target="_blank">Go to Backup List page</a></small></div>
+    <div ng-show="settings.location=='amazon'">
+      <p class="form-group">
+        <label for="bs-awskey">Amazon Access Key</label>
+        <span class="control">
+          <input 
+            type="text" 
+            ng-model="settings.AWSkey" 
+            name="AWSkey"
+            class="form-control" 
+            ng-required="settings.location=='amazon'" 
+            ng-pattern="regexAWSKey()" 
+            validation-icon="'Invalid value' | translate ">
+        </span>
+      </p>
     </div>
+    <div ng-show="settings.location=='amazon'">
+      <p class="form-group">
+        <label for="bs-awsseckey">Amazon Secret Access Key</label>
+        <span class="control">
+          <input 
+            type="text" 
+            ng-model="settings.AWSseckey" 
+            name="AWSseckey"
+            class="form-control" 
+            ng-pattern="regexAWSSecKey()" 
+            validation-icon="'Invalid value' | translate "
+            placeholder="Never shown, even if it exists">
+        </span>
+      </p>
+    </div>
+      <!--
+      <p class="form-group" ng-show="bForm.AWSkey.$invalid || AWSkeyIgnore">
+        <label></label>
+        <span><input type="checkbox" ng-click="awsIgnore()" ng-model="AWSvalidation"> I know I am correct, ignore error</span>
+      </p>
+      -->
+
+    <div ng-show="backupStatus.date && (settings.location == curr_location)">
+      <p class="form-group">
+        <label class="control-label">Last Backup</label>
+        <span class="control" ng-class="['alert', {'alert-danger':backupStatus.status == 'Failed', 'alert-info':backupStatus.status == 'Successful'}]">{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
+      </p>
+    </div>
+
     <div ng-show="backupStatus.info.length" class="form-group">
-      <div class="control-label">Status message</div>
-      <div class="control"><small>{{backupStatus.info}}</small></div>
+      <p class="form-group">
+        <label class="control-label">Status message</label>
+        <span>{{backupStatus.info}}<br><a ng-click="showlog = ! showlog">Show log</a></span>
+      </p>
     </div>
+
+    <div ng-if="showlog" class="form-group">
+      <p class="form-group">
+        <label class="control-label">Log file content</label>
+        <span><pre>{{backupStatus.log}}</pre></span>
+      </p>
+    </div>
+
+
     <hr ng-show="backupStatus.date">
 
   </div>
@@ -78,10 +142,10 @@
   </p>
 
 
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Saving...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">Saved!</alert></div>
+  <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+  <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
+  <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+  <div form-status-message="success" class="alert alert-success pop">Saved!</div>
 
 
 </form>

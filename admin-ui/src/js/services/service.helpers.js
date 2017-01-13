@@ -79,8 +79,12 @@ opiaServices.factory('Helpers', ['_',function(_){
   helpers.regexUsername = /^[a-z]+$/;
   helpers.regexOpiname = /^[a-z0-9_-]+$/;
   helpers.regexFQDN = /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)*[a-z]{2,63}$/;
-  helpers.regexAWSKey = /^[\/\+A-Za-z0-9_-]{20}$/;
+  helpers.regexAWSKey = /^[A-Za-z0-9]{20}$/;
+  helpers.regexAWSSecKey = /^[\/\+A-Za-z0-9]{40}$/;  
 
+  // http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
+  helpers.regexAWSbucket = /^[a-z0-9]([\-a-z0-9]*[a-z0-9])*(\.?[a-z0-9]([\-a-z0-9]*[a-z0-9])*)*$/;  
+  
   return helpers;
 }]);
 
