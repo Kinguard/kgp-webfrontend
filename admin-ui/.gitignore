@@ -1,2 +1,4 @@
 *.pa
 admin-ui/debian/files
+debian/debhelper-build-stamp
+
