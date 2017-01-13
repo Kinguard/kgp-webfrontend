@@ -1,3 +1,9 @@
+opi-webfrontend (1.58) vili; urgency=medium
+
+  * Added 'back'-button functionality in order to support 'back' between frames. 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 13 Jan 2017 20:01:57 +0100
+
 opi-webfrontend (1.57) vili; urgency=medium
 
   * Upgraded to Angular 1.6
