@@ -8,7 +8,7 @@ var Frame_ref = {};
 var RC_token = "";
 var current_user;
 var cookie;
-
+var baseurl = "/admin/index.html";
 
 var FrameOrder = [
     "frame_admin",
@@ -131,13 +131,16 @@ function app_login(args) {
 	});
 }
 
-
+function set_url(url) {
+	location.href=url;
+}
 
 function load_nextframe() {
 	// this function is called from admin UI when it has finished loading.
 	$("#label_curr_user").show();
 	$("#top_header").show();
 	view_frame(activeFrame);
+	//console.log("load_nextframe");
 	if(OC_waitlogin || RC_waitlogin) {
 		return false;
 	}
@@ -165,7 +168,7 @@ function redirect(timeout,url) {
 				/*
 				location.href=url;		  
 				*/
-				location.href="/admin/index.html";
+				set_url(baseurl);
 			}, timeout*1000);
 		}
 		
@@ -254,9 +257,18 @@ function close_menu(){
 	$("#app-box").hide(800);
 }
 
+function set_frame(activeFrame) {
+		location.hash = activeFrame;
+
+		$(".nav_button").children("div").removeClass("active");
+		$(this).children("div").addClass("active");
+		$.cookie(current_user,'{"current_frame" : "'+activeFrame+'"}');
+		view_frame(activeFrame);
+}
+
 $(document).ready(function() {
 	 $('.popbox').popbox();
-
+	 //console.log("Starting load");
 	$(".subpage").load( function() {
 		if($(this).attr('id') == "frame_mail") {
 			// get the token from the page
@@ -284,11 +296,7 @@ $(document).ready(function() {
 	});
 	
 	$(".nav_button").click(function() {
-		activeFrame = $(this).attr("target");
-		$(".nav_button").children("div").removeClass("active");
-		$(this).children("div").addClass("active");
-		$.cookie(current_user,'{"current_frame" : "'+activeFrame+'"}');
-		view_frame(activeFrame);
+		set_frame($(this).attr("target"));
 	});
 	
 	
@@ -317,4 +325,15 @@ $(document).ready(function() {
 			logout_cancel();
 		}
 	});
+
+	$(window).on('hashchange', function (e) {
+	    frame = location.hash.substr(1);
+	    target_src=$("#"+frame).attr('src');
+	    if( target_src == "loading.html") {
+	    	set_url(baseurl);
+	    } else {
+	    	set_frame(frame);
+	    }
+	});
+
 });
