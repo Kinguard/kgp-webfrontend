@@ -120,7 +120,7 @@
     <div ng-show="backupStatus.info.length" class="form-group">
       <p class="form-group">
         <label class="control-label">Status message</label>
-        <span>{{backupStatus.info}}<br><a ng-show="backupStatus.status == 'Failed'" ng-click="showlog = ! showlog">Show log</a></span>
+        <span>{{backupStatus.info}}<br><a ng-show="backupStatus.status == 'Failed'" ng-click="showlog = ! showlog">{{showlog ? "Hide" : "Show"}} log</a></span>
       </p>
     </div>
 
