@@ -88,8 +88,24 @@ module.exports = function(grunt) {
             cwd: 'build/css',
             src: '*.css',
             dest: './public/css/'
-          }
+          },
         ]
+      },
+      templates: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/bootstrap-sass/assets/fonts/',
+            src: '**',
+            dest: './public/css/'
+          },          
+          {
+            expand: true,
+            cwd: 'node_modules/angular-ui-bootstrap/template/',
+            src: '**',
+            dest: './public/uib/template/'
+          }          
+		]
       },
       target: {
         files: [
@@ -102,6 +118,7 @@ module.exports = function(grunt) {
         ]
       }
     },
+
     ftpscript: { // Don't forget to set up your .ftppass file
       jsDEV: {
         options: {
@@ -203,11 +220,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-debian-package');
 
   // Default task.
-  grunt.registerTask('default', ['js','css']);
+  grunt.registerTask('default', ['js','css','templates']);
   grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js','copy:js']);
   //grunt.registerTask('jsdeploy', ['js','ftpscript:js'+DEPLOY_MODE]);
   grunt.registerTask('css', ['clean:css', 'sass','copy:css']);
   //grunt.registerTask('cssdeploy', ['css','ftpscript:css'+DEPLOY_MODE]);
+  grunt.registerTask('templates', ['copy:templates']);
 
 
 

@@ -110,7 +110,7 @@
       </p>
       -->
 
-    <div ng-show="backupStatus.date && (settings.location == curr_location)">
+    <div ng-show="backupStatus.info.length">
       <p class="form-group">
         <label class="control-label">Last Backup</label>
         <span class="control" ng-class="['alert', {'alert-danger':backupStatus.status == 'Failed', 'alert-info':backupStatus.status == 'Successful'}]">{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
@@ -120,7 +120,7 @@
     <div ng-show="backupStatus.info.length" class="form-group">
       <p class="form-group">
         <label class="control-label">Status message</label>
-        <span>{{backupStatus.info}}<br><a ng-click="showlog = ! showlog">Show log</a></span>
+        <span>{{backupStatus.info}}<br><a ng-show="backupStatus.status == 'Failed'" ng-click="showlog = ! showlog">Show log</a></span>
       </p>
     </div>
 
