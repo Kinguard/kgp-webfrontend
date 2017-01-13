@@ -8,10 +8,11 @@
 <form class="form-group-btnonly" form-status="status" name="sdForm_reboot" ng-submit="submit(sdForm_reboot)">
   <button type="submit" class="btn btn-primary" >Reboot</button>
   <input type="hidden" id="sd-reboot" value="reboot" ng-model="settings.action">
-  <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-  <div form-status-message="submitting" class="pop"><alert type="'info'">Sending request ...</alert></div>
-  <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-  <div form-status-message="success" class="pop"><alert type="'success'">Terminating processes ...</alert></div>
+
+	<div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+	<div form-status-message="submitting" class="alert alert-info pop">Sending request ...</div>
+	<div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+	<div form-status-message="success" class="alert alert-success pop">Terminating processes ...</div>
 
 </form>
 

@@ -49,11 +49,11 @@
     <button type="submit" class="btn btn-primary" ng-bind="isEditing() ? 'Save Account' : 'Add Account'"></button>
     </p>
 
-    <div form-status-message="invalid" class="pop"><alert type="'danger'">Form is invalid</alert></div>
-    <div form-status-message="submitting" class="pop"><alert type="'info'">Checking...</alert></div>
-    <div form-status-message="error" class="pop"><alert type="'danger'">An error occurred. Please try again.</alert></div>
-    <div form-status-message="success" class="pop"><alert type="'success'">Account Saved</alert></div>
-    <div form-status-message="conflict" class="pop"><alert type="'danger'">Conflict with existing account</alert></div>
+    <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+    <div form-status-message="submitting" class="alert alert-info pop">Checking...</div>
+    <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+    <div form-status-message="success" class="alert alert-success pop">Saved!</div>
+    <div form-status-message="conflict" class="alert alert-danger pop">Conflict with existing account</div>
 
   </form>
 </div>
