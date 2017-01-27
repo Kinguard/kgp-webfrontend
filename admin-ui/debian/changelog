@@ -1,3 +1,9 @@
+opi-webfrontend (1.59) vili; urgency=medium
+
+  * Added missing css files 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 27 Jan 2017 12:13:32 +0100
+
 opi-webfrontend (1.58) vili; urgency=medium
 
   * Added 'back'-button functionality in order to support 'back' between frames. 
