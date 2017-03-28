@@ -41,7 +41,8 @@ opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','
 
   $routeProvider
     .when('/', {
-      templateUrl: 'templates/home/home.html'
+      templateUrl: 'templates/home/home.html',
+      controller: 'StatusCtrl'
     })
     .when('/me', {
       templateUrl: 'templates/me/me.html',

@@ -89,6 +89,12 @@ module.exports = function(grunt) {
             src: '*.css',
             dest: './public/css/'
           },
+          {
+            expand: true,
+            cwd: 'build/css',
+            src: '*.css',
+            dest: './target/css/'
+          }
         ]
       },
       templates: {

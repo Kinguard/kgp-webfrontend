@@ -501,3 +501,37 @@ html.admin .form-group-table .form-group .control-label {
   vertical-align: top;
 }
 
+/*** Status page ***/
+html.admin {
+  table.package-table {
+    td {
+      padding : 3px;
+    }
+  }
+  .message-row {
+    margin-top : 2px;
+    margin-bottom : 2px;
+  }
+  .btn-ack {
+    padding: 2px 7px;
+    margin: 2px;
+  }
+  .status-icon {
+    background-repeat: no-repeat;
+    min-width : 30px;
+    min-height : 30px;
+    display : inline-block;
+    padding-left : 40px;
+
+    &.error {
+      background-image: url("../img/icons/icon_error.png");
+    }
+    &.warning {
+      background-image: url("../img/icons/icon_warning.png");
+    }
+    &.notice {
+      background-image: url("../img/icons/icon_note.png");
+    }
+  }
+
+}
