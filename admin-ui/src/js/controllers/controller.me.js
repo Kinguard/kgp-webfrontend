@@ -6,6 +6,7 @@ opiaControllers.controller('MeCtrl', ['$scope',function($scope){
 
 
 opiaControllers.controller('Me__UserProfileCtrl', ['$scope','UserService','UserAPI','Helpers','ModalService',function($scope,User,Users,Helpers,Modals){
+
   $scope.status = 'init';
   $scope.up = Users.get( {id:User.username} );
   $scope.isModal = function(){ return undefined; }

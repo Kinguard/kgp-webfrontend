@@ -138,18 +138,17 @@ opiaServices.factory('ShutdownAPI', ['OPI','$resource',function(opi,$resource){
 	  );
 	}]);
 
-opiaServices.factory('StatusAPI', function(){
-    var msgfac = {};
-    var messages = [
-                    {'type':'error','date':'1490340965000','message':"Test message",'id':'123'},
-                    {'type':'warning','date':'1490340965','message':"Test message 2",'id':'23444'},
-                    {'type':'notice','date':'1400040965000','message':"This is a long message that shoule cause a 'Read More' button to appear.",'id':'1111'}
-                  ];
-    
-    msgfac.getMessages = function() {
-      return messages;
-    }
-
-    return msgfac;
-  });
+opiaServices.factory('StatusAPI', ['OPI','$resource', function(opi,$resource){
+  return $resource(
+                  opi.apiUrl+'system/:param1/', 
+                  { param1:'@param1' },
+                  {
+                    'getStatus': { method: 'GET', params: { param1:'status' } },
+                    'getMessages': { method: 'GET', params: { param1:'messages' },isArray : true },
+                    'ackMessage': { method: 'POST', params: { param1:'messages' } },
+                    'getStorage': { method: 'GET', params: { param1:'storage' } },
+                    'getPackages': { method: 'GET', params: { param1:'packages' } },
+                 }
+  );
+}]);
 

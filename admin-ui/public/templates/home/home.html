@@ -1,56 +1,97 @@
-<header><h1>Home</h1></header>
+<header><h1>System Information</h1></header>
 <article>
 
-  <nav id="home-list">
-      <ul class="list-unstyled row">
-        <li class="col-sm-6 me">
-          <a href="#!/me">
-            <i></i>
-            <strong>My Profile <span>({{user.displayname}})</span></strong>
-          </a>
-        </li>
-        <li class="col-sm-6 users" ng-show="user.isAdmin()">
-          <a href="#!/users">
-            <i></i>
-            <strong>Users &amp; Groups</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 mail">
-          <a href="#!/mail">
-            <i></i><strong>E-mail Configuration</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 network" ng-show="user.isAdmin()">
-          <a href="#!/network">
-            <i></i>
-            <strong>Network Configuration</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 backup" ng-show="user.isAdmin()">
-          <a href="#!/backup">
-            <i></i>
-            <strong>Backup Configuration</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 update" ng-show="user.isAdmin()">
-          <a href="#!/update">
-            <i></i>
-            <strong>System Update Configuration</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 shutdown" ng-show="user.isAdmin()">
-          <a href="#!/shutdown">
-            <i></i>
-            <strong>Shutdown OPI</strong>
-          </a>
-        </li>
-        <li class="col-sm-6 logout">
-          <a href="#!/logout" ng-click="logout()">
-            <i></i>
-            <strong>Logout</strong>
-          </a>
-        </li>
-      </ul>
-  </nav>
+<h2 class="mbot1">System Status</h2>
+<div class="form-box">
+  <form class="form-group-table" form-status="status" name="bForm" ng-submit="submit(bForm)">
+
+      <p class="form-group">
+        <label class="control-label">System Uptime</label>
+        <span class="control">
+          {{uptime}}
+        </span>
+      </p>
+
+    <p class="form-group">
+      <label class="control-label">Last Backup</label>
+      <span class="control" ng-class="[{'alert-danger':backupStatus.status == 'Failed'}]">{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
+    </p>
+
+    <div class="form-group">
+      <label class="control-label">Local Storage</label>
+      <div class="control">
+        <div class="row">
+          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="storage.value" type="{{storage.status}}"></uib-progressbar></div>
+          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{storage.used | bytes}} / {{storage.total | bytes}}</small></div>
+        </div>
+      </div>
+    </div>
+
+
+    <p class="form-group">
+      <label class="control-label">Available Storage</label>
+      <span class="control">
+        {{storage.available | bytes}}
+      </span>
+    </p>
+
+    <p class="form-group">
+      <label class="control-label">System Temperature</label>
+      <span class="control">
+        {{temperature}}
+      </span>
+    </p>
+
+    <div class="form-group">
+      <label class="control-label">Software Version</label>
+      <div class="control">
+        <div class="row">
+          <div class="col-md-9 col-sm-8 col-xs-7">
+            {{packages.opi}}<br>
+            <a ng-click="showpkgs = ! showpkgs">{{showpkgs ? "Hide" : "Show more"}} packages</a>
+            <div ng-show="showpkgs"> 
+            <table class="package-table">
+              <tr ng-repeat="(package,version) in packages">
+                <td>{{package}}:</td><td>{{version}}</td>
+              </tr>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<p><br></p>
+<h2 class="mbot1">System Messages</h2>
+
+<div class="form-box">
+    <div class="form-group" ng-show="messages.length">
+      <div class="row message-row">
+        <div class="col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-3 col-sm-2 col-xs-3"><strong>Date</strong></div>
+        <div class="col-md-4 col-sm-5 col-xs-7"><strong>Content</strong></div>
+        <div class="col-md-4 col-sm-3 col-xs-12"></div>
+      </div>
+      <div class="row message-row" ng-repeat="msg in messages">
+        <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.type}}"></span></div>
+        <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date | date:'yyyy-MM-dd HH:mm'}}</div>
+        <div class="col-md-4 col-sm-5 col-xs-7">{{msg.message | limitTo : MaxMsgLength}}<span ng-show="msg.message.length > MaxMsgLength"> ...</span></div>
+        <div class="col-md-4 col-sm-3 col-xs-12">
+          <button class="btn btn-primary btn-xs btn-ack" ng-click="ack(msg.id)" ng-show="user.isAdmin()">Acknowledge</button>
+          <button ng-show="msg.message.length > MaxMsgLength" ng-show="user.isAdmin()" class="btn btn-primary btn-xs btn-ack" ng-click="viewMessage(msg.id)">Read More</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group" ng-hide="messages.length > 0">
+      <div class="row message-row">
+        <div class="col-md-6 col-sm-6 col-xs-9">No messages available</div>
+      </div>
+    </div>
+
+</div>
 
 </article>

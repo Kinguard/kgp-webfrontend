@@ -1,0 +1,26 @@
+<div ng-controller="Status__MsgDetailCtrl">
+  <form form-status="status" class="form-group-table" name="upForm" ng-submit="submit(upForm)">
+
+    <p class="form-group">
+      <label for="msg-type">Message type</label>
+      <span class="control status-icon {{msg.type}}">{{msg.type | capitalize}}</span>
+      </span>
+    </p>
+
+    <p class="form-buttons">
+      <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">Cancel</a>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </p>
+
+    <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+    <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
+    <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+    <div form-status-message="success" class="alert alert-success pop">Saved!</div>
+
+
+  </form>
+</div>
+
+
+</div>
+
