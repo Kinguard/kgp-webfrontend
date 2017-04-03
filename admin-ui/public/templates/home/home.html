@@ -22,7 +22,7 @@
       <div class="control">
         <div class="row">
           <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="storage.value" type="{{storage.status}}"></uib-progressbar></div>
-          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{storage.used | bytes}} / {{storage.total | bytes}}</small></div>
+          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{ storage.used*1024 | bytes}} / {{ storage.total*1024 | bytes}}</small></div>
         </div>
       </div>
     </div>
@@ -35,10 +35,10 @@
       </span>
     </p>
 
-    <p class="form-group">
+    <p class="form-group" ng-show="temperature">
       <label class="control-label">System Temperature</label>
       <span class="control">
-        {{temperature}}
+        {{temperature}}&#176;C
       </span>
     </p>
 
@@ -64,34 +64,34 @@
   </form>
 </div>
 <p><br></p>
+<div ng-show="sysmsg_support">
 <h2 class="mbot1">System Messages</h2>
-
-<div class="form-box">
-    <div class="form-group" ng-show="messages.length">
-      <div class="row message-row">
-        <div class="col-md-1 col-sm-1 col-xs-1"></div>
-        <div class="col-md-3 col-sm-2 col-xs-3"><strong>Date</strong></div>
-        <div class="col-md-4 col-sm-5 col-xs-7"><strong>Content</strong></div>
-        <div class="col-md-4 col-sm-3 col-xs-12"></div>
-      </div>
-      <div class="row message-row" ng-repeat="msg in messages">
-        <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.type}}"></span></div>
-        <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date | date:'yyyy-MM-dd HH:mm'}}</div>
-        <div class="col-md-4 col-sm-5 col-xs-7">{{msg.message | limitTo : MaxMsgLength}}<span ng-show="msg.message.length > MaxMsgLength"> ...</span></div>
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <button class="btn btn-primary btn-xs btn-ack" ng-click="ack(msg.id)" ng-show="user.isAdmin()">Acknowledge</button>
-          <button ng-show="msg.message.length > MaxMsgLength" ng-show="user.isAdmin()" class="btn btn-primary btn-xs btn-ack" ng-click="viewMessage(msg.id)">Read More</button>
+  <div class="form-box">
+      <div class="form-group" ng-show="messages.length">
+        <div class="row message-row">
+          <div class="col-md-1 col-sm-1 col-xs-1"></div>
+          <div class="col-md-3 col-sm-2 col-xs-3"><strong>Date</strong></div>
+          <div class="col-md-4 col-sm-5 col-xs-7"><strong>Content</strong></div>
+          <div class="col-md-4 col-sm-3 col-xs-12"></div>
+        </div>
+        <div class="row message-row" ng-repeat="msg in messages" ng-class-odd="'odd-line'">
+          <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.type}}"></span></div>
+          <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date | date:'yyyy-MM-dd HH:mm'}}</div>
+          <div class="col-md-4 col-sm-5 col-xs-7">{{msg.message | limitTo : MaxMsgLength}}<span ng-show="msg.message.length > MaxMsgLength"> ...</span></div>
+          <div class="col-md-4 col-sm-3 col-xs-12">
+            <button class="btn btn-primary btn-xs btn-ack" ng-click="ack(msg.id)" ng-show="user.isAdmin()">Acknowledge</button>
+            <button ng-show="msg.message.length > MaxMsgLength" ng-show="user.isAdmin()" class="btn btn-primary btn-xs btn-ack" ng-click="viewMessage(msg.id)">Read More</button>
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <div class="form-group" ng-hide="messages.length > 0">
-      <div class="row message-row">
-        <div class="col-md-6 col-sm-6 col-xs-9">No messages available</div>
+      <div class="form-group" ng-hide="messages.length > 0">
+        <div class="row message-row">
+          <div class="col-md-6 col-sm-6 col-xs-9">No messages available</div>
+        </div>
       </div>
-    </div>
 
+  </div>
 </div>
-
 </article>

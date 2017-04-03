@@ -33,12 +33,15 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
   
   $scope.loadMessages = function(callback) {
     //console.log("Loading messages");
-    $scope.messages = Status.getMessages(
+    Status.getMessages(
       function(value){
         //console.log("Messages loaded.");
+        $scope.messages = value.messages;
+        $scope.sysmsg_support = true;
       },
       function(response) {
-        console.log("Loading failed");
+        //console.log("Loading failed");
+        $scope.sysmsg_support = false;
         console.log(response);
       }
     );
@@ -55,7 +58,7 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
     modal.result.then(function(result){ 
       if(result === 'success'){
         // reload  message list
-        $scopel.loadMessages();
+        $scope.loadMessages();
       }
     });
   }
@@ -87,9 +90,10 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
       });
   }
   $scope.loadStorage = function() {
-    $scope.storage = Status.getStorage(
+    Status.getStorage(
       function(value)
       {
+        $scope.storage = value.storage;
         $scope.storage.value = 100 * ($scope.storage.used / $scope.storage.total);      
       },
       function(resp)
@@ -100,10 +104,11 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
   }
 
   $scope.loadPackages = function() {
-    $scope.packages = Status.getPackages(
+    Status.getPackages(
       function(value)
       {
         //console.log("Package list loaded");
+        $scope.packages = value.packages;
       },
       function(resp)
       {
@@ -125,10 +130,11 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
 
 
 opiaControllers.controller('Status__MsgDetailCtrl',['$scope','_','StatusAPI','$timeout',function($scope,_,Status,$timeout){
-  $scope.msg = _.isObject($scope.modalParams) ? $scope.modalParams.msg : {};
+  // 'msg' is available from the ModalParameters
+  $scope.msg = msg;
 
   $scope.submit = function(){ 
-    if (Status.ackMessage($scope.msg.id)){
+    if ( Status.ackMessage({'id' : msg.id} ) ){
       $scope.status = 'success';
       $timeout(
           function() {

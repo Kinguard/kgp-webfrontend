@@ -144,7 +144,7 @@ opiaServices.factory('StatusAPI', ['OPI','$resource', function(opi,$resource){
                   { param1:'@param1' },
                   {
                     'getStatus': { method: 'GET', params: { param1:'status' } },
-                    'getMessages': { method: 'GET', params: { param1:'messages' },isArray : true },
+                    'getMessages': { method: 'GET', params: { param1:'messages' } },
                     'ackMessage': { method: 'POST', params: { param1:'messages' } },
                     'getStorage': { method: 'GET', params: { param1:'storage' } },
                     'getPackages': { method: 'GET', params: { param1:'packages' } },

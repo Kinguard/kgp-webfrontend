@@ -509,8 +509,11 @@ html.admin {
     }
   }
   .message-row {
-    margin-top : 2px;
-    margin-bottom : 2px;
+    padding-top : 10px;
+    padding-bottom : 10px;
+  }
+  .odd-line {
+    background-color: #f9f9f9;
   }
   .btn-ack {
     padding: 2px 7px;
