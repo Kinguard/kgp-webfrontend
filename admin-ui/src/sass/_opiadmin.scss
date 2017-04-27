@@ -526,13 +526,13 @@ html.admin {
     display : inline-block;
     padding-left : 40px;
 
-    &.error {
+    &.LOG_EMERG, &.LOG_ALERT, &LOG_CRIT, &.LOG_ERR {
       background-image: url("../img/icons/icon_error.png");
     }
-    &.warning {
+    &.LOG_WARNING {
       background-image: url("../img/icons/icon_warning.png");
     }
-    &.notice {
+    &.LOG_NOTICE, &.LOG_INFO {
       background-image: url("../img/icons/icon_note.png");
     }
   }

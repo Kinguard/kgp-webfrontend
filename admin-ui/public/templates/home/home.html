@@ -75,8 +75,8 @@
           <div class="col-md-4 col-sm-3 col-xs-12"></div>
         </div>
         <div class="row message-row" ng-repeat="msg in messages" ng-class-odd="'odd-line'">
-          <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.type}}"></span></div>
-          <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date | date:'yyyy-MM-dd HH:mm'}}</div>
+          <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.levelText}}"></span></div>
+          <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date*1000 | date:'yyyy-MM-dd HH:mm'}}</div>
           <div class="col-md-4 col-sm-5 col-xs-7">{{msg.message | limitTo : MaxMsgLength}}<span ng-show="msg.message.length > MaxMsgLength"> ...</span></div>
           <div class="col-md-4 col-sm-3 col-xs-12">
             <button class="btn btn-primary btn-xs btn-ack" ng-click="ack(msg.id)" ng-show="user.isAdmin()">Acknowledge</button>
