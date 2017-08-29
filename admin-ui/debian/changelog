@@ -1,3 +1,9 @@
+opi-webfrontend (1.60) UNRELEASED; urgency=medium
+
+  * Add status page
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 29 Aug 2017 11:42:29 +0200
+
 opi-webfrontend (1.59) vili; urgency=medium
 
   * Added missing css files 
