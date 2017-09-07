@@ -3,7 +3,7 @@
 
 
 <uib-tabset active="active">
-      <uib-tab index="2" heading="{{'OPI mail server config' | translate}}" ng-if="user.isAdmin()">
+      <uib-tab index="2" heading="{{'Mail server config' | translate}}" ng-if="user.isAdmin()">
     	<div ng-include="'./templates/mail/form--send.html'" class="form-box"></div>
       </uib-tab>
       <uib-tab index="0" heading="{{'Local mail accounts' | translate}}">

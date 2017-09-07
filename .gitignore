@@ -22,4 +22,6 @@ opi-webfrontend*.deb
 opi-webfrontend*.dsc
 opi-webfrontend*.tar.gz
 opi-webfrontend*.tar.xz
+opi-webfrontend*.build
 admin-ui/target
+admin-ui/node_modules

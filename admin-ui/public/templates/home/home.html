@@ -14,15 +14,17 @@
 
     <p class="form-group">
       <label class="control-label">Last Backup</label>
-      <span class="control" ng-class="[{'alert-danger':backupStatus.status == 'Failed'}]">{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
+      <span class="control" ng-class="[{'alert-danger':backupStatus.status == 'Failed'}]" ng-show=backupStatus.date>{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
+      <span class="control" ng-hide=backupStatus.date>None available</span>
+
     </p>
 
     <div class="form-group">
       <label class="control-label">Local Storage</label>
       <div class="control">
         <div class="row">
-          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="storage.value" type="{{storage.status}}"></uib-progressbar></div>
-          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{ storage.used*1024 | bytes}} / {{ storage.total*1024 | bytes}}</small></div>
+          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="storage.value" type="storage.status"></uib-progressbar></div>
+          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{ storage.used*1024 | bytes}} / {{storage.all*1024 | bytes}}</small></div>
         </div>
       </div>
     </div>
@@ -31,14 +33,14 @@
     <p class="form-group">
       <label class="control-label">Available Storage</label>
       <span class="control">
-        {{storage.available | bytes}}
+        {{storage.available *1024 | bytes}}
       </span>
     </p>
 
     <p class="form-group" ng-show="temperature">
       <label class="control-label">System Temperature</label>
       <span class="control">
-        {{temperature}}&#176;C
+        {{temperature / 1000 | number:1}}&#176;C
       </span>
     </p>
 
@@ -47,12 +49,13 @@
       <div class="control">
         <div class="row">
           <div class="col-md-9 col-sm-8 col-xs-7">
-            {{packages.opi}}<br>
+            <span ng-show=packages.opi>{{packages.opi}}<br></span>
+            <span ng-show=packages.keep>{{packages.keep | limitTo : -10 : -4}}<br></span>
             <a ng-click="showpkgs = ! showpkgs">{{showpkgs ? "Hide" : "Show more"}} packages</a>
             <div ng-show="showpkgs"> 
             <table class="package-table">
               <tr ng-repeat="(package,version) in packages">
-                <td>{{package}}:</td><td>{{version}}</td>
+                <td>{{package}}:</td><td>{{version| limitTo : -10 : -4}}</td><td>Status: <span class="pkg-status">{{version| limitTo : 10 : -4}}</span></td>
               </tr>
             </table>
             </div>

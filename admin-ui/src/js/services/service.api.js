@@ -148,6 +148,7 @@ opiaServices.factory('StatusAPI', ['OPI','$resource', function(opi,$resource){
                     'ackMessage': { method: 'POST', params: { param1:'messages' } },
                     'getStorage': { method: 'GET', params: { param1:'storage' } },
                     'getPackages': { method: 'GET', params: { param1:'packages' } },
+                    'getType': { method: 'GET', params: { param1:'type' } },
                  }
   );
 }]);

@@ -227,11 +227,18 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['js','css','templates']);
+
   grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js','copy:js']);
+  //grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js']);
+
   //grunt.registerTask('jsdeploy', ['js','ftpscript:js'+DEPLOY_MODE]);
+  
   grunt.registerTask('css', ['clean:css', 'sass','copy:css']);
+  //grunt.registerTask('css', ['clean:css', 'sass']);
   //grunt.registerTask('cssdeploy', ['css','ftpscript:css'+DEPLOY_MODE]);
   grunt.registerTask('templates', ['copy:templates']);
+  
+  grunt.registerTask('target', ['default','copy:target']);
 
 
 

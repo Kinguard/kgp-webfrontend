@@ -1,7 +1,7 @@
 <div ng-controller="Mail__SendCtrl">
   <form form-status="status" class="form-group-table" name="msForm" ng-submit="submit(msForm)">
     <p class="form-group">
-      <label for="ms-useopi"><strong>Use OPI to send mail</strong></label>
+      <label for="ms-useopi"><strong>Send mail directly from your unit</strong><br>(No configuration of ISP relay)</label>
       <span class="control">
         <input type="radio" value="useopi" ng-model="settings.smtpsettings" id="ms-useopi" class="" name="smtp_settings">
       </span>
@@ -22,7 +22,7 @@
         </span>
       </p>
       <p class="form-group">
-        <label for="ms-receiverelay" class="subsection">Recieve OPI-mail via OpenProducts servers</label>
+        <label for="ms-receiverelay" class="subsection">Recieve mail via OpenProducts servers</label>
         <span class="control">
           <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay">
         </span>

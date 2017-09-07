@@ -94,7 +94,14 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
       function(value)
       {
         $scope.storage = value.storage;
-        $scope.storage.value = 100 * ($scope.storage.used / $scope.storage.total);      
+        $scope.storage.all = 1*$scope.storage.used + 1* $scope.storage.available;
+        $scope.storage.value = 100 * ($scope.storage.used / $scope.storage.total); 
+        console.log("Value: " + $scope.storage.value);
+        if ($scope.storage.value < 3) {
+          // set it to 10 so that the bar shows...
+          $scope.storage.value = 3;
+          console.log("Setting Value to:" + $scope.storage.value);
+        }     
       },
       function(resp)
       {

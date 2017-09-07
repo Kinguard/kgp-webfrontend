@@ -3,13 +3,13 @@
 
     <p class="form-group">
       <label for="msg-type">Message type</label>
-      <span class="control status-icon {{msg.type}}">{{msg.type | capitalize}}</span>
+      <span class="msg-icon status-icon {{msg.levelText}}"></span><span class="control">{{msg.levelText}}</span>
       </span>
     </p>
 
     <p class="form-group">
       <label for="msg-type">Date</label>
-      <span class="control">{{msg.date  | date:'yyyy-MM-dd HH:mm'}}</span>
+      <span class="control">{{msg.date*1000  | date:'yyyy-MM-dd HH:mm'}}</span>
       </span>
     </p>
 

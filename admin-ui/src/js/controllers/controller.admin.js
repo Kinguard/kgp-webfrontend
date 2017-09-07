@@ -1,9 +1,32 @@
-opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$location','$route','$window','$interval','Helpers',function($scope,$rootScope,User,$location,$route,$window,$interval,Helpers){
+opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$location','$route','$window','$interval','Helpers','StatusAPI',function($scope,$rootScope,User,$location,$route,$window,$interval,Helpers,Status){
   $route.reload();
 
   var $html = angular.element(document.getElementsByTagName('html'));
 
-  
+  getSysType = function(){
+    Status.getType(
+      function(type){
+        switch (type.typeText) {
+          case ("Armada"):
+            $scope.sysType="KEEP";
+            console.log("Setting to KEEP");
+            break;
+          default:
+            $scope.sysType=type.typeText;
+            break;
+        }
+      },
+      function(response) {
+        console.log("Loading type failed");
+        console.log(response);
+      }
+
+    );
+  }
+
+  $scope.sysType = "NotSet";
+  getSysType();
+    
   $scope.isCurrentPath = function(path){
     if($location.path().substr(0, path.length) === path){
         if(path === '/')

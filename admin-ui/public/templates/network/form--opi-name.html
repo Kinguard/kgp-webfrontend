@@ -3,7 +3,7 @@
 
 	<!-- DNS Settings -->
     <p class="form-group">
-      <label for="on-dnsenable">Enable OPI DynDNS</label>
+      <label for="on-dnsenable">Enable OpenProducts DynDNS</label>
       <span class="control">
         <input 	type="checkbox"	ng-model="settings.dnsenabled"
         		id="on-dnsenabled"
@@ -14,7 +14,7 @@
     </p>
 	<section ng-show ="settings.dnsenabled=='1'">
 	    <p class="form-group">
-	      <label for="on-name">Your OPI Name</label>
+	      <label for="on-name">Your Device Name</label>
 	      <span class="control">
 	        <input 	type="text"
 	        		ng-model="settings.opiname"
@@ -29,14 +29,14 @@
 	      </span>
 	    </p>
 	    <p class="form-group">
-	      <label >Complete URL to your OPI</label>
+	      <label >Complete URL to your device</label>
 	      <span class="control">
-	        https://{{settings.opiname}}.op-i.me
+	        https://{{settings.opiname}}.{{settings.domain}}
 	      </span>
 	    </p>
 	    <p class="form-group">
 	      <span class="control" style="white-space: normal">
-	      <i>When changing name on OPI you might have to reload your browser with new URL after save.</i>
+	      <i>When changing name on device name you might have to reload your browser with new URL after save.</i>
 	      </span>
 	    </p>
 	</section>
@@ -52,7 +52,7 @@
     </p>
 
     <p class="form-group">
-      <label for="on_LECert">Use standard certificate (Signed by Let's Encrypt)</label>
+      <label for="on_LECert">Use standard certificate<br>(Signed by Let's Encrypt)</label>
     	<span class="control">
 	        <input 	type="radio"
 	        		name="Certificate"

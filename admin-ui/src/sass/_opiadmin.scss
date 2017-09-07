@@ -536,5 +536,11 @@ html.admin {
       background-image: url("../img/icons/icon_note.png");
     }
   }
-
+  .msg-icon {
+    margin-bottom : -5px;
+    vertical-align: bottom;
+  }
+  .pkg-status {
+    font-family : arial;
+  }
 }

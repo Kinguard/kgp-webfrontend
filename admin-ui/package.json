@@ -9,12 +9,11 @@
     "email": "pa@openproducts.se"
   },
   "bugs": "",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "GPL-3.0",
+  "repository" :
+  { "type" : "git",
+    "url" : "https://github.com/Kinguard"
+  },
   "dependencies": {},
   "keywords": [],
   "engines": {

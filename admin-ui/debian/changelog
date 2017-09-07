@@ -1,3 +1,15 @@
+opi-webfrontend (1.62) vili; urgency=medium
+
+  * Changes to reflect updates in opi-backend 
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 07 Sep 2017 10:17:40 +0200
+
+opi-webfrontend (1.61) vili; urgency=medium
+
+  * Updates to remove refernces to OPI and minor bugfixes. 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 06 Sep 2017 10:55:58 +0200
+
 opi-webfrontend (1.60) vili; urgency=medium
 
   * Add status page
