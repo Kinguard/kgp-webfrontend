@@ -1,3 +1,9 @@
+opi-webfrontend (1.64) vili; urgency=medium
+
+  * Checking for cookie before reading it... 
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Sep 2017 16:02:07 +0200
+
 opi-webfrontend (1.63) vili; urgency=medium
 
   * Added nextcloud support 

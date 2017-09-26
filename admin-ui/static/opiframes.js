@@ -43,6 +43,13 @@ function set_name(name) {
 	debug_log("Trying to read cookie");
 	if($.cookie(current_user)) {
 		cookie = $.parseJSON($.cookie(current_user));
+
+		debug_log("Set menu indicatior.");
+		if (cookie.current_app) {
+			$(".nav_button[data-app='"+cookie.current_app+"']").addClass("active");
+		} else {
+			$(".nav_button[target='"+cookie.current_frame+"']").addClass("active");	
+		}
 	}
 	if( cookie && (FrameOrder.indexOf(cookie.current_frame) > 0) ) {
 		// admin_frame is on index '0'
@@ -54,20 +61,15 @@ function set_name(name) {
 		activeFrame = "frame_admin";
 	}
 
-	debug_log("Set menu indicatior.");
-	debug_log(cookie);
-	if (cookie.current_app) {
-		$(".nav_button[data-app='"+cookie.current_app+"']").addClass("active");
-	} else {
-		$(".nav_button[target='"+cookie.current_frame+"']").addClass("active");	
-	}
 
 }
 function load_frame(id) {
-	if (cookie.current_app) {
-		FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+"/apps/"+cookie.current_app;
-	} else {
-		FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+FrameSrcDefaultApp[cookie.current_frame];
+	if (cookie) {
+		if (cookie.current_app) {
+			FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+"/apps/"+cookie.current_app;
+		} else {
+			FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+FrameSrcDefaultApp[cookie.current_frame];
+		}
 	}
 	debug_log("Start Frameload: "+FrameSrc[id]);
 	$("#"+id).attr('src',FrameSrc[id]);
