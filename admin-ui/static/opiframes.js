@@ -6,35 +6,41 @@ var currentFrame = 0;
 var allow_loadscript = false;
 var Frame_ref = {};
 var RC_token = "";
+var NC_token = "";
 var current_user;
 var cookie;
 var baseurl = "/admin/index.html";
+var DEBUG = false;
 
 var FrameOrder = [
     "frame_admin",
 	"frame_mail",
-	"frame_oc_files",
-	"frame_oc_cal",
-	"frame_oc_contacts",
-	"frame_oc_gallery"		
+	"frame_nc"
 ];
 
 var FrameSrc = {
-		frame_admin		  :	  "/admin/admin.html",
-		frame_mail        :   "/mail/index.php",
-		frame_oc_files    :   "/oc/index.php/apps/files/",
-		frame_oc_cal      :   "/oc/index.php/apps/calendar/",
-		frame_oc_contacts :   "/oc/index.php/apps/contacts/",
-		frame_oc_gallery  :   "/oc/index.php/apps/gallery/"	
+	frame_admin		:	"/admin/admin.html",
+	frame_mail      :   "/mail/index.php",
+	frame_nc		: 	"/nc/index.php"
 };
+var FrameSrcDefaultApp = {
+	frame_admin		:	"",
+	frame_mail      :   "",
+	frame_nc		: 	"/apps/files"
+}
 var activeFrame = "frame_admin";
 
 
 var TimeoutLeaveID;
 
+function debug_log(msg) {
+	if (DEBUG) console.log(msg);
+}
+
 function set_name(name) {
 	$("#current_user").text(name);
 	current_user = name;
+	debug_log("Trying to read cookie");
 	if($.cookie(current_user)) {
 		cookie = $.parseJSON($.cookie(current_user));
 	}
@@ -47,70 +53,98 @@ function set_name(name) {
 	} else {
 		activeFrame = "frame_admin";
 	}
+
+	debug_log("Set menu indicatior.");
+	debug_log(cookie);
+	if (cookie.current_app) {
+		$(".nav_button[data-app='"+cookie.current_app+"']").addClass("active");
+	} else {
+		$(".nav_button[target='"+cookie.current_frame+"']").addClass("active");	
+	}
+
 }
 function load_frame(id) {
-	//console.log("loading frame: "+FrameSrc[id]);
+	if (cookie.current_app) {
+		FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+"/apps/"+cookie.current_app;
+	} else {
+		FrameSrc[cookie.current_frame] = FrameSrc[cookie.current_frame]+FrameSrcDefaultApp[cookie.current_frame];
+	}
+	debug_log("Start Frameload: "+FrameSrc[id]);
 	$("#"+id).attr('src',FrameSrc[id]);
 }
 
 var RC_waitlogin = false;
-var OC_waitlogin = false;
+var NC_waitlogin = false;
 var RC_waitlogout = false;
-var OC_waitlogout = false;
+var NC_waitlogout = false;
 var ADM_waitlogout = false;
 
-function login_OC(args) {
-	var oc_args = {};
+function login_NC(args) {
+	var nc_args = {};
 
-	// get login args from owncloud page
-	$("<div id='oc_login'>").load("/oc/index.php?login=true form",function() {
-		if($(this).contents().find("input[name='install']").val()) {
-			oc_args = { adminlogin: args.username, adminpass: args.password, 'adminpass-clone': args.password };
+	// get login args from nextcloud page
+	console.log("Trying NC login")
+	$("<div id='nc_login'>").load("/nc/index.php/login form",function(response,status,xhr) {
+		debug_log("Loaded NC login form.");
+		if ( status == "error") {
+			debug_log( "Failed to load login form" + xhr.status + " " + xhr.statusText );
 		} else {
-			oc_args = { user: args.username, password: args.password };	
+			if($(this).contents().find("input[name='install']").val()) {
+				nc_args = { adminlogin: args.username, adminpass: args.password, 'adminpass-clone': args.password };
+			} else {
+				// grab request token 
+				token = $(this).contents().find("input[name='requesttoken']").val()
+				nc_args = { user: args.username, password: args.password, requesttoken: token };	
+			}
+			$.post( "/nc/index.php/login", nc_args, function( data ) { 
+				NC_waitlogin = false;
+				//if(! RC_waitlogin) {
+					load_nextframe();		
+				//}
+			});
 		}
-		$.post( "/oc/", oc_args, function( data ) { 
-			OC_waitlogin = false;
-			//if(! RC_waitlogin) {
-				load_nextframe();		
-			//}
-		});
 	});
 	
 }
 
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
-	//console.log("Login");
+	debug_log("Login");
 	RC_waitlogin = true;
-	OC_waitlogin = true;
+	NC_waitlogin = true;
 
-	// only need to logout OC, RC handles change of user when a new login is done.
-	$.get("/oc/index.php?logout=true", function(data,status) {
-		//console.log("OC preventive logout");
+	// only need to logout NC, RC handles change of user when a new login is done.
+	NC_logout(0,"",app_login,args);
+
+	/*
+	logout_url="/nc/index.php/logout?requesttoken="+NC_token;
+	debug_log("LOGOUT URL: "+logout_url);
+	$.get(logout_url, function(data,status) {
+		debug_log("NC preventive logout");
 	}).always(function(){
 		app_login(args);
 	});
+	*/
 	
 }
 
 function getRC_token(data) {
-		var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
-		var match = token_pattern.exec(data);
+	var token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
+	var match = token_pattern.exec(data);
 	var token;
-		try {
+	try {
 		token = match[1];
-		// console.log("Found RC token: " + token);
+		// debug_log("Found RC token: " + token);
 		}
-		catch(e) {
-			console.log("Failed to match request token");
+	catch(e) {
+			debug_log("Failed to match request token");
 		}
 	return token;
 }
 
 function app_login(args) {
 	
-	//console.log("APP Login");
+	debug_log("APP Login");
 	// get token from RC page
 	$.get("/mail/?_task=login", function(data) {
 		//token = $(data).contents().find("input[name='_token']").val();
@@ -126,7 +160,7 @@ function app_login(args) {
 			}, function( data,status ) {
 				//RC_token = getRC_token(data);
 				RC_waitlogin = false;
-				login_OC(args);
+				login_NC(args);
 		});
 	});
 }
@@ -137,11 +171,14 @@ function set_url(url) {
 
 function load_nextframe() {
 	// this function is called from admin UI when it has finished loading.
+
+	debug_log("load_nextframe");
 	$("#label_curr_user").show();
 	$("#top_header").show();
 	view_frame(activeFrame);
-	//console.log("load_nextframe");
-	if(OC_waitlogin || RC_waitlogin) {
+	
+	if(NC_waitlogin || RC_waitlogin) {
+		debug_log("Apps not loaded yet");
 		return false;
 	}
 
@@ -153,6 +190,7 @@ function load_nextframe() {
 		}, 6000);
 	}
 	currentFrame++;
+	debug_log("Current Frame: " + currentFrame);
 	load_frame(FrameOrder[currentFrame]);
 }
 
@@ -162,7 +200,7 @@ function redirect(timeout,url) {
 		url = "/admin";
 	}
 	*/
-	if(!OC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
+	if(!NC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
 		if(timeout > 0) {
 			setTimeout(function() {
 				/*
@@ -193,25 +231,48 @@ function icon_logout(timeout,url) {
 	});
 }
 
+function NC_logout(timeout=0,url="",callback,cb_args) {
+	logout_url = "/nc/index.php/logout?requesttoken="+encodeURIComponent(NC_token);
+	debug_log("URL" + logout_url);
+	$.ajax(
+		{ 	url: logout_url,
+			headers: { 'OCS-APIRequest': 'true'}
+		})
+	.success(function(response,status,xhr){
+			debug_log(status);
+			debug_log(xhr);
+			debug_log("NC logout done");
+		})
+	.fail(function(){
+			debug_log("NC logout call failed");
+		})
+	.always(function(){
+			debug_log("Running 'always'");
+			if(timeout && url) {
+				NC_waitlogout = false;
+				redirect(timeout,url);
+			}
+			if (typeof callback != "undefined") {
+				debug_log("Running 'callback'");
+				callback(cb_args);
+			}
+		});
+}
+
 function logout(timeout,url) {
 	RC_waitlogout = true;
-	OC_waitlogout = true;
+	NC_waitlogout = true;
 	ADM_waitlogout = true;
 	$("#top_header").hide();
 	$("#app-box").hide();
 
-	$.get("/oc/index.php?logout=true", function(data,status) {
-		//console.log("OC logout done");
-	}).fail(function(){
-		//console.log("OC logout call failed");
-	}).always(function(){
-		OC_waitlogout = false;
-		redirect(timeout,url);
-	});
+	debug_log("NC token: " + NC_token);
+	NC_logout(timeout,url);
+
 	$.get("/mail/?_task=logout&_token="+RC_token, function(data,status) {
-		//console.log("RC logout done");
+		//debug_log("RC logout done");
 	}).fail(function(){
-		//console.log("RC logout call failed");
+		//debug_log("RC logout call failed");
 	}).always(function(){
 		RC_waitlogout = false;
 		redirect(timeout,url);
@@ -228,9 +289,9 @@ function logout(timeout,url) {
 	    error: function(xhr,StrStatus,error) {
 	    	ADM_waitlogout = false;
 	    	if(xhr.status == 405) { // session already deleted
-	    		//console.log("ADM already logged out.");
+	    		//debug_log("ADM already logged out.");
 	    	} else {
-		    	//console.log("ADM logout fail: "+error);
+		    	//debug_log("ADM logout fail: "+error);
 	    	}
 	    	redirect(timeout,url);
 	    }
@@ -257,38 +318,54 @@ function close_menu(){
 	$("#app-box").hide(800);
 }
 
-function set_frame(activeFrame) {
+function set_frame(activeFrame,app="") {
 		location.hash = activeFrame;
+		debug_log("Setting cookie with current Frame: "+activeFrame+" and current App: "+app);
+		if (app) {
+			$.cookie(current_user,'{"current_frame" : "'+activeFrame+'","current_app" : "'+app+'"}');			
+		} else {
+			$.cookie(current_user,'{"current_frame" : "'+activeFrame+'"}');
+		}
 
-		$(".nav_button").children("div").removeClass("active");
-		$(this).children("div").addClass("active");
-		$.cookie(current_user,'{"current_frame" : "'+activeFrame+'"}');
 		view_frame(activeFrame);
 }
 
 $(document).ready(function() {
 	 $('.popbox').popbox();
-	 //console.log("Starting load");
+
+	debug_log("Starting load");
 	$(".subpage").load( function() {
-		if($(this).attr('id') == "frame_mail") {
+		debug_log("Loading: "+$(this).attr("id"));
+
+		frame_id = $(this).attr('id');
+		if( frame_id == "frame_nc") {
+			// get the token from the page
+			NC_token = $(this).contents().find("head").attr("data-requesttoken");
+			debug_log("NC_token:" + NC_token);
+		}
+
+		if( frame_id == "frame_mail") {
 			// get the token from the page
 			RC_token = $(this).contents().find("input[name=_token]").val();
 		}
 		$(this).contents().find("body").click(function() {
+			// any click anywhere should close the OP-menu.
 			close_menu();
 		});
+
 		if(!FramesLoaded[FrameOrder[currentFrame]]) {
 			FramesLoaded[FrameOrder[currentFrame]] = true;
-			//console.log("Loaded frame: "+FrameOrder[currentFrame]);
+			debug_log("Current frame: "+currentFrame);
+			debug_log("Loaded frame: "+FrameOrder[currentFrame]);
 			if(activeFrame == FrameOrder[currentFrame]) {
 				// the frame is active, so hide the loader page and show the real one.
 				$("#frame_loading").removeClass("z0");
 				$(this).addClass("z0");
-				$("#op_nav button[target='"+FrameOrder[currentFrame]+"']").children("div").addClass("active");
 				
 			}
-			currentFrame++
-			while (FramesLoaded[currentFrame] && (currentFrame <= FrameOrder.length)) {
+			//currentFrame++
+			while (FramesLoaded[FrameOrder[currentFrame]] && (currentFrame < FrameOrder.length)) {
+				// advance pointer if the frame is alreay loaded.
 				currentFrame++;
 			}
 			if(currentFrame < FrameOrder.length) load_frame(FrameOrder[currentFrame]);
@@ -296,7 +373,28 @@ $(document).ready(function() {
 	});
 	
 	$(".nav_button").click(function() {
-		set_frame($(this).attr("target"));
+
+		debug_log("Calling setframe from navbutton");
+		set_frame($(this).attr("target"),$(this).attr("data-app"));
+
+		if ($(this).hasClass("active")) {
+			// a click on the current active item
+			debug_log("Already on the active item.");
+		} else {
+			if ($(this).attr("data-app")) {
+				// Set the subpage of the frame
+				debug_log("Page SRC:");
+				debug_log($("#"+$(this).attr("target")).attr("src"));
+				if( $("#"+$(this).attr("target")).attr("src").includes("/apps/"+$(this).attr("data-app")) ) {
+					debug_log("Already on the active subpage");
+				} else {
+					$("#"+$(this).attr("target")).attr("src","/nc/index.php/apps/"+$(this).attr("data-app"));
+				}
+			}
+		}
+
+		$(this).parent().children().removeClass("active");
+		$(this).addClass("active");
 	});
 	
 	
@@ -332,7 +430,15 @@ $(document).ready(function() {
 	    if( target_src == "loading.html") {
 	    	set_url(baseurl);
 	    } else {
-	    	set_frame(frame);
+	    	pattern = /\/apps\/(\w+)/;
+	    	var app = pattern.exec(target_src);
+	    	if (app != null) {
+		    	debug_log("HASH CHANGE APP: " + app[1]);
+		    	set_frame(frame,app[1]);
+	    	} else {
+		    	debug_log("HASH CHANGE");
+		    	set_frame(frame);
+	    	}
 	    }
 	});
 

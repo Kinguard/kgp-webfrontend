@@ -162,8 +162,7 @@
 	display : block;
 	cursor : pointer;
 }
-#op_nav div.active {
-	cursor : default !important;
+#op_nav button.active div {
 	color : #FFFFFF;
 }
 
@@ -173,7 +172,7 @@
 	width : 50px;
 	height : 45px;
 }
-#op_nav div.nav_control.hover,#op_nav div.nav_control.active {
+#op_nav div.nav_control.hover,#op_nav button.active div.nav-icon {
 	background-image : url('../img/OP_ICONS_COMBINED_white.png');
 }
 #op_nav .nav_text {

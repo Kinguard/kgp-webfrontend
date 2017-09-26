@@ -1,3 +1,9 @@
+opi-webfrontend (1.63) vili; urgency=medium
+
+  * Added nextcloud support 
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 26 Sep 2017 15:09:21 +0200
+
 opi-webfrontend (1.62) vili; urgency=medium
 
   * Changes to reflect updates in opi-backend 
