@@ -12,7 +12,7 @@
         </span>
       </p>
 
-    <p class="form-group">
+    <p class="form-group" ng-if="user.isAdmin()">
       <label class="control-label">Last Backup</label>
       <span class="control" ng-class="[{'alert-danger':backupStatus.status == 'Failed'}]" ng-show=backupStatus.date>{{backupStatus.status | capitalize}}: {{backupStatus.date | date:'yyyy-MM-dd HH:mm'}}</span>
       <span class="control" ng-hide=backupStatus.date>None available</span>
@@ -77,7 +77,7 @@
           <div class="col-md-4 col-sm-5 col-xs-7"><strong>Content</strong></div>
           <div class="col-md-4 col-sm-3 col-xs-12"></div>
         </div>
-        <div class="row message-row" ng-repeat="msg in messages" ng-class-odd="'odd-line'">
+        <div class="row message-row" ng-repeat="msg in messages | orderBy:['-date'] " ng-class-odd="'odd-line'">
           <div class="col-md-1 col-sm-1 col-xs-1"><span class="status-icon {{msg.levelText}}"></span></div>
           <div class="col-md-3 col-sm-2 col-xs-3">{{msg.date*1000 | date:'yyyy-MM-dd HH:mm'}}</div>
           <div class="col-md-4 col-sm-5 col-xs-7">{{msg.message | limitTo : MaxMsgLength}}<span ng-show="msg.message.length > MaxMsgLength"> ...</span></div>
