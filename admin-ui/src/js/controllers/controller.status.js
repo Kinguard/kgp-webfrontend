@@ -126,7 +126,9 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
 
 
   $scope.loadMessages();
-  $scope.loadBackupStatus();
+  if( $scope.user.isAdmin() ) {
+    $scope.loadBackupStatus();
+  }
   $scope.loadStatus();
   $scope.loadStorage();
   $scope.loadPackages();
