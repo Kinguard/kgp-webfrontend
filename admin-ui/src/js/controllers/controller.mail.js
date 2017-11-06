@@ -11,7 +11,12 @@ opiaControllers.controller('MailCtrl', ['$scope','$route','$location',function($
       $scope.active = 2;
       break;
     default:
-      $scope.active = 2;
+      if($scope.user.isAdmin()) {
+        $scope.active = 2;  
+      } else {
+        $scope.active = 0;
+      }
+      
       break;
   }
 
