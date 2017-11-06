@@ -15,6 +15,10 @@ opiaControllers.controller('LoginCtrl', ['$scope','$rootScope','UserService','$t
     error: function(data,status) {
       $scope.status = 'error';
       $scope.loginError = true;
+    },
+    serverfault: function(data,status) {
+      $scope.status = 'serverfault';
+      $scope.loginError = true;
     }
   };
 
@@ -22,6 +26,7 @@ opiaControllers.controller('LoginCtrl', ['$scope','$rootScope','UserService','$t
     actions.trying();
     var o = angular.extend({"login":$scope.login}, actions);
     User.login(o);
+
   };
   
 

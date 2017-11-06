@@ -10,6 +10,7 @@
       <input type="password" name="password" id="loginPassword" ng-model="login.password" class="form-control">
     </p>
     <p class="form-buttons"><button class="btn btn-primary fullwidth" type="submit">Sign in</button></p>
-    <alert type="'danger'" class="pop" ng-show="status=='error'" close="status=''">Invalid username or password</p>
+    <p><alert type="'danger'" class="pop" ng-show="status=='error'">Invalid username or password</p>
+    <p><alert type="'danger'" class="pop" ng-show="status=='serverfault'">Backend not available</p>
   </form>
 </section>
