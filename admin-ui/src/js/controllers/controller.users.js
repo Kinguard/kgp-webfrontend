@@ -160,6 +160,11 @@ opiaControllers.controller('Users__UserListCtrl', ['$scope','UserAPI','NgTablePa
         $timeout(function(){
           $scope.setRowClass(user.id,'success');
         }, 500);
+        $scope.loadUsers(function(){
+          $scope.setRowClass();
+          $scope.reloadTable();
+          $scope.edit({});
+          });
       }
     });
   }
