@@ -13,7 +13,7 @@ var baseurl = "/admin/index.html";
 var DEBUG = false;
 
 var FrameOrder = [
-    "frame_admin",
+	"frame_admin",
 	"frame_mail",
 	"frame_nc"
 ];
@@ -187,7 +187,7 @@ function load_nextframe() {
 	if(!cookie || !cookie.current_frame) {
 		// only show if we load directly after login
 		$("#app-box").show();
-	    TimeoutLeaveID = setTimeout(function() {
+		TimeoutLeaveID = setTimeout(function() {
 			  $("#app-box").hide(800);
 		}, 6000);
 	}
@@ -281,22 +281,22 @@ function logout(timeout,url) {
 	});
 	
 	$.ajax({
-	    url: '/admin/index.php/api/session',
-	    type: 'DELETE',
-	    success: function(result,status) {
-	        // logged out
-	    	ADM_waitlogout = false;
-	    	redirect(timeout,url);
-	     },
-	    error: function(xhr,StrStatus,error) {
-	    	ADM_waitlogout = false;
-	    	if(xhr.status == 405) { // session already deleted
-	    		//debug_log("ADM already logged out.");
-	    	} else {
-		    	//debug_log("ADM logout fail: "+error);
-	    	}
-	    	redirect(timeout,url);
-	    }
+		url: '/admin/index.php/api/session',
+		type: 'DELETE',
+		success: function(result,status) {
+			// logged out
+			ADM_waitlogout = false;
+			redirect(timeout,url);
+		 },
+		error: function(xhr,StrStatus,error) {
+			ADM_waitlogout = false;
+			if(xhr.status == 405) { // session already deleted
+				//debug_log("ADM already logged out.");
+			} else {
+				//debug_log("ADM logout fail: "+error);
+			}
+			redirect(timeout,url);
+		}
 	});
 }
 
@@ -304,7 +304,7 @@ function view_frame(Frame) {
 
 	// add a class to top-header so it can be styled dependent on the current app being shown.
 	$("#top_header").removeClass (function (index, css) {
-    	return (css.match (/\bframe_\S+/g) || []).join(' ');
+		return (css.match (/\bframe_\S+/g) || []).join(' ');
 	});
 	$("#top_header").addClass(Frame);
 	$(".subpage").removeClass("z0");
@@ -332,8 +332,24 @@ function set_frame(activeFrame,app="") {
 		view_frame(activeFrame);
 }
 
+function get_systype() {
+	$.get( "index.php/api/system/type", function( data ) {
+		switch (data.typeText) {
+		 	case ("Armada"):
+				$("title").text("KEEP - "+$("title").text());
+				console.log("Setting frame title to KEEP");
+				break;
+		 	default:
+				$("title").text(data.typeText+" - "+$("title").text());
+				console.log("Setting frame title to"+data.typeText);
+				break;
+		}
+	});
+}
 $(document).ready(function() {
-	 $('.popbox').popbox();
+	$('.popbox').popbox();
+
+	get_systype();
 
 	debug_log("Starting load");
 	$(".subpage").load( function() {
@@ -427,21 +443,21 @@ $(document).ready(function() {
 	});
 
 	$(window).on('hashchange', function (e) {
-	    frame = location.hash.substr(1);
-	    target_src=$("#"+frame).attr('src');
-	    if( target_src == "loading.html") {
-	    	set_url(baseurl);
-	    } else {
-	    	pattern = /\/apps\/(\w+)/;
-	    	var app = pattern.exec(target_src);
-	    	if (app != null) {
-		    	debug_log("HASH CHANGE APP: " + app[1]);
-		    	set_frame(frame,app[1]);
-	    	} else {
-		    	debug_log("HASH CHANGE");
-		    	set_frame(frame);
-	    	}
-	    }
+		frame = location.hash.substr(1);
+		target_src=$("#"+frame).attr('src');
+		if( target_src == "loading.html") {
+			set_url(baseurl);
+		} else {
+			pattern = /\/apps\/(\w+)/;
+			var app = pattern.exec(target_src);
+			if (app != null) {
+				debug_log("HASH CHANGE APP: " + app[1]);
+				set_frame(frame,app[1]);
+			} else {
+				debug_log("HASH CHANGE");
+				set_frame(frame);
+			}
+		}
 	});
 
 });
