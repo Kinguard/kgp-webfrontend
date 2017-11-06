@@ -1,3 +1,9 @@
+opi-webfrontend (1.65) vili; urgency=medium
+
+  * Various bugfixes, including #360, #285, #381, #377, #358, #294, #279, #357 
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 06 Nov 2017 15:13:14 +0100
+
 opi-webfrontend (1.64) vili; urgency=medium
 
   * Checking for cookie before reading it... 
