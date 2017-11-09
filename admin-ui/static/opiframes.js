@@ -346,6 +346,30 @@ function get_systype() {
 		}
 	});
 }
+
+function update_nav(app) {
+	debug_log("NavButton update, id: "+$(app).attr("data-app"));
+	if ($(app).hasClass("active")) {
+		// a click on the current active item
+		debug_log("Already on the active item.");
+	} else {
+		if ($(app).attr("data-app")) {
+			// Set the subpage of the frame
+			debug_log("Page SRC:");
+			debug_log($("#"+$(app).attr("target")).attr("src"));
+			if( $("#"+$(app).attr("target")).attr("src").includes("/apps/"+$(app).attr("data-app")) ) {
+				debug_log("Already on the active subpage");
+			} else {
+				$("#"+$(app).attr("target")).attr("src","/nc/index.php/apps/"+$(app).attr("data-app"));
+			}
+		}
+	}
+
+	$(app).parent().children().removeClass("active");
+	$(app).addClass("active");
+
+}
+
 $(document).ready(function() {
 	$('.popbox').popbox();
 
@@ -360,6 +384,12 @@ $(document).ready(function() {
 			// get the token from the page
 			NC_token = $(this).contents().find("head").attr("data-requesttoken");
 			debug_log("NC_token:" + NC_token);
+			isrc=$(this).attr("src");
+			app=isrc.substr(isrc.lastIndexOf('/')+1);
+			if(app != "loading.html") {
+				$(this).contents().find("html").addClass("app_"+app);
+				update_nav(".nav_button[data-app='"+app+"']");
+			}
 		}
 
 		if( frame_id == "frame_mail") {
@@ -395,24 +425,8 @@ $(document).ready(function() {
 		debug_log("Calling setframe from navbutton");
 		set_frame($(this).attr("target"),$(this).attr("data-app"));
 
-		if ($(this).hasClass("active")) {
-			// a click on the current active item
-			debug_log("Already on the active item.");
-		} else {
-			if ($(this).attr("data-app")) {
-				// Set the subpage of the frame
-				debug_log("Page SRC:");
-				debug_log($("#"+$(this).attr("target")).attr("src"));
-				if( $("#"+$(this).attr("target")).attr("src").includes("/apps/"+$(this).attr("data-app")) ) {
-					debug_log("Already on the active subpage");
-				} else {
-					$("#"+$(this).attr("target")).attr("src","/nc/index.php/apps/"+$(this).attr("data-app"));
-				}
-			}
-		}
+		update_nav(this);
 
-		$(this).parent().children().removeClass("active");
-		$(this).addClass("active");
 	});
 	
 	
