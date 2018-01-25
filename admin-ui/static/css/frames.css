@@ -168,13 +168,15 @@
 
 #op_nav div.nav_control {
 	cursor : pointer;
-	background-image : url('../img/OP_ICONS_COMBINED.png');
-	width : 50px;
+	background-image : url('../img/icons-apps.svg');
+	width : 46px;
 	height : 45px;
 }
+/*
 #op_nav div.nav_control.hover,#op_nav button.active div.nav-icon {
 	background-image : url('../img/OP_ICONS_COMBINED_white.png');
 }
+*/
 #op_nav .nav_text {
 	color : #666;
 	font-size : 10px;
@@ -183,23 +185,52 @@
 	color : #FFFFFF;
 }
 #nav_mail {
-	background-position : 248px 0px;
+	background-position : 105px -7px;
 }
 #nav_files {
-	background-position : 198px 0px;
+	background-position : 150px -7px;
 }
 #nav_contacts {
-	background-position : 150px 0px;
+	background-position : 194px -50px;
 }
 #nav_cal {
-	background-position : 296px 0px;
+	background-position : 150px -50px;
 }
 #nav_gallery {
-	background-position : 48px 0px;
+	background-position : 102px -50px;
+}
+#nav_tasks {
+	background-position : 95px -89px;
 }
 #nav_admin {
-	background-position : 98px 0px;
+	background-position : 55px -7px;
 }
+
+#op_nav button.active #nav_mail, #nav_mail.hover {
+	background-position : 105px -200px;
+}
+#op_nav button.active #nav_files, #nav_files.hover {
+	background-position : 150px -200px;
+}
+#op_nav button.active #nav_contacts, #nav_contacts.hover {
+	background-position : 194px -243px;
+}
+#op_nav button.active #nav_cal, #nav_cal.hover {
+	background-position : 150px -243px;
+}
+#op_nav button.active #nav_gallery, #nav_gallery.hover {
+	background-position : 102px -243px;
+}
+#op_nav button.active #nav_tasks, #nav_tasks.hover {
+	background-position : 95px -282px;
+}
+#op_nav button.active #nav_admin, #nav_admin.hover {
+	background-position : 55px -200px;
+}
+
+
+
+
 
 #op_nav #nav_trigger {
 	width : 60px;

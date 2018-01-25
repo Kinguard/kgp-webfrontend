@@ -1,3 +1,9 @@
+opi-webfrontend (1.67) vili; urgency=medium
+
+  * Added "tasks" selection on nav-menu 
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 25 Jan 2018 18:31:43 +0100
+
 opi-webfrontend (1.66) vili; urgency=medium
 
   * Added app-class to iframe-html object for use with styling. 
