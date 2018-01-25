@@ -1,6 +1,7 @@
 opi-webfrontend (1.67) vili; urgency=medium
 
   * Added "tasks" selection on nav-menu 
+  * Updated build deps
 
  -- PA Nilsson <pa@openproducts.se>  Thu, 25 Jan 2018 18:31:43 +0100
 
