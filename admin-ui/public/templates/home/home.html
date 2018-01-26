@@ -22,20 +22,10 @@
     <div class="form-group">
       <label class="control-label">Local Storage</label>
       <div class="control">
-        <div class="row">
-          <div class="col-md-9 col-sm-8 col-xs-7"><uib-progressbar value="storage.value" type="storage.status"></uib-progressbar></div>
-          <div class="col-md-3 col-sm-4 col-xs-5"><small>{{ storage.used*1024 | bytes}} / {{storage.all*1024 | bytes}}</small></div>
-        </div>
+        <uib-progressbar value="storage.value" type="storage.status"></uib-progressbar>
+        <small>{{ storage.used*1024 | bytes}} / {{storage.all*1024 | bytes}}</small>
       </div>
     </div>
-
-
-    <p class="form-group">
-      <label class="control-label">Available Storage</label>
-      <span class="control">
-        {{storage.available *1024 | bytes}}
-      </span>
-    </p>
 
     <p class="form-group" ng-show="temperature">
       <label class="control-label">System Temperature</label>
