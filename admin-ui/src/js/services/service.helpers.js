@@ -74,6 +74,9 @@ opiaServices.factory('Helpers', ['_',function(_){
 
 
   // Regular Expressions
+  // If the expression evaluates to a string, then it will be converted to a RegExp after wrapping it in ^ and $ characters.
+  // https://docs.angularjs.org/api/ng/directive/ngPattern
+
   helpers.regexIP = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
   helpers.regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
   helpers.regexUsername = /^[a-z]+$/;
@@ -81,7 +84,7 @@ opiaServices.factory('Helpers', ['_',function(_){
   helpers.regexFQDN = /^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)*[a-z]{2,63}$/;
   helpers.regexAWSKey = /^[A-Za-z0-9]{20}$/;
   helpers.regexAWSSecKey = /^[\/\+A-Za-z0-9]{40}$/;  
-
+  helpers.regexIPorFQDN = /(^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$)|(^(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)*[a-z]{2,63}$)/;
   // http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
   helpers.regexAWSbucket = /^[a-z0-9]([\-a-z0-9]*[a-z0-9])*(\.?[a-z0-9]([\-a-z0-9]*[a-z0-9])*)*$/;  
   

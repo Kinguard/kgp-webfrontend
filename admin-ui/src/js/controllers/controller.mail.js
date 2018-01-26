@@ -31,8 +31,8 @@ opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','Helpers','$fil
   }
   $scope.loadSettings();
 
-  $scope.regexFQDN = function(){
-	    return Helpers.regexFQDN;
+  $scope.regexIPorFQDN = function(){
+      return Helpers.regexIPorFQDN;
   }
 
 

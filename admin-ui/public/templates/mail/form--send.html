@@ -43,7 +43,7 @@
       <p class="form-group">
         <label for="ms-relay" class="subsection">Outbound SMTP Server</label>
         <span class="control">
-          <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
+          <input type="text" ng-model="settings.relay" id="ms-relay" class="form-control" ng-pattern="regexIPorFQDN()" ng-required="settings.smtpsettings=='usecustom'"  validation-icon="'Invalid value' | translate ">
         </span>
       </p>
       <p class="form-group">
