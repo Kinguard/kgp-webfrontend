@@ -65,7 +65,7 @@
     </td>
     <td class="groupname">
       <span class="control control-sm">
-        <input type="text" ng-model="newGroup.group" autofocus class="form-control input-sm" required validation-icon="'Please specify' | translate " ui-keyup="{'esc':'new(null)'}" />
+        <input type="text" ng-model="newGroup.group" autofocus class="form-control input-sm" required validation-icon="'Please specify' | translate " ui-keyup="{'esc':'new(null)'}" ng-pattern="/^[a-zA-Z0-9]+$/"/>
       </span>
     </td>
     <td class="users-count">
