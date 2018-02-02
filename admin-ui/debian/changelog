@@ -1,3 +1,9 @@
+opi-webfrontend (1.69) vili; urgency=medium
+
+  * Updates to better handle errors with certificates and device name (opiname). 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 02 Feb 2018 15:31:32 +0100
+
 opi-webfrontend (1.68) vili; urgency=medium
 
   * Sending domain to backend to create FQDN there for opiname.
