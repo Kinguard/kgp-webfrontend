@@ -340,7 +340,7 @@ function get_systype() {
 				console.log("Setting frame title to KEEP");
 				break;
 		 	default:
-				$("title").text(data.typeText+" - "+$("title").text());
+				$("title").text(data.typeText.toUpperCase()+" - "+$("title").text());
 				console.log("Setting frame title to"+data.typeText);
 				break;
 		}

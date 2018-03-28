@@ -1,3 +1,9 @@
+opi-webfrontend (1.70) vili; urgency=medium
+
+  * Fixed minor typos, closing #359 and #430 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 23 Mar 2018 11:09:24 +0100
+
 opi-webfrontend (1.69) vili; urgency=medium
 
   * Updates to better handle errors with certificates and device name (opiname). 
