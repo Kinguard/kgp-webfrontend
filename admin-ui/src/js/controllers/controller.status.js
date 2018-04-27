@@ -1,4 +1,4 @@
-opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$filter','Helpers','ModalService',function($scope,Backup,Status,$filter,Helpers,Modals){
+opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$filter','$interval','Helpers','ModalService',function($scope,Backup,Status,$filter,$interval,Helpers,Modals){
 
   $scope.MaxMsgLength = 25;
   $scope.showpkgs = false;
@@ -32,11 +32,17 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
   }
   
   $scope.loadMessages = function(callback) {
-    //console.log("Loading messages");
     Status.getMessages(
       function(value){
-        //console.log("Messages loaded.");
-        $scope.messages = value.messages;
+        $scope.messages = [];
+        angular.forEach(value.messages, function(value,key){
+          if (value && value.id) {
+            this.push(value);
+          } else {
+            console.log("Missing id in message, skipping.");
+          }
+        },$scope.messages);
+
         $scope.sysmsg_support = true;
       },
       function(response) {
@@ -124,14 +130,29 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
       });
   }
 
-
-  $scope.loadMessages();
   if( $scope.user.isAdmin() ) {
     $scope.loadBackupStatus();
   }
+
   $scope.loadStatus();
+  $scope.loadMessages();
   $scope.loadStorage();
+
+  //console.log("Trigger periodic updates");
+  periodicStatus = $interval($scope.loadStatus,10000);
+  periodicMessages = $interval($scope.loadMessages,30000);
+  periodicStorage = $interval($scope.loadStorage,60000);
+
+
   $scope.loadPackages();
+
+
+  $scope.$on('$destroy', function() {
+    //console.log("Element destroy");
+    $interval.cancel(periodicStatus);
+    $interval.cancel(periodicMessages);
+    $interval.cancel(periodicStorage);
+  });
 
 }]);
 

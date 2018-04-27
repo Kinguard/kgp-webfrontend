@@ -1,3 +1,10 @@
+opi-webfrontend (1.71) vili; urgency=medium
+
+  * Only display valid messages in UI.
+  * Dynamically reload status, storage and messages. 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 27 Apr 2018 12:54:59 +0200
+
 opi-webfrontend (1.70) vili; urgency=medium
 
   * Fixed minor typos, closing #359 and #430 
