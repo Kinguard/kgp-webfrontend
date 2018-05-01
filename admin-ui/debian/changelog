@@ -1,3 +1,9 @@
+opi-webfrontend (1.72) vili; urgency=medium
+
+  * Try only reload nginx, if running, instead of restarting.
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 01 May 2018 12:20:33 +0200
+
 opi-webfrontend (1.71) vili; urgency=medium
 
   * Only display valid messages in UI.

@@ -20,7 +20,10 @@ set -e
 
 case "$1" in
     configure)
-	invoke-rc.d --quiet nginx restart || true
+	if systemctl is-active nginx
+	then
+		systemctl reload nginx || true
+	fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
