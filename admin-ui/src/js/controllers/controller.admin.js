@@ -15,6 +15,9 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
             $scope.sysType=type.typeText;
             break;
         }
+        if(type.provider) {
+          $scope.provider=type.provider;
+        }
       },
       function(response) {
         console.log("Loading type failed");

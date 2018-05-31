@@ -1,3 +1,9 @@
+opi-webfrontend (1.73) vili; urgency=medium
+
+  * Added support page 
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 31 May 2018 11:48:03 +0200
+
 opi-webfrontend (1.72) vili; urgency=medium
 
   * Try only reload nginx, if running, instead of restarting.
