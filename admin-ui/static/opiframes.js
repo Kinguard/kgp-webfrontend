@@ -9,7 +9,7 @@ var RC_token = "";
 var NC_token = "";
 var current_user;
 var cookie;
-var baseurl = "/admin/index.html";
+var baseurl = "/admin/index.php";
 var DEBUG = false;
 
 var FrameOrder = [
@@ -19,7 +19,7 @@ var FrameOrder = [
 ];
 
 var FrameSrc = {
-	frame_admin		:	"/admin/admin.html",
+	frame_admin		:	"/admin/admin.php",
 	frame_mail      :   "/mail/index.php",
 	frame_nc		: 	"/nc/index.php"
 };
@@ -386,7 +386,7 @@ $(document).ready(function() {
 			debug_log("NC_token:" + NC_token);
 			isrc=$(this).attr("src");
 			app=isrc.substr(isrc.lastIndexOf('/')+1);
-			if(app != "loading.html") {
+			if(app != "loading.php") {
 				$(this).contents().find("html").addClass("app_"+app);
 				update_nav(".nav_button[data-app='"+app+"']");
 			}
@@ -459,7 +459,7 @@ $(document).ready(function() {
 	$(window).on('hashchange', function (e) {
 		frame = location.hash.substr(1);
 		target_src=$("#"+frame).attr('src');
-		if( target_src == "loading.html") {
+		if( target_src == "loading.php") {
 			set_url(baseurl);
 		} else {
 			pattern = /\/apps\/(\w+)/;

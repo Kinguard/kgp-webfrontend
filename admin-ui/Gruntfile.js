@@ -87,13 +87,13 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'build/css',
             src: '*.css',
-            dest: './public/css/'
+            dest: './public/themes/kgp/css/'
           },
           {
             expand: true,
             cwd: 'build/css',
             src: '*.css',
-            dest: './target/css/'
+            dest: './target/themes/kgp/css/'
           }
         ]
       },
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'node_modules/bootstrap-sass/assets/fonts/',
             src: '**',
-            dest: './public/css/'
+            dest: './public/themes/kgp/css/'
           },          
           {
             expand: true,

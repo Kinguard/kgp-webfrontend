@@ -398,6 +398,16 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
     }
   }
 }
+
+#admin #panel h1 #menuicon {
+  background-image : url("../img/icons/menu.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width : 80px;
+  height: 80px;
+}
+
 nav {
   .home    i { background-image: url(../img/icons/menu/home.png);    }
   .me      i { background-image: url(../img/icons/menu/profile.png); }
@@ -473,7 +483,6 @@ html.admin {
     article { padding: 50px; }
   }
 }
-
 
 
 /*** Users & Groups ***/

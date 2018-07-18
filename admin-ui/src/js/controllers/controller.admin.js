@@ -18,6 +18,9 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
         if(type.provider) {
           $scope.provider=type.provider;
         }
+        if(type.theme) {
+          $scope.sysTheme = type.theme;
+        }
       },
       function(response) {
         console.log("Loading type failed");
@@ -28,6 +31,7 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
   }
 
   $scope.sysType = "NotSet";
+  $scope.sysTheme = "kgp";
   getSysType();
     
   $scope.isCurrentPath = function(path){

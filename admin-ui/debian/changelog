@@ -1,3 +1,9 @@
+opi-webfrontend (1.75) vili; urgency=medium
+
+  * Improved theme support. 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 18 Jul 2018 13:44:14 +0200
+
 opi-webfrontend (1.74) vili; urgency=medium
 
   * Reading additional theme css. 
