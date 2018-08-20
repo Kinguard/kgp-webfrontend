@@ -105,6 +105,17 @@ html.rgba hr { border-color: rgba($black,0.075); }
   
   &.btn-fb { background: $facebookblue; color: $white; }
 }
+.btn-primary:hover {
+  background-color : $blue;
+  color : $white;
+  border-color: $blue;
+}
+.btn-default:hover {
+  background-color : $gray;
+  color : $white;
+  border-color: $gray;
+}
+
 .alert { margin-top: 10px; }
 
 
@@ -262,6 +273,10 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
     article { padding: 50px; }
     
   }
+  i.modal-close { background-image: url(../img/icons/close.png); width : 40px; height: 40px; display: inline-block; opacity : 0.8;
+    &:hover { opacity : 1; }
+  }
+
 }
 
 
@@ -363,37 +378,41 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
 
 }
 
-#login-bg { position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 1; background: url(../img/bg-pattern.gif) no-repeat left bottom; background-size: cover; border: 10px solid $orange; }
-#login {  width: 440px; position: absolute; top: 50%; left: 50%; z-index: 2; margin: -200px 0 0 -220px; padding: 50px; background: $white; @include border; }
+#login-bg { 
+  position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+}
+#login {  width: 440px; position: absolute; top: 50%; left: 50%; z-index: 2; margin: -200px 0 0 -220px; padding: 50px; background: $beige; @include border;
+  .login-logo { width : 100%; height:70px; background : url("../img/logo-notset-white.png"); background-repeat: no-repeat; background-size: 100%; margin-top : 25px; }
+}
 @include MOBILE {
   #login { position: relative; top: 0; left: 0; margin: 50px 30px; width: auto; }
 }
-
 
 #panel { background: $black; overflow: auto;
   h1 { margin: 0; padding: 0; display: table; width: 100%; background: $black-darker;
     span { display: table-cell; vertical-align: middle; height: $header-height; 
       &.logo { padding: 20px 20px 20px 50px;
-        img { width: 112px; height: auto; }
+        img { width: 220px; height: auto; }
       }
       &.menu { width: $menu-width-collapsed; }
     }
   }
 
   nav { margin-top: 36px;
-    a { display: block; padding: 12px 40px; color: $white; text-decoration: none; font-size: 0.9em; text-transform: uppercase; 
+    a { display: block; padding: 12px 40px; color: $white; opacity : 0.75; text-decoration: none; font-size: 0.9em; text-transform: uppercase; 
       i { display: inline-block; width: 40px; height: 40px; background-repeat: no-repeat; background-position: center center; background-size: cover; opacity: 0.5; }
       strong { display: inline-block; padding-left: 15px;
         span { font-weight: normal; text-transform: none; white-space: nowrap; }
       }
-      &:hover { //background:  $black-light; 
-        i { opacity: 0.75; }
+      &:hover { opacity: 1; box-shadow: inset 2px 0 darken($beige, 25%);
+        i { opacity: 1; }
       }
     }
     a { display: table; width: 100%;
       i, strong { display: table-cell; vertical-align: middle; }
     }
-    .active a { background: $orange; 
+
+    .active a { background: $beige; color : $black; opacity : 1; box-shadow: inset 2px 0 darken($beige, 25%);
       i { opacity: 1; }
     }
   }
@@ -409,17 +428,30 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
 }
 
 nav {
-  .home    i { background-image: url(../img/icons/menu/home.png);    }
-  .me      i { background-image: url(../img/icons/menu/profile.png); }
-  .users   i { background-image: url(../img/icons/menu/users.png);   }
-  .mail    i { background-image: url(../img/icons/menu/mail.png);    }
-  .network i { background-image: url(../img/icons/menu/network.png); }
-  .backup  i { background-image: url(../img/icons/menu/backup.png);  }
-  .update  i { background-image: url(../img/icons/menu/update.png);  }
-  .logout  i { background-image: url(../img/icons/menu/logout.png);  }
-  .shutdown i { background-image: url(../img/icons/menu/shutdown.png); }
-  .help i { background-image: url(../img/icons/menu/help.png); }
-}
+  .home               i { background-image: url(../img/icons/menu/home.png);    }
+  .home.active        i { background-image: url(../img/icons/menu/home_dark.png);    }
+  .me                 i { background-image: url(../img/icons/menu/profile.png); }
+  .me.active          i { background-image: url(../img/icons/menu/profile_dark.png); }
+  .users              i { background-image: url(../img/icons/menu/users.png);   }
+  .users.active       i { background-image: url(../img/icons/menu/users_dark.png);   }
+  .mail               i { background-image: url(../img/icons/menu/mail.png);    }
+  .mail.active        i { background-image: url(../img/icons/menu/mail_dark.png);    }
+  .network            i { background-image: url(../img/icons/menu/network.png); }
+  .network.active     i { background-image: url(../img/icons/menu/network_dark.png); }
+  .backup             i { background-image: url(../img/icons/menu/backup.png);  }
+  .backup.active      i { background-image: url(../img/icons/menu/backup_dark.png);  }
+  .update             i { background-image: url(../img/icons/menu/update.png);  }
+  .update.active      i { background-image: url(../img/icons/menu/update_dark.png);  }
+  .logout             i { background-image: url(../img/icons/menu/logout.png);  }
+  .logout.active      i { background-image: url(../img/icons/menu/logout_dark.png);  }
+  .shutdown           i { background-image: url(../img/icons/menu/shutdown.png); }
+  .shutdown.active    i { background-image: url(../img/icons/menu/shutdown_dark.png); }
+  .help               i { background-image: url(../img/icons/menu/help.png); }
+  .help.active        i { background-image: url(../img/icons/menu/help_dark.png); }
+}   
+
+
+
 
 #home-list {
   a { display: table; width: 100%; max-width: 500px; border-radius: 10px; margin-bottom: 30px; @include clearfix; overflow: hidden; text-decoration: none; @include prefixed(transition, 0.3s); 

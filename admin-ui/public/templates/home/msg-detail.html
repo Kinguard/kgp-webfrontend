@@ -19,7 +19,7 @@
 
     <p class="form-buttons">
       <a class="btn btn-default" ng-click="$modalInstance.dismiss('cancel')">Cancel</a>
-      <button ng-if="user.isAdming()" type="submit" class="btn btn-primary">Acknowledge and Remove</button>
+      <button ng-if="user.isAdmin()" type="submit" class="btn btn-primary">Acknowledge and Remove</button>
     </p>
 
     <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>

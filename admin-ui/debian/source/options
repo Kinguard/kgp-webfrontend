@@ -6,4 +6,6 @@ tar-ignore = "\.settings"
 tar-ignore = "\.project"
 tar-ignore = "public_dist"
 tar-ignore = "build"
+tar-ignore = target
+tar-ignore = "\.git"
 

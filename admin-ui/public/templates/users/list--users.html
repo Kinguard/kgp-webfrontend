@@ -6,7 +6,7 @@
       <!-- Column: Menu -->
       <td data-title="''" header-class="menu" class="menu">
         <span ng-if="!editing(user)">
-          <a ng-click="edit(user)" class="icon"><img src="./img/icons/edit.png" alt="Edit" class="edit" /></a>
+          <a ng-click="edit(user)" class="icon"><img src="themes/{{sysTheme}}/img/icons/edit.png" alt="Edit" class="edit" /></a>
           <nav>
             <ul class="list-unstyled">
               <li class="edit"><a ng-click="edit(user)">Edit</a></li>
@@ -17,7 +17,7 @@
           </nav>
         </span>
         <span ng-if="editing(user)">
-          <a ng-click="edit({})" class="icon"><img src="./img/icons/close.png" alt="Close" class="close-edit" /></a>
+          <a ng-click="edit({})" class="icon"><img src="themes/{{sysTheme}}/img/icons/close.png" alt="Close" class="close-edit" /></a>
         </span>
       </td>
 
@@ -63,7 +63,7 @@
     <!-- closed -->
     <tr class="new closed" ng-class="rowClass[999]" ng-if="!newUser" ng-click="new({})">
       <td class="menu">
-        <span class="icon"><img src="./img/icons/add.png" alt="New" /></span>
+        <span class="icon"><img src="themes/{{sysTheme}}/img/icons/add.png" alt="New" /></span>
       </td>
       <td class="displayname">
         <strong translate>Add new user</strong>
@@ -75,7 +75,7 @@
     <!-- opened -->
     <tr class="new opened" ng-class="rowClass[999]" ng-if="newUser">
       <td class="menu">
-        <a ng-click="new(null)" class="icon"><img src="./img/icons/close.png" alt="Close" /></a>
+        <a ng-click="new(null)" class="icon"><img src="themes/{{sysTheme}}/img/icons/close.png" alt="Close" /></a>
       </td>
       <td class="displayname">
         <span class="control control-sm">

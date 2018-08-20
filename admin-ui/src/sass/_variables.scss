@@ -19,9 +19,11 @@ $black-dark: #111;
 $black: #222;
 $black-light: #333;
 $blackblue: $black;
-$orange: #f18800;
-$green: #009f6e;
-$blue: #2daae1;
+$beige : #f8eae3;
+$orange: $beige;
+$green: #55ffa0;
+$blue: #1414ff;
+$turquoise : #50ffff;
 $yellow: #ffd100;
 $red: #e7302a;
 $white: white;
@@ -39,12 +41,12 @@ $blueinfo: $blue;
 
 $gray-darker:            #111 !default; // #222
 $gray-dark:              #222; //lighten(#000, 20%) !default;   // #333
-$gray:                   #999; // #555
+$gray:                   #505050; // #555
 $gray-light:             #e1e1e1; //lighten(#000, 60%) !default;   // #999
 $gray-lighter:           #f7f7f7 !default; // #eee
 $gray-placeholder:		 #909090;
 
-$brand-primary:         $orange;
+$brand-primary:         $green;
 $brand-success:         $green;
 $brand-info:            $blue;
 $brand-warning:         $yellow;
@@ -56,14 +58,14 @@ $brand-danger:          $red;
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-$body-bg:               #fff !default;
+$body-bg:               #eee !default;
 //** Global text color on `<body>`.
 $text-color:            $gray-dark !default;
 
 //** Global textual link color.
-$link-color:            $brand-primary !default;
+$link-color:            $blue !default;
 //** Link hover color set via `darken()` function.
-$link-hover-color:      darken($link-color, 15%) !default;
+$link-hover-color:      darken($link-color, 5%) !default;
 
 
 //== Typography
@@ -175,11 +177,11 @@ $btn-border-width:               2px;
 
 $btn-font-weight:                normal !default;
 
-$btn-default-color:              $white; //#333 !default;
-$btn-default-bg:                 $black; //#fff !default;
-$btn-default-border:             $black; //#ccc !default;
+$btn-default-color:              $black; //#333 !default;
+$btn-default-bg:                 $turquoise; //#fff !default;
+$btn-default-border:             $turquoise; //#ccc !default;
 
-$btn-primary-color:              #fff !default;
+$btn-primary-color:              #white !default;
 $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             $brand-primary; //darken($btn-primary-bg, 5%) !default;
 

@@ -1,3 +1,9 @@
+opi-webfrontend (1.76) vili; urgency=medium
+
+  * Fist draft for KGP admin theme. 
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 20 Aug 2018 15:10:05 +0200
+
 opi-webfrontend (1.75) vili; urgency=medium
 
   * Improved theme support. 

@@ -16,13 +16,21 @@ grunt watch:css
 
 Recommended to use separate Terminal tabs/windows for css and js watch.
 
+# Layout
 
+By default the system redirect from /index.html to /admin/index.html.
+This then redirects to apps.php.
+apps.php sets up the following frame structure
+ * Webadmin
+ * Roundcube mail
+ * Nextcloud
 
-## Documentation
-_(Coming soon)_
+In addition, it loads a javascript (opiframes.js) that is responsible for navigation between the frames.
 
-## Examples
-_(Coming soon)_
-
-## Release History
-_(Nothing yet)_
+## File locations
+ * static - holds the default layout files (apps.php, opiframes.js ...)
+ * src - holds .sass and .js files that are used for webadmin
+ * public
+   - webadmin templates, images and libs
+   - resulting js-app and css files.
+ 
