@@ -574,7 +574,7 @@ html.admin {
     &.LOG_WARNING {
       background-image: url("../img/icons/icon_warning.png");
     }
-    &.LOG_NOTICE, &.LOG_INFO {
+    &.LOG_NOTICE, &.LOG_INFO, &.LOG_DEBUG {
       background-image: url("../img/icons/icon_note.png");
     }
   }
@@ -584,5 +584,9 @@ html.admin {
   }
   .pkg-status {
     font-family : arial;
+  }
+  /* Message details */
+  #message-details {
+    .message-content { white-space: pre-wrap; background-color: $white; word-break : normal; }
   }
 }

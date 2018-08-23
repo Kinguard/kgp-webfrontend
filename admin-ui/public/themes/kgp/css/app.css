@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*** OPI ***/
+/*** Kinguard Project ***/
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -5941,7 +5941,7 @@ button.close {
   .ng-table-responsive td,
   .ng-table-responsive tr {
     display: block; } }
-/*** OPI ***/
+/*** Kinguard Project ***/
 /*** MIXINS ***/
 /*
 html { font-size: 80%; }
@@ -7458,32 +7458,38 @@ html.admin .form-group-table .form-group .control-label {
   vertical-align: top; }
 
 /*** Status page ***/
-html.admin table.package-table td {
-  padding: 3px; }
-html.admin .message-row {
-  padding-top: 10px;
-  padding-bottom: 10px; }
-html.admin .odd-line {
-  background-color: #f9f9f9; }
-html.admin .btn-ack {
-  padding: 2px 7px;
-  margin: 2px; }
-html.admin .status-icon {
-  background-repeat: no-repeat;
-  min-width: 30px;
-  min-height: 30px;
-  display: inline-block;
-  padding-left: 40px; }
-  html.admin .status-icon.LOG_EMERG, html.admin .status-icon.LOG_ALERT, html.admin .status-iconLOG_CRIT, html.admin .status-icon.LOG_ERR {
-    background-image: url("../img/icons/icon_error.png"); }
-  html.admin .status-icon.LOG_WARNING {
-    background-image: url("../img/icons/icon_warning.png"); }
-  html.admin .status-icon.LOG_NOTICE, html.admin .status-icon.LOG_INFO {
-    background-image: url("../img/icons/icon_note.png"); }
-html.admin .msg-icon {
-  margin-bottom: -5px;
-  vertical-align: bottom; }
-html.admin .pkg-status {
-  font-family: arial; }
+html.admin {
+  /* Message details */ }
+  html.admin table.package-table td {
+    padding: 3px; }
+  html.admin .message-row {
+    padding-top: 10px;
+    padding-bottom: 10px; }
+  html.admin .odd-line {
+    background-color: #f9f9f9; }
+  html.admin .btn-ack {
+    padding: 2px 7px;
+    margin: 2px; }
+  html.admin .status-icon {
+    background-repeat: no-repeat;
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    padding-left: 40px; }
+    html.admin .status-icon.LOG_EMERG, html.admin .status-icon.LOG_ALERT, html.admin .status-iconLOG_CRIT, html.admin .status-icon.LOG_ERR {
+      background-image: url("../img/icons/icon_error.png"); }
+    html.admin .status-icon.LOG_WARNING {
+      background-image: url("../img/icons/icon_warning.png"); }
+    html.admin .status-icon.LOG_NOTICE, html.admin .status-icon.LOG_INFO, html.admin .status-icon.LOG_DEBUG {
+      background-image: url("../img/icons/icon_note.png"); }
+  html.admin .msg-icon {
+    margin-bottom: -5px;
+    vertical-align: bottom; }
+  html.admin .pkg-status {
+    font-family: arial; }
+  html.admin #message-details .message-content {
+    white-space: pre-wrap;
+    background-color: white;
+    word-break: normal; }
 
 /*# sourceMappingURL=app.css.map */
