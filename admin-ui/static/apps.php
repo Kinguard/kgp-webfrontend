@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <?php
+define('ADMINROOT', __DIR__);
+define('DEFAULT_THEME',ADMINROOT."themes/kgp/");
+define('CUSTOM_THEME',ADMINROOT."themes/$theme/");
+
+
 define("CONFIGWRAPPER","/usr/share/kinguard-utils/sysconfigWrapper.php");
 if (is_file(CONFIGWRAPPER))	include CONFIGWRAPPER;	
 $theme = function_exists("getConfigValue") && getConfigValue("webapps","theme") ? getConfigValue("webapps","theme") : "kgp";
@@ -11,9 +16,19 @@ $theme = function_exists("getConfigValue") && getConfigValue("webapps","theme") 
 
 <title>Really Important Stuff Inside</title>
 <meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="themes/kgp/css/frames.css">
+<link rel="stylesheet" type="text/css" href="themes/kgp/css/popbox.css">
+<?php
+if ($theme != "kgp" ) {
+	if(file_exists(CUSTOM_THEME."css/frames.css")) {
+		print "<link rel='stylesheet' type='text/css' href='themes/<?=$theme?>/css/frames.css'>";
+	}
+	if(file_exists(CUSTOM_THEME."css/popbox.css")) {
+		print "<link rel='stylesheet' type='text/css' href='themes/<?=$theme?>/css/popbox.css'>";	
+	}
+}
+?>
 
-<link rel="stylesheet" type="text/css" href="themes/<?=$theme?>/css/frames.css">
-<link rel="stylesheet" type="text/css" href="themes/<?=$theme?>/css/popbox.css">
 <link rel="shortcut icon" href="favicon.png" />
 <script src="js/jquery.min.js"></script>
 <script src="js/popbox.min.js"></script>
@@ -39,7 +54,16 @@ $theme = function_exists("getConfigValue") && getConfigValue("webapps","theme") 
 	<div class="logout_modal">
 		<header>
 			<h1 class="modal_header">Please confirm logout</h1>
-			<a class="close-modal" onclick="logout_cancel()"><img src="themes/<?=$theme?>/img/icons/close.png" /></a>
+			<a class="close-modal" onclick="logout_cancel()">
+			<?php
+				if(file_exists(CUSTOM_THEME."/img/icons/close.png")) {
+					print("<img src=\".CUSTOM_THEME."/img/icons/close.png\" />");
+				} else {
+					print("<img src=\".DEFAULT_THEME."/img/icons/close.png\" />");
+				}
+			?>
+				
+			</a>
 		</header>
 		<div class="content">
 			<p>
