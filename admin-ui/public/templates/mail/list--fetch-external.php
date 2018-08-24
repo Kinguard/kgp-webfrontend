@@ -1,3 +1,7 @@
+<?php
+include("../../helpers.php");
+?>
+
 <div  ng-controller="Mail__ExternalMailboxListCtrl">
   <form form-status="status" name="emForm" ng-submit="submit(emForm)">
 
@@ -7,7 +11,7 @@
       <!-- Column: Menu -->
       <td data-title="''" header-class="menu" class="menu">
         <span>
-          <a ng-click="edit(mailbox)" class="icon"><img src="./img/icons/edit.png" alt="Edit" class="edit" /></a>
+          <a ng-click="edit(mailbox)" class="icon"><img src="<?=createThemePath("./img/icons/edit.png")?>" alt="Edit" class="edit" /></a>
           <nav>
             <ul class="list-unstyled">
               <li class="edit"><a ng-click="edit(mailbox)">Edit</a></li>  
@@ -42,7 +46,7 @@
     <!-- closed -->
     <tr class="new closed" ng-class="rowClass[999]" ng-if="!newMailbox" ng-click="new({})">
       <td class="menu">
-        <span class="icon"><img src="./img/icons/add.png" alt="New" /></span>
+        <span class="icon"><img src="<?=createThemePath("./img/icons/add.png")?>" alt="New" /></span>
       </td>
       <td class="email">
         <strong translate>Add external mailbox</strong>
@@ -53,7 +57,7 @@
     <!-- opened -->
     <tr class="new opened" ng-class="rowClass[999]" ng-if="newMailbox">
       <td class="menu">
-        <a ng-click="new(null)" class="icon"><img src="./img/icons/close.png" alt="Close" /></a>
+        <a ng-click="new(null)" class="icon"><img src="<?=createThemePath("./img/icons/close.png")?>" alt="Close" /></a>
       </td>
       <td class="email">
         <span class="control control-sm">

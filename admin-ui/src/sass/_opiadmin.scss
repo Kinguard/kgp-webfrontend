@@ -269,6 +269,7 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
   .modal-content { box-shadow: none; background: none; margin: 0; border: 0; background: $gray-lighter;
     header { padding: 30px 50px; background: $white; position: relative;
       .close-modal {  position: absolute; width: 36px; height: 36px; right: 50px; top: 28px; }
+      h1 { max-width : 90%; }
     } 
     article { padding: 50px; }
     

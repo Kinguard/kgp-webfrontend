@@ -1,3 +1,6 @@
+<?php
+include("../../helpers.php");
+?>
 
 <div ng-controller="Mail__ReceiveListCtrl">
   <form  form-status="status" name="rlForm" ng-submit="submit(rlForm)">
@@ -15,8 +18,8 @@
     <tbody >
     <tr ng-repeat-start="group in $groups" class="ng-table-group link" ng-click="group.$hideRows = !group.$hideRows">
       <td class="menu">
-        <span class="icon" ng-if="group.$hideRows"><img src="./img/icons/add.png" alt="Show" /></span>
-        <span class="icon" ng-if="!group.$hideRows"><img src="./img/icons/minus.png" alt="Hide" /></span>
+        <span class="icon" ng-if="group.$hideRows"><img src="<?=createThemePath("./img/icons/add.png")?>" alt="Show" /></span>
+        <span class="icon" ng-if="!group.$hideRows"><img src="<?=createThemePath("./img/icons/minus.png")?>" alt="Hide" /></span>
       </td> 
       <td colspan="{{$columns.length-1}}">
           <strong>{{ group.value }}</strong>
@@ -28,7 +31,7 @@
       <!-- Column: Menu -->
       <td data-title="''" header-class="menu" class="menu">
         <span>
-          <a ng-click="delete(receiver)" class="icon"><img src="./img/icons/edit.png" alt="Delete" class="edit" /></a>
+          <a ng-click="delete(receiver)" class="icon"><img src="<?=createThemePath("./img/icons/edit.png")?>" alt="Delete" class="edit" /></a>
           <nav>
             <ul class="list-unstyled">
               <li class="delete"><a ng-click="delete(receiver)">Delete</a></li>  
@@ -64,7 +67,7 @@
     <tbody class="new">
     <tr class="new closed" ng-class="rowClass[999]" ng-if="!newReceiver" ng-click="new({})">
       <td class="menu">
-        <span class="icon"><img src="./img/icons/add.png" alt="New" /></span>
+        <span class="icon"><img src="<?=createThemePath("./img/icons/add.png")?>" alt="New" /></span>
       </td>
       <td class="email">
         <strong translate>Add new receiver</strong>
@@ -75,7 +78,7 @@
     <!-- opened -->
     <tr class="new opened" ng-class="rowClass[999]" ng-if="newReceiver">
       <td class="menu">
-        <a ng-click="new(null)" class="icon"><img src="./img/icons/close.png" alt="Close" /></a>
+        <a ng-click="new(null)" class="icon"><img src="<?=createThemePath("./img/icons/close.png")?>" alt="Close" /></a>
       </td>
       <td class="email">
         <span class="control control-sm">

@@ -1,3 +1,7 @@
+<?php
+include("../../helpers.php");
+?>
+
 <div ng-controller="Groups__GroupListCtrl">
 <form form-status="status" name="glForm" ng-submit="submit(glForm)">
 <table ng-table="tableParams" class="table table-striped">
@@ -6,7 +10,7 @@
     <!-- Column: Menu -->
     <td data-title="''" header-class="menu" class="menu">
       <span ng-if="!editing(group)">
-        <a ng-click="edit(group)" class="icon"><img src="themes/{{sysTheme}}/img/icons/edit.png" alt="Edit" class="edit" /></a>
+        <a ng-click="edit(group)" class="icon"><img src="<?=createThemePath("./img/icons/edit.png")?>" alt="Edit" class="edit" /></a>
         <nav>
           <ul class="list-unstyled">
             <!--li class="edit"><a ng-click="edit(group)">Edit</a></li-->
@@ -16,7 +20,7 @@
         </nav>
       </span>
       <span ng-if="editing(group)">
-        <a ng-click="edit({})" class="icon"><img src="themes/{{sysTheme}}/img/icons/close.png" alt="Close" class="close-edit" /></a>
+        <a ng-click="edit({})" class="icon"><img src="<?=createThemePath("./img/icons/close.png")?>" alt="Close" class="close-edit" /></a>
       </span>
     </td>
 
@@ -50,7 +54,7 @@
   <!-- closed -->
   <tr class="new closed" ng-class="rowClass[999]" ng-if="!newGroup" ng-click="new({})">
     <td class="menu">
-      <span class="icon"><img src="themes/{{sysTheme}}/img/icons/add.png" alt="New" /></span>
+      <span class="icon"><img src="<?=createThemePath("./img/icons/add.png")?>" alt="New" /></span>
     </td>
     <td class="groupname">
       <strong translate>Add new group</strong>
@@ -61,7 +65,7 @@
   <!-- opened -->
   <tr class="new opened" ng-class="rowClass[999]" ng-if="newGroup">
     <td class="menu">
-      <a ng-click="new(null)" class="icon"><img src="themes/{{sysTheme}}/img/icons/close.png" alt="Close" /></a>
+      <a ng-click="new(null)" class="icon"><img src="<?=createThemePath("./img/icons/close.png")?>" alt="Close" /></a>
     </td>
     <td class="groupname">
       <span class="control control-sm">

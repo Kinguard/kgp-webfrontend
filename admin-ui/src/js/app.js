@@ -41,39 +41,39 @@ opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','
 
   $routeProvider
     .when('/', {
-      templateUrl: 'templates/home/home.html',
+      templateUrl: 'templates/home/home.php',
       controller: 'StatusCtrl'
     })
     .when('/me', {
-      templateUrl: 'templates/me/me.html',
+      templateUrl: 'templates/me/me.php',
       controller: 'MeCtrl'
     })
     .when('/users/:tab?', {
-      templateUrl: 'templates/users/users.html',
+      templateUrl: 'templates/users/users.php',
       controller: 'UsersCtrl'
     })
     .when('/mail/:tab?', {
-      templateUrl: 'templates/mail/mail.html',
+      templateUrl: 'templates/mail/mail.php',
       controller: 'MailCtrl'
     })
     .when('/network/:tab?', {
-      templateUrl: 'templates/network/network.html',
+      templateUrl: 'templates/network/network.php',
       controller: 'NetworkCtrl'
     })
     .when('/backup/:tab?', {
-      templateUrl: 'templates/backup/backup.html',
+      templateUrl: 'templates/backup/backup.php',
       controller: 'BackupCtrl'
     })
     .when('/update/:tab?', {
-      templateUrl: 'templates/update/update.html',
+      templateUrl: 'templates/update/update.php',
       controller: 'UpdateCtrl'
     })
     .when('/shutdown', {
-      templateUrl: 'templates/shutdown/shutdown.html',
+      templateUrl: 'templates/shutdown/shutdown.php',
       controller: 'ShutdownCtrl'
     })
     .when('/help', {
-      templateUrl: 'templates/help/help.html',
+      templateUrl: 'templates/help/help.php',
       controller: 'HelpCtrl'
     })
     .otherwise({
@@ -107,7 +107,7 @@ opiaApp.run(['$rootScope','UserService','ModalService','PreloadService','$templa
     if(!User.isChecked()) return 'loading';
     return User.isLogged() ? 'admin' : 'login'; 
   }
-  $rootScope.page = function(){ return './templates/' + $rootScope.pageName() + '.html'; }
+  $rootScope.page = function(){ return './templates/' + $rootScope.pageName() + '.php'; }
 
   $rootScope.gotoPath = function(path){
     $location.path(path);

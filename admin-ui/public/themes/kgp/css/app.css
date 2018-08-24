@@ -6374,6 +6374,8 @@ form[name='sdForm_reboot'], form[name='sdForm_shutdown'] {
       height: 36px;
       right: 50px;
       top: 28px; }
+    .modal-dialog .modal-content header h1 {
+      max-width: 90%; }
   .modal-dialog .modal-content article {
     padding: 50px; }
 .modal-dialog i.modal-close {
