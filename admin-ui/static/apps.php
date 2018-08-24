@@ -21,7 +21,7 @@ include "helpers.php";
 }
 ?>
 
-<link rel="shortcut icon" href="favicon.png" />
+<link rel="shortcut icon" href="<?=createThemepath("")?>favicon.png" />
 <script src="js/jquery.min.js"></script>
 <script src="js/popbox.min.js"></script>
 <script src="js/texts.js"></script>
