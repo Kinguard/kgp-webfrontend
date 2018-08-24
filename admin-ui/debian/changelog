@@ -1,3 +1,9 @@
+opi-webfrontend (1.82) vili; urgency=medium
+
+  * Actually add the changes from 1.81. 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 24 Aug 2018 07:28:06 +0200
+
 opi-webfrontend (1.81) vili; urgency=medium
 
   * Fixed path to theme favicon. 
