@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <?php
-define('ADMINROOT', __DIR__);
-define('DEFAULT_THEME',ADMINROOT."themes/kgp/");
-define('CUSTOM_THEME',ADMINROOT."themes/$theme/");
 
-
-define("CONFIGWRAPPER","/usr/share/kinguard-utils/sysconfigWrapper.php");
-if (is_file(CONFIGWRAPPER))	include CONFIGWRAPPER;	
-$theme = function_exists("getConfigValue") && getConfigValue("webapps","theme") ? getConfigValue("webapps","theme") : "kgp";
+include "helpers.php";
 
 ?>
 
@@ -19,13 +13,11 @@ $theme = function_exists("getConfigValue") && getConfigValue("webapps","theme") 
 <link rel="stylesheet" type="text/css" href="themes/kgp/css/frames.css">
 <link rel="stylesheet" type="text/css" href="themes/kgp/css/popbox.css">
 <?php
-if ($theme != "kgp" ) {
-	if(file_exists(CUSTOM_THEME."css/frames.css")) {
-		print "<link rel='stylesheet' type='text/css' href='themes/<?=$theme?>/css/frames.css'>";
+	if(checkCustomThemeFile("css/frames.css")) {
+		print "<link rel='stylesheet' type='text/css' href='".createThemepath("css/frames.css")."'>\n";
 	}
-	if(file_exists(CUSTOM_THEME."css/popbox.css")) {
-		print "<link rel='stylesheet' type='text/css' href='themes/<?=$theme?>/css/popbox.css'>";	
-	}
+	if(checkCustomThemeFile("css/popbox.css")) {
+		print "<link rel='stylesheet' type='text/css' href='".createThemepath("/css/popbox.css")."'>\n";	
 }
 ?>
 
@@ -55,13 +47,7 @@ if ($theme != "kgp" ) {
 		<header>
 			<h1 class="modal_header">Please confirm logout</h1>
 			<a class="close-modal" onclick="logout_cancel()">
-			<?php
-				if(file_exists(CUSTOM_THEME."/img/icons/close.png")) {
-					print("<img src=\".CUSTOM_THEME."/img/icons/close.png\" />");
-				} else {
-					print("<img src=\".DEFAULT_THEME."/img/icons/close.png\" />");
-				}
-			?>
+			<img src="<?=createThemepath("img/icons/close.png")?>" />
 				
 			</a>
 		</header>
@@ -77,13 +63,14 @@ if ($theme != "kgp" ) {
 <div id="top_header">
 	<span class="hidden" id="label_curr_user">Logged in as: </span><span id="current_user">Not logged in</span>
 	<div class='popbox' id="opi-apps">
-	  <a class='open' href='#'><img src="themes/<?=$theme?>/img/opi-apps.png" /></a>
+	  <a class='open' href='#'>
+	  	<img src="<?=createThemepath("img/opi-apps.png")?>" /></a>
 	  <div class='collapse'>
 		<!--  Content of box goes here -->
 	    <div class='box' id="app-box">
 	      <div class='arrow'></div>
 	      <div class='arrow-border'></div>
-	      <a href="#" class="close"><img id="nav-box-close" src="themes/<?=$theme?>/img/close.png" /></a>
+	      <a href="#" class="close"><img id="nav-box-close" src="<?=createThemepath("img/close.png")?>" /></a>
 			<div id="op_nav">
 			<button id="button_mail" class="nav_button close" target="frame_mail">
 				<div class="nav_control nav-icon" id="nav_mail"> </div>
@@ -118,7 +105,7 @@ if ($theme != "kgp" ) {
 	  </div>
 	</div>
 	<div id="top-nav-logout">
-		<a href="#" class="top-nav" alt="Logout"><img src=themes/<?=$theme?>/img/logout_grey.png /></a>
+		<a href="#" class="top-nav" alt="Logout"><img src="<?=createThemepath("/img/logout_grey.png")?>" /></a>
 	</div>
 </div>
 

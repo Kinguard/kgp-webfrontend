@@ -1,3 +1,15 @@
+opi-webfrontend (1.80) vili; urgency=medium
+
+  * Added missing "/" to 40x path. 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 24 Aug 2018 07:19:11 +0200
+
+opi-webfrontend (1.79) vili; urgency=medium
+
+  * Possibility for php templates to use override for theme images.
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 24 Aug 2018 07:04:42 +0200
+
 opi-webfrontend (1.78) vili; urgency=medium
 
   * Added 403 and 404 files. 
