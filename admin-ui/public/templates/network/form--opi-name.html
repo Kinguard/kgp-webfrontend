@@ -14,23 +14,33 @@
     </p>
 	<section ng-show ="settings.dnsenabled=='1'">
 	    <p class="form-group">
-	      <label for="on-name">Your Device Name</label>
+	      <label for="on-name">Device Name</label>
 	      <span class="control">
 	        <input 	type="text"
 	        		ng-model="settings.opiname"
 	        		id="on-name"
-	        		class="form-control form-control-sm"
+	        		class="form-control"
 	        		required
 	        		validation-icon="'Invalid or not available name' | translate "
-	        		ng-remote-validate="network/checkopiname"
 	        		ng-pattern="regexOpiname()"
 	        		name="opiname"
+	        		ng-change="checkFqdn()"
+	        		ng-model-options='{ debounce: 300 }'
 	        >
-	        <input  type="hidden"
-	        		value="{{settings.domain}}"
-	        		name="domain"
-	        		ng-model="settings.domain"
-	        />
+	      </span>
+	    </p>
+	    <p class="form-group">
+	      <label for="on-name">Device Domain</label>
+	      <span class="control">
+	        <select	
+	        	ng-change="checkFqdn()"
+	        	ng-model="settings.domain"
+	        	name="domain"
+	        	class="form-control" 
+	        	ng-options="dom for dom in availabledomains" 
+	        	ng-model-options='{ debounce: 300 }'
+			>
+	        </select>
 	      </span>
 	    </p>
 	    <p class="form-group">

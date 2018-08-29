@@ -9,7 +9,6 @@ opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$l
         switch (type.typeText) {
           case ("Armada"):
             $scope.sysType="KEEP";
-            console.log("Setting to KEEP");
             break;
           default:
             $scope.sysType=type.typeText;

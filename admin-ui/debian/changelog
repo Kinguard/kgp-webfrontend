@@ -1,3 +1,9 @@
+opi-webfrontend (1.84) vili; urgency=medium
+
+  * Support multiple domains in UI, closes #425. 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 29 Aug 2018 15:17:03 +0200
+
 opi-webfrontend (1.83) vili; urgency=medium
 
   * Renamed base templates to ".php"

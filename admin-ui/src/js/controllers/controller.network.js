@@ -89,12 +89,37 @@ opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','
 }]);
 
 opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
+
+  $scope.checkFqdn = function(){
+    Network.checkFqdn({'fqdn':$scope.settings.opiname+"."+$scope.settings.domain},
+      function(data){
+        $scope.onForm.opiname.$dirty=true;
+        if (data.isValid) {
+          $scope.onForm.opiname.$setValidity("remote-ok",true);
+        } else {
+          $scope.onForm.opiname.$setValidity("remote-ok",false);
+        }
+      }
+    );
+  }
+
+  $scope.getAvailableDomains = function(callback){
+    Network.getDomains(function(response) {
+      if (response.status) {
+        $scope.availabledomains = response.availabledomains;
+      } else {
+        $scope.availabledomains = $scope.settings.domain;
+      }
+    });
+  }
+
   // settings
   $scope.loadSettings = function(callback){
     $scope.settings = Network.getOpiName(callback);
     $scope.CertSettings = Network.getCertConfig(callback);
   }
   $scope.loadSettings();
+  $scope.getAvailableDomains();    
 
   $scope.regexOpiname = function(){
 	    return Helpers.regexOpiname;
