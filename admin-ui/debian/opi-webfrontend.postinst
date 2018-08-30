@@ -20,10 +20,17 @@ set -e
 
 case "$1" in
     configure)
-	if systemctl is-active nginx
-	then
-		systemctl reload nginx || true
-	fi
+        if [ ! theme=$(kgp-sysinfo -c webapps -k theme) ]
+        then
+            # empty theme parameter => 
+            # enable theme.
+            kgp-sysinfo -c webapps -k theme -w "kgp"
+        fi
+
+    	if systemctl is-active nginx
+    	then
+    		systemctl reload nginx || true
+    	fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
