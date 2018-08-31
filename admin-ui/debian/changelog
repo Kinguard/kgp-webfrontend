@@ -1,3 +1,9 @@
+opi-webfrontend (1.86) vili; urgency=medium
+
+  * Always include basic kgp-css file, also for child themes. 
+
+ -- PA Nilsson <pa@openproducts.se>  Fri, 31 Aug 2018 12:12:30 +0200
+
 opi-webfrontend (1.85) vili; urgency=medium
 
   * Set theme parameter if it does not exist. 
