@@ -1,3 +1,9 @@
+opi-webfrontend (1.87) vili; urgency=medium
+
+  * Fixed frames base url to apps.php from index.php 
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 03 Sep 2018 08:46:10 +0200
+
 opi-webfrontend (1.86) vili; urgency=medium
 
   * Always include basic kgp-css file, also for child themes. 

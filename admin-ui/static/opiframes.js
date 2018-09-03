@@ -9,7 +9,7 @@ var RC_token = "";
 var NC_token = "";
 var current_user;
 var cookie;
-var baseurl = "/admin/index.php";
+var baseurl = "/admin/apps.php";
 var DEBUG = false;
 
 var FrameOrder = [
