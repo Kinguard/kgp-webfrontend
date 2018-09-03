@@ -144,10 +144,15 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
     if (! $scope.CertSettings.CustomKeyVal ) {
       $scope.CertSettings.CustomKeyVal = "";
     }
-    Network.setCertConfig({'CertType':$scope.CertSettings.CertType,'CustomCertVal':$scope.CertSettings.CustomCertVal,'CustomKeyVal':$scope.CertSettings.CustomKeyVal}, function() {
+    Network.setCertConfig({'CertType':$scope.CertSettings.CertType,'CustomCertVal':$scope.CertSettings.CustomCertVal,'CustomKeyVal':$scope.CertSettings.CustomKeyVal}, function(data) {
       if ( $scope.status != 'error' ) {
         $scope.status = 'success';
       }
+      if (data.errmsg) {
+        $scope.status = 'error';
+        $scope.errormsg = data.errmsg;
+      }
+
     }, function(msg){
       $scope.status = 'error';
       if (msg['data'][1]) {

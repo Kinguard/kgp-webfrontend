@@ -1,3 +1,9 @@
+opi-webfrontend (1.88) vili; urgency=medium
+
+  * Show error messages when updating certificates. 
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 03 Sep 2018 16:39:35 +0200
+
 opi-webfrontend (1.87) vili; urgency=medium
 
   * Fixed frames base url to apps.php from index.php 
