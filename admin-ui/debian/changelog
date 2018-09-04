@@ -1,3 +1,9 @@
+opi-webfrontend (1.89) vili; urgency=medium
+
+  * Added warning text about deleting user data when deleting user. 
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 04 Sep 2018 11:21:50 +0200
+
 opi-webfrontend (1.88) vili; urgency=medium
 
   * Show error messages when updating certificates. 
