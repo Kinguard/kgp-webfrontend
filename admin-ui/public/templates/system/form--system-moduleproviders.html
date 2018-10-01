@@ -1,0 +1,74 @@
+<div class="form-box" ng-controller="System__ProvidersCtrl">
+
+
+
+<div ng-repeat="(provider,provider_str) in providers">
+<form class="form-group-table" form-status="status" ng-submit="submit(this)">
+  <input type="hidden" ng-value="provider" name="provider" />
+  <div ng-show=hasText(provider,'meta','header')>
+    <strong>{{getText(provider,'meta','header')}}</strong>
+  </div>
+  <div ng-hide=hasText(provider,'meta','header')>
+    <strong>{{provider_str}}</strong>
+  </div>
+
+  <a href={{getText(provider,'meta','website') ng-show=hasText(provider,'meta','website')>{{getText(provider,"meta","website")}}</a>
+  <p ng-show=hasText(provider,'meta','description')>{{getText(provider,'meta','description')}}</p>
+
+
+  <div class="form-group form-box">
+    <strong>Provider settings</strong>
+    <div ng-repeat="(key,value) in providerdata[provider]">
+      <!-- Special parameter 'enabled' -->
+      <p class="form-group" ng-if="key=='enabled'">
+        <label>{{getText(provider,"labels",key)}}</label>
+        <span class="control">
+          <input type="checkbox" ng-model="providerdata[provider][key]" ng-name="key">
+        </span>
+      </p>
+
+      <div ng-show="providerdata[provider]['enabled']">
+        <!-- Special parameter 'password' -->
+        <p class="form-group" ng-show="(key=='password') && value">
+          <label>{{getText(provider,"labels",key)}}</label>
+          <span class="control">
+            <a>Update password</a>
+          </span>
+        </p>
+        <p class="form-group" ng-show="(key=='password') && !value">
+          <label>{{getText(provider,"labels",key)}}</label>
+          <span class="control">
+            <a>Set password</a>
+          </span>
+        </p>
+        <!-- Generic parameters -->
+        <p class="form-group" ng-if="key!='password' && key!='enabled'">
+          <label>{{getText(provider,"labels",key)}}</label>
+          <span class="control">
+            <input type="text" ng-model="providerdata[provider][key]" class="form-control" ng-name="key">
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <p class="form-group" ng-show="getServices(provider).length">
+      <label>Services provided:</label>
+      <span class="control">
+        <span ng-repeat="service in getServices(provider)" class="commadelimited">{{service}}</span>
+      </span>
+    </p>
+
+
+    <p class="form-buttons">
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </p>
+
+    <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+    <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
+    <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+    <div form-status-message="success" class="alert alert-success pop">Saved!</div>
+  </div>
+
+</form>
+
+</div>

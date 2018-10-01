@@ -34,6 +34,13 @@
       </span>
     </p>
 
+    <p class="form-group" ng-show="unitid">
+      <label class="control-label">System ID</label>
+      <span class="control">
+        {{unitid}}
+      </span>
+    </p>
+
     <div class="form-group">
       <label class="control-label">Software Version</label>
       <div class="control">

@@ -13,7 +13,7 @@
         <li class="mail" ng-class="{ active:isCurrentPath('/mail') }"><a href="#!/mail" tooltip="{{tooltip('E-mail Configuration')}}"><i></i><strong>E-mail Configuration</strong></a></li>
         <li class="network" ng-class="{ active:isCurrentPath('/network') }" ng-show="user.isAdmin()"><a href="#!/network" tooltip="{{tooltip('Network Configuration')}}"><i></i><strong>Network Configuration</strong></a></li>
         <li class="backup" ng-class="{ active:isCurrentPath('/backup') }" ng-show="user.isAdmin()"><a href="#!/backup" tooltip="{{tooltip('Backup Configuration')}}"><i></i><strong>Backup Configuration</strong></a></li>
-        <li class="update" ng-class="{ active:isCurrentPath('/update') }" ng-show="user.isAdmin()"><a href="#!/update" tooltip="{{tooltip('System Update Configuration')}}"><i></i><strong>System Update Configuration</strong></a></li>
+        <li class="system" ng-class="{ active:isCurrentPath('/system') }" ng-show="user.isAdmin()"><a href="#!/system" tooltip="{{tooltip('System Configuration')}}"><i></i><strong>System Configuration</strong></a></li>
         <li class="help" ng-class="{ active:isCurrentPath('/help') }" ><a href="#!/help" tooltip="{{tooltip('Support and Documentation')}}"><i></i><strong>Support</strong></a></li>
         <li class="shutdown" ng-class="{ active:isCurrentPath('/shutdown') }" ng-show="user.isAdmin()"><a href="#!/shutdown" tooltip="{{tooltip('Shutdown unit')}}"><i></i><strong>System Shutdown</strong></a></li>
         <li class="logout"><a href="#!/logout" ng-click="logout()" tooltip="{{tooltip('Logout')}}"><i></i><strong>Logout</strong></a></li>

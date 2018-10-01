@@ -3,8 +3,6 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
   $scope.MaxMsgLength = 25;
   $scope.showpkgs = false;
 
-
-
   function getMessage(id) {
     retval = false;
     angular.forEach($scope.messages, function(value,key){

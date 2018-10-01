@@ -72,6 +72,24 @@ opiaServices.factory('Helpers', ['_',function(_){
     return rstr;
   }
 
+  helpers.stripandLowercase = function(str) {
+    return str.toLowerCase().replace(/ /g,'');
+  }
+
+  helpers.hasMember = function(obj, parts) {
+    //var parts = prop.split('.');
+    for(var i = 0, l = parts.length; i < l; i++) {
+        var part = parts[i];
+        if(obj !== null && typeof obj === "object" && part in obj) {
+            obj = obj[part];
+        }
+        else {
+            return false;
+        }
+    }
+    return true;
+}
+
 
   // Regular Expressions
   // If the expression evaluates to a string, then it will be converted to a RegExp after wrapping it in ^ and $ characters.

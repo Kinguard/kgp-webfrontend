@@ -115,34 +115,42 @@ opiaServices.factory('BackupAPI', ['OPI','$resource',function(opi,$resource){
                   }
   );
 }]);
-opiaServices.factory('UpdateAPI', ['OPI','$resource',function(opi,$resource){
+opiaServices.factory('SystemAPI', ['OPI','$resource',function(opi,$resource){
   return $resource(
-                  opi.apiUrl+'updates', 
+                  opi.apiUrl+'system/:param1/:param2/', 
                   {  },
+                  {
+                    'getModuleProviders': { method: 'GET', params: { param1:'moduleproviders' } },
+                    'getModuleProviderInfo': { method: 'GET', params: { param1:'moduleproviderinfo'} },
+                    'updateModuleProviders': { method: 'POST', params: { param1:'moduleproviders' } },
+                    'getType': { method: 'GET', params: { param1:'type' } },
+                    'getUpdateSettings': { method: 'GET', params: { param1:'updatesettings' } },
+                    'setUpdateSettings': { method: 'POST', params: { param1:'updatesettings' } },
+                  },
                   {  }
   );
 }]);
 
 opiaServices.factory('ShellAPI', ['OPI','$resource',function(opi,$resource){
-	  return $resource(
-	                  opi.apiUrl+'shell', 
-	                  {  },
-	                  {  }
-	  );
+    return $resource(
+                    opi.apiUrl+'shell', 
+                    {  },
+                    {  }
+    );
 }]);
 
 
 opiaServices.factory('ShutdownAPI', ['OPI','$resource',function(opi,$resource){
-	  return $resource(
-	                  opi.apiUrl+'shutdown', 
-	                  {  },
-	                  {  }
-	  );
-	}]);
+    return $resource(
+                    opi.apiUrl+'shutdown', 
+                    {  },
+                    {  }
+    );
+  }]);
 
 opiaServices.factory('StatusAPI', ['OPI','$resource', function(opi,$resource){
   return $resource(
-                  opi.apiUrl+'system/:param1/', 
+                  opi.apiUrl+'status/:param1/', 
                   { param1:'@param1' },
                   {
                     'getStatus': { method: 'GET', params: { param1:'status' } },
@@ -150,8 +158,6 @@ opiaServices.factory('StatusAPI', ['OPI','$resource', function(opi,$resource){
                     'ackMessage': { method: 'POST', params: { param1:'messages' } },
                     'getStorage': { method: 'GET', params: { param1:'storage' } },
                     'getPackages': { method: 'GET', params: { param1:'packages' } },
-                    'getType': { method: 'GET', params: { param1:'type' } },
                  }
   );
 }]);
-

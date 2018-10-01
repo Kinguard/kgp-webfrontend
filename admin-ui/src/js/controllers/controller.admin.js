@@ -1,10 +1,10 @@
-opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$location','$route','$window','$interval','Helpers','StatusAPI',function($scope,$rootScope,User,$location,$route,$window,$interval,Helpers,Status){
+opiaControllers.controller('AdminCtrl', ['$scope','$rootScope','UserService','$location','$route','$window','$interval','Helpers','StatusAPI','SystemAPI',function($scope,$rootScope,User,$location,$route,$window,$interval,Helpers,Status,System){
   $route.reload();
 
   var $html = angular.element(document.getElementsByTagName('html'));
 
   getSysType = function(){
-    Status.getType(
+    System.getType(
       function(type){
         switch (type.typeText) {
           case ("Armada"):

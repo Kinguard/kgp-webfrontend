@@ -64,9 +64,8 @@ opiaApp.config(['localStorageServiceProvider','$routeProvider','$httpProvider','
       templateUrl: 'templates/backup/backup.php',
       controller: 'BackupCtrl'
     })
-    .when('/update/:tab?', {
-      templateUrl: 'templates/update/update.php',
-      controller: 'UpdateCtrl'
+    .when('/system/:tab?', {
+      templateUrl: 'templates/system/system.php'
     })
     .when('/shutdown', {
       templateUrl: 'templates/shutdown/shutdown.php',

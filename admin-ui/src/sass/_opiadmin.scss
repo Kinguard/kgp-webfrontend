@@ -441,8 +441,8 @@ nav {
   .network.active     i { background-image: url(../img/icons/menu/network_dark.png); }
   .backup             i { background-image: url(../img/icons/menu/backup.png);  }
   .backup.active      i { background-image: url(../img/icons/menu/backup_dark.png);  }
-  .update             i { background-image: url(../img/icons/menu/update.png);  }
-  .update.active      i { background-image: url(../img/icons/menu/update_dark.png);  }
+  .system             i { background-image: url(../img/icons/menu/system.png);  }
+  .system.active      i { background-image: url(../img/icons/menu/system_dark.png);  }
   .logout             i { background-image: url(../img/icons/menu/logout.png);  }
   .logout.active      i { background-image: url(../img/icons/menu/logout_dark.png);  }
   .shutdown           i { background-image: url(../img/icons/menu/shutdown.png); }
@@ -517,6 +517,10 @@ html.admin {
   }
 }
 
+
+span.commadelimited + span.commadelimited:before {
+  content : ", ";
+}
 
 /*** Users & Groups ***/
 .ng-table {

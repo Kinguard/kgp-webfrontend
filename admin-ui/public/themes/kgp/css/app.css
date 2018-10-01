@@ -7321,10 +7321,10 @@ nav .backup i {
   background-image: url(../img/icons/menu/backup.png); }
 nav .backup.active i {
   background-image: url(../img/icons/menu/backup_dark.png); }
-nav .update i {
-  background-image: url(../img/icons/menu/update.png); }
-nav .update.active i {
-  background-image: url(../img/icons/menu/update_dark.png); }
+nav .system i {
+  background-image: url(../img/icons/menu/system.png); }
+nav .system.active i {
+  background-image: url(../img/icons/menu/system_dark.png); }
 nav .logout i {
   background-image: url(../img/icons/menu/logout.png); }
 nav .logout.active i {
@@ -7433,6 +7433,9 @@ html.admin main header {
     color: #505050; }
 html.admin main article {
   padding: 50px; }
+
+span.commadelimited + span.commadelimited:before {
+  content: ", "; }
 
 /*** Users & Groups ***/
 .ng-table th.menu, .ng-table td.menu {
