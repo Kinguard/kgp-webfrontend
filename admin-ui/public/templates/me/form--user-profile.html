@@ -12,12 +12,29 @@
         <input type="text" ng-model="up.displayname" id="up-displayname" class="form-control" required  validation-icon="'Please specify' | translate ">
       </span>
     </p>
+
+    <p class="form-group">
+      <label>Default email address:</label>
+      <span class="control">
+        <select 
+              ng-model="up.defaultemail"
+              name="defaultemail"
+              class="form-control" 
+              ng-options="emailaddress for emailaddress in emailaddresses" 
+        >
+        </select>
+      </span>
+    </p>
+
     <p class="form-group">
       <label>Password</label>
       <span class="control">
         <a ng-click="changePassword()">Change Password</a>
       </span>
     </p>
+
+
+
     <p class="form-buttons">
       <button type="submit" class="btn btn-primary">Save Changes</button>
     </p>
