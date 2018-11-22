@@ -9,11 +9,14 @@
     <p class="form-group">
       <label for="ms-useexternal"><strong>Use OpenProducts External mail server</strong></label>
       <span class="control">
-        <input type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
+        <input ng-disabled="!system.unitid" type="radio" value="useexternal" ng-model="settings.smtpsettings" id="ms-useexternal" class="" name="smtp_settings">
+        <span ng-if="!system.unitid" class="text-center">
+          <a href="#!system/moduleproviders">Enable module</a>
+        </span>
       </span>
     </p>
 
-    <div ng-show="settings.smtpsettings=='useexternal'">
+    <div ng-if="system.unitid" ng-show="settings.smtpsettings=='useexternal'">
 
       <p class="form-group">
         <label for="ms-sendexternal" class="subsection">Send mail via OpenProducts servers</label>

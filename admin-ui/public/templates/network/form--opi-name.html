@@ -6,11 +6,15 @@
       <label for="on-dnsenable">Enable OpenProducts DynDNS</label>
       <span class="control">
         <input 	type="checkbox"	ng-model="settings.dnsenabled"
-        		id="on-dnsenabled"
+        		id="on-dnsenabled" ng-disabled="!system.unitid"
         >
+        <span ng-if="!system.unitid" class="text-center">
+          <a href="#!system/moduleproviders">Enable module</a>
+        </span>
+
       </span>
     </p>
-	<section ng-show ="settings.dnsenabled=='1'">
+	<section ng-if ="settings.dnsenabled=='1'">
 	    <p class="form-group">
 	      <label for="on-name">Device Name</label>
 	      <span class="control">
@@ -41,6 +45,39 @@
 	        </select>
 	      </span>
 	    </p>
+	</section>
+	<section ng-if ="settings.dnsenabled!='1'">
+	    <p class="form-group">
+	      <label for="on-name">Device Name</label>
+	      <span class="control">
+	        <input 	type="text"
+	        		ng-model="settings.opiname"
+	        		id="on-name"
+	        		class="form-control"
+	        		required
+	        		validation-icon="'Invalid or not available name' | translate "
+	        		ng-pattern="regexOpiname()"
+	        		name="opiname"
+	        		ng-model-options='{ debounce: 300 }'
+	        >
+	      </span>
+	    </p>
+	    <p class="form-group">
+	      <label for="on-name">Device Domain</label>
+	      <span class="control">
+	        <input	
+	        	ng-pattern="regexFQDN()"
+	        	ng-model="settings.domain"
+	        	name="domain"
+	        	class="form-control" 
+        		validation-icon="'Invalid domain name' | translate "
+	        	ng-model-options='{ debounce: 300 }'
+			>
+	        </select>
+	      </span>
+	    </p>
+	</section>
+	<section>
 	    <p class="form-group">
 	      <label >Complete URL to your device</label>
 	      <span class="control">
@@ -49,7 +86,7 @@
 	    </p>
 	    <p class="form-group">
 	      <span class="control" style="white-space: normal">
-	      <i>When changing name on device name you might have to reload your browser with new URL after save.</i>
+	      <i>When changing name or domain you might have to reload your browser with new URL after save.</i>
 	      </span>
 	    </p>
 	</section>
@@ -114,6 +151,7 @@
 	      <label for="CustomKey">Custom Key for above Certificate</label>
 	      <span class="control">
 	        <textarea
+	        		ng-required="onForm.CustomCert.$dirty"
 	        		ng-model="CertSettings.CustomKeyVal"
 	        		id="CustomKey"
 	        		class="form-control form-control-sm form-Certificate"
@@ -123,7 +161,7 @@
 	        		placeholder="Enter private key here. Even if a private key exists it is not shown for security reasons."
 	        ></textarea>
 	      	<br />
-	      	<i>Please enter your Certificate Key here</i>
+	      	<i ng-class="{'color-red' : ! onForm.CustomKey.$valid}">Please enter your Certificate Key here</i>
 	      </span>
 	    </p>
 

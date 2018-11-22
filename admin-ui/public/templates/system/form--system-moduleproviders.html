@@ -3,19 +3,28 @@
 
 
 <div ng-repeat="(provider,provider_str) in providers">
+<!--
 <form class="form-group-table" form-status="status" ng-submit="submit(this)">
+-->
+<form class="form-group-table" form-status="status"">
   <input type="hidden" ng-value="provider" name="provider" />
   <div ng-show=hasText(provider,'meta','header')>
     <strong>{{getText(provider,'meta','header')}}</strong>
+    {{provider['showmore']}}
+    (<a 
+      ng-show="( hasText(provider,'meta','website') || hasText(provider,'meta','description') )"
+      ng-click="providerdata[provider]['showmore'] = !providerdata[provider]['showmore']"
+    >{{providerdata[provider]['showmore'] ? "hide info":"more info"}}</a>)
   </div>
   <div ng-hide=hasText(provider,'meta','header')>
     <strong>{{provider_str}}</strong>
   </div>
-
-  <a href={{getText(provider,'meta','website') ng-show=hasText(provider,'meta','website')>{{getText(provider,"meta","website")}}</a>
-  <p ng-show=hasText(provider,'meta','description')>{{getText(provider,'meta','description')}}</p>
-
-
+  <p>
+    <div ng-show=providerdata[provider]['showmore']>
+      <a target=_blank href={{getText(provider,'meta','website')}} ng-show=hasText(provider,'meta','website')>{{getText(provider,"meta","website")}}</a>
+      <div ng-show=hasText(provider,'meta','description')>{{getText(provider,'meta','description')}}</div>
+    </div>
+  </p>
   <div class="form-group form-box">
     <strong>Provider settings</strong>
     <div ng-repeat="(key,value) in providerdata[provider]">
@@ -32,17 +41,17 @@
         <p class="form-group" ng-show="(key=='password') && value">
           <label>{{getText(provider,"labels",key)}}</label>
           <span class="control">
-            <a>Update password</a>
+            <a id="updatePWD">{{getText(provider,"labels","Update Password")}}</a>
           </span>
         </p>
         <p class="form-group" ng-show="(key=='password') && !value">
           <label>{{getText(provider,"labels",key)}}</label>
           <span class="control">
-            <a>Set password</a>
+            <a id="setPWD">{{getText(provider,"labels","Set Password")}}</a>
           </span>
         </p>
         <!-- Generic parameters -->
-        <p class="form-group" ng-if="key!='password' && key!='enabled'">
+        <p class="form-group" ng-if="key!='password' && key!='enabled' && key!='showmore'">
           <label>{{getText(provider,"labels",key)}}</label>
           <span class="control">
             <input type="text" ng-model="providerdata[provider][key]" class="form-control" ng-name="key">
@@ -59,10 +68,15 @@
     </p>
 
 
+    <!-- 
     <p class="form-buttons">
       <button type="submit" class="btn btn-primary">Save Changes</button>
     </p>
+    -->
 
+    <p class="form-buttons">
+      <button type="button" ng-click="SaveChanges(this)" class="btn btn-primary">Save Changes</button>
+    </p>
     <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
     <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
     <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>

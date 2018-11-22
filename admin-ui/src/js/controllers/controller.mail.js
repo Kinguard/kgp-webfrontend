@@ -24,10 +24,11 @@ opiaControllers.controller('MailCtrl', ['$scope','$route','$location',function($
 
 
 
-opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','Helpers','$filter',function($scope,Mail,Helpers,$filter){
+opiaControllers.controller('Mail__SendCtrl', ['$scope','MailAPI','SystemAPI','Helpers','$filter',function($scope,Mail,System,Helpers,$filter){
   // settings
   $scope.loadSettings = function(callback){
     $scope.settings = Mail.getSmtpSettings(callback);
+    $scope.system = System.getUnitid();
   }
   $scope.loadSettings();
 

@@ -13,6 +13,6 @@ Standards-Version: 3.9.4
 
 Package: opi-webfrontend
 Architecture: all
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, opi-webbackend (>= 1.40)
 Description: OPI Admin Webinterface
  OPI administrative webinterface used to configure the device.

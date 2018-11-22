@@ -1,4 +1,4 @@
-opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helpers','_','ModalService',function($scope,Backup,$filter,Helpers,_,Modals){
+opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','SystemAPI','$filter','Helpers','_','ModalService',function($scope,Backup,System,$filter,Helpers,_,Modals){
   // settings
   var curr_used, curr_quota;
 
@@ -24,6 +24,7 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','$filter','Helper
 
 
   $scope.loadSettings = function(callback){
+    $scope.system = System.getUnitid();
     $scope.settings = Backup.getSettings(function(){ 
       $scope.settings.enabled = $filter('bool')($scope.settings.enabled); 
       $scope.curr_location = $scope.settings.location;

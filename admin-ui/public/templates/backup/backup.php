@@ -17,16 +17,20 @@
   <div ng-show="settings.enabled">
 
     <div class="form-group">
-      <div class="control-label">Location</div>
+      <label>Location</label>
       <div class="control">
-        <div class="row">
-          <div class="col-sm-3 col-xs-6"><label for="b-location-op"><input type="radio" ng-model="settings.location" value="op" id="b-location-op"> OpenProducts Servers</label></div>
+        <div>
+          <label for="b-location-op"><input type="radio" ng-model="settings.location" value="op" id="b-location-op" ng-disabled="!system.unitid"> OpenProducts Servers
+            <span ng-show="!system.unitid" class="text-center">
+              (<a href="#!system/moduleproviders">Enable module</a>)
+            </span>
+          </label>
         </div>
-        <div class="row">
-          <div class="col-sm-3 col-xs-6"><label for="b-location-amazon"><input type="radio" ng-model="settings.location" value="amazon" id="b-location-amazon"> Amazon S3</label></div>
+        <div>
+          <label for="b-location-amazon"><input type="radio" ng-model="settings.location" value="amazon" id="b-location-amazon"> Amazon S3</label>
         </div>
-        <div class="row">
-          <div class="col-sm-3 col-xs-6"><label for="b-location-local"><input type="radio" ng-model="settings.location" value="local" id="b-location-local"> Local</label></div>
+        <div>
+          <label for="b-location-local"><input type="radio" ng-model="settings.location" value="local" id="b-location-local"> Local</label>
         </div>
       </div>
     </div>
@@ -34,8 +38,8 @@
       <div class="control-label">Type</div>
       <div class="control">
         <div class="row">
-        <div class="col-sm-3 col-xs-6"><label for="b-type-mirror"><input type="radio" ng-model="settings.type" value="mirror" id="b-type-mirror"> Mirror</label></div>
-        <div class="col-sm-3 col-xs-6"><label for="b-type-timeline"><input type="radio" ng-model="settings.type" value="timeline" id="b-type-timeline"> Timeline</label></div>
+        <label for="b-type-mirror"><input type="radio" ng-model="settings.type" value="mirror" id="b-type-mirror"> Mirror</label>
+        <label for="b-type-timeline"><input type="radio" ng-model="settings.type" value="timeline" id="b-type-timeline"> Timeline</label>
         </div>
       </div>
     </div>

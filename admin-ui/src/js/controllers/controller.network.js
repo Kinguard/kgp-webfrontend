@@ -88,7 +88,7 @@ opiaControllers.controller('Network__PortCtrl', ['$scope','$route','$location','
 
 }]);
 
-opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location','$filter','NetworkAPI','Helpers','_',function($scope,$route,$location,$filter,Network,Helpers,_){
+opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location','$filter','NetworkAPI','SystemAPI','Helpers','_',function($scope,$route,$location,$filter,Network,System,Helpers,_){
 
   $scope.checkFqdn = function(){
     Network.checkFqdn({'fqdn':$scope.settings.opiname+"."+$scope.settings.domain},
@@ -117,6 +117,9 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
   $scope.loadSettings = function(callback){
     $scope.settings = Network.getOpiName(callback);
     $scope.CertSettings = Network.getCertConfig(callback);
+    // make sure private key is never shown
+    $scope.CertSettings.CustomKeyVal = "";
+    $scope.system = System.getUnitid();
   }
   $scope.loadSettings();
   $scope.getAvailableDomains();    
@@ -125,11 +128,39 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
 	    return Helpers.regexOpiname;
   }
 
+  $scope.regexFQDN = function(){
+      return Helpers.regexFQDN;
+  }
+
 
   $scope.submit = function(form){ 
     if(form.$invalid) return;
 
-    Network.setOpiName({'name':$scope.settings.opiname,"dnsenabled":$scope.settings.dnsenabled,"domain":$scope.settings.domain }, function(data){
+    if (typeof $scope.CertSettings.CustomKeyVal === "undefined") {
+      CustomKey = "";
+    } else {
+      CustomKey = $scope.CertSettings.CustomKeyVal;
+    }
+    console.log("Cert Dirty: " + form.CustomCert.$dirty);
+    console.log("Key Pristine: " + form.CustomKey.$pristine);
+
+    /*
+    if ( form.CustomCert.$dirty && form.CustomKey.$pristine ) {
+      // Cert updated, require a key also
+      console.log("Abort, key required");
+      form.CustomKey.$setValidity("empty",false);
+      return false;
+    }
+    */
+
+    Network.setOpiName({
+        'name':$scope.settings.opiname,
+        "dnsenabled":$scope.settings.dnsenabled,
+        "domain":$scope.settings.domain,
+        'CertType':$scope.CertSettings.CertType,
+        'CustomCertVal':$scope.CertSettings.CustomCertVal,
+        'CustomKeyVal':CustomKey
+      }, function(data){
       if ( $scope.status != 'error') {
         $scope.status = 'success';
       }
@@ -137,13 +168,15 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
         $scope.status = 'error';
         $scope.errormsg = data.errmsg;
       }
-    }, function(){
+    }, function(data){
       $scope.status = 'error';
+      $scope.errormsg = data.data;
     });
 
     if (! $scope.CertSettings.CustomKeyVal ) {
       $scope.CertSettings.CustomKeyVal = "";
     }
+    /*
     Network.setCertConfig({'CertType':$scope.CertSettings.CertType,'CustomCertVal':$scope.CertSettings.CustomCertVal,'CustomKeyVal':$scope.CertSettings.CustomKeyVal}, function(data) {
       if ( $scope.status != 'error' ) {
         $scope.status = 'success';
@@ -160,6 +193,7 @@ opiaControllers.controller('Network__OpiNameCtrl', ['$scope','$route','$location
       }
 
     });
+    */
   }
 
   $scope.changeRadio = function() {

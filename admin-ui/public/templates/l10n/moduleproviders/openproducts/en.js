@@ -1,7 +1,9 @@
 {
 "labels" : {
-	"unitid" : "Unit ID",
-	"password" : "Master Password",
+	"unitid" : "Activation Code",
+	"password" : "Authentication Keys",
+	"setpassword"	: "Generate Keys",
+	"updatepassword"	: "Regenerate Keys",
 	"enabled" : "Enable Module"
 },
 "meta" : {
@@ -9,5 +11,6 @@
 	"website": "https://www.openproducts.com",
 	"description" : "OpenProducts is based in Sweden and provides a number of services targeted to The Kinguard Project"
 },
-"services" : ["DynDNS","Backup","VPN"]
+"services" : ["DynDNS","Backup","VPN"],
+"controller" : "openproducts"
 }

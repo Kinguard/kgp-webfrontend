@@ -124,6 +124,8 @@ opiaServices.factory('SystemAPI', ['OPI','$resource',function(opi,$resource){
                     'getModuleProviderInfo': { method: 'GET', params: { param1:'moduleproviderinfo'} },
                     'updateModuleProviders': { method: 'POST', params: { param1:'moduleproviders' } },
                     'getType': { method: 'GET', params: { param1:'type' } },
+                    'getUnitid': { method: 'GET', params: { param1:'unitid' } },
+                    'setUnitid': { method: 'POST', params: { param1:"unitid" } },
                     'getUpdateSettings': { method: 'GET', params: { param1:'updatesettings' } },
                     'setUpdateSettings': { method: 'POST', params: { param1:'updatesettings' } },
                   },
