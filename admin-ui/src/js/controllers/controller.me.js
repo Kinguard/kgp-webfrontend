@@ -5,10 +5,31 @@ opiaControllers.controller('MeCtrl', ['$scope',function($scope){
 
 
 
-opiaControllers.controller('Me__UserProfileCtrl', ['$scope','UserService','UserAPI','Helpers','ModalService',function($scope,User,Users,Helpers,Modals){
+
+opiaControllers.controller('Me__UserProfileCtrl', ['$scope','UserService','UserAPI','Helpers','ModalService','MailAPI',function($scope,User,Users,Helpers,Modals,Mail){
+
+  function loademailaddresses() {
+    $scope.emailaddresses = [];
+    var domains = Mail.getReceiverDomains(function(){
+      _.each(domains, function(domainItem){
+        // collect each domain's addresses
+        var load = Mail.getReceivers({domain:domainItem.domain, userfilter:User.username}, function(receivers)
+        {
+          _.each(receivers, function(receiver){
+            $scope.emailaddresses.push(receiver.address);
+          });
+        });
+      });
+    });
+    console.log("Loaded addresses:");
+    console.log($scope.emailaddresses);      
+  }
+
 
   $scope.status = 'init';
-  $scope.up = Users.get( {id:User.username} );
+  Users.get( {id:User.username}, function(data){
+    $scope.up = data;
+  } );
   $scope.isModal = function(){ return undefined; }
 
 
@@ -28,6 +49,8 @@ opiaControllers.controller('Me__UserProfileCtrl', ['$scope','UserService','UserA
       headline: 'Change Password'
     });
   }
+
+  loademailaddresses();
 
 }]);
 

@@ -48,7 +48,7 @@ opiaServices.factory('GroupAPI', ['OPI','$resource',function(opi,$resource){
 
 opiaServices.factory('MailAPI', ['OPI','$resource',function(opi,$resource){
   return $resource(
-                  opi.apiUrl+'smtp/:param1/:domain/:param2/:emailaddress', 
+                  opi.apiUrl+'smtp/:param1/:domain/:param2/:emailaddress/:userfilter', 
                   { param1:'@param1',domain:'@domain',param2:'@param2',emailaddress:'@emailaddress' },
                   { 
                     // SMTP Settings
@@ -60,7 +60,7 @@ opiaServices.factory('MailAPI', ['OPI','$resource',function(opi,$resource){
                     'addReceiverDomain': { method: 'POST', params: { param1:'domains' } },
                     'deleteReceiverDomain': { method: 'DELETE', params: { param1:'domains', domain:'@domain' } },
                     'deleteReceiverDomains': { method: 'DELETE', params: { param1:'domains' } },
-                    'getReceivers': { method: 'GET', params: { param1:'domains',domain:'@domain',param2:'addresses' }, isArray: true },
+                    'getReceivers': { method: 'GET', params: { param1:'domains',domain:'@domain',param2:'addresses',userfilter: '@userfilter' }, isArray: true },
                     'addReceiver': { method: 'POST', params: { param1:'domains',domain:'@domain',param2:'addresses' } },
                     'deleteReceiver': { method: 'DELETE', params: { param1:'domains',domain:'@domain',param2:'addresses',emailaddress:'@emailaddress' } }
                   }
