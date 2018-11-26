@@ -71,14 +71,7 @@ module.exports = function(grunt) {
             cwd: 'build/js',
             src: '*.js',
             dest: './public/js/'
-          },
-          {
-            expand: true,
-            cwd: 'build/js',
-            src: '*.js',
-            dest: './target/js/'
           }
-
         ]
       },
       css: {
@@ -88,12 +81,6 @@ module.exports = function(grunt) {
             cwd: 'build/css',
             src: '*.css',
             dest: './public/themes/kgp/css/'
-          },
-          {
-            expand: true,
-            cwd: 'build/css',
-            src: '*.css',
-            dest: './target/themes/kgp/css/'
           }
         ]
       },
@@ -129,7 +116,7 @@ module.exports = function(grunt) {
       js: {
         //files: '<%= concat.js.src %>',
         files: 'src/js/**/*.js',
-        tasks: ['js']
+        tasks: ['js','copy:target']
       },
       //jsdeploy: {
       //  files: '<%= concat.js.src %>',
@@ -137,7 +124,7 @@ module.exports = function(grunt) {
       //},
       css: {
         files: 'src/sass/**/*',
-        tasks: ['css']
+        tasks: ['css','copy:target']
       },
       //cssdeploy: {
       //  files: 'src/sass/**/*',
@@ -160,15 +147,17 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['js','css','templates']);
 
   grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js','copy:js']);
+  grunt.registerTask('js-target', ['clean:js', 'concat:js', 'uglify:js','copy:js','copy:target']);
   //grunt.registerTask('js', ['clean:js', 'concat:js', 'uglify:js']);
 
   
   grunt.registerTask('css', ['clean:css', 'sass','copy:css']);
+  grunt.registerTask('css-target', ['clean:css', 'sass','copy:css','copy:target']);
   //grunt.registerTask('css', ['clean:css', 'sass']);
   grunt.registerTask('templates', ['copy:templates']);
   
   grunt.registerTask('target', ['default','copy:target']);
 
-
+  grunt.registerTask('buildpackage', ['default']);
 
 };

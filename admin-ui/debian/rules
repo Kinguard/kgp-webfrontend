@@ -13,7 +13,12 @@ export DH_VERBOSE=1
 	dh $@ 
 	
 override_dh_auto_configure:
-	env HOME=$(CURDIR) /usr/bin/nodejs /usr/bin/npm install
+	env HOME=$(CURDIR) env NODE_PATH=$(CURDIR) /usr/bin/nodejs /usr/bin/npm install
+	#export HOME=$(CURDIR) NODE_PATH=$(CURDIR)
+	#env HOME=$(CURDIR) npm install findup-sync resolve nopt grunt-known-options
+	#env HOME=$(CURDIR) echo 'export NODE_PATH="'$(CURDIR)'"' >> $(CURDIR)/.bash_profile
+	#sudo env HOME=$(CURDIR) npm link findup-sync resolve nopt grunt-known-options
 	
 override_dh_auto_build:
-	grunt
+	npm run-script buildpackage
+

@@ -146,7 +146,7 @@ form[name='sdForm_reboot'],form[name='sdForm_shutdown'] {
 
 .control { white-space: nowrap; position: relative; 
   .form-control { padding-right: 50px; color: $black; display: inline-block; }
-  .icon-ok,.icon-err,.icon-hint { display: inline-block; position: relative; left: -40px; top: 7px; width: 25px; height: 25px; border-radius: 50%; overflow: hidden; }
+  .icon-ok,.icon-err,.icon-hint {display: inline-block; position: relative; left: -40px; top: 7px; width: 25px; height: 25px; border-radius: 50%; overflow: hidden; }
   &.control-sm {
     .form-control { padding: 6px 12px; height: 35px; padding-right: 36px; }
     .icon-ok,.icon-err,.icon-hint { width: 18px; height: 18px; left: -28px; top: 4px; }

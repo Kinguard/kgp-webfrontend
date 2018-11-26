@@ -4,10 +4,8 @@ Priority: extra
 Maintainer: PA Nilsson <pa@openproducts.se>
 Build-Depends: debhelper (>= 8.0.0),
  yui-compressor,
- nodejs,
+ nodejs (>=8.10),
  npm,
- grunt,
- node-grunt-cli,
  ruby-compass
 Standards-Version: 3.9.4
 

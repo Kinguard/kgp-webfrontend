@@ -19,7 +19,9 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "scripts": {},
+  "scripts": {
+  	"buildpackage" : "grunt buildpackage"
+  },
   "devDependencies": {
     "angular": "~1.6.0",
     "angular-animate": "*",
@@ -34,12 +36,14 @@
     "bootstrap-sass": "*",
     "font-awesome": "*",
     "grunt": "*",
+    "grunt-cli": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-sass": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
+    "grunt-legacy-util" : "*",
     "ng-table": "*",
     "underscore": "*"
   }
