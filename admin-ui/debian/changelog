@@ -1,3 +1,9 @@
+opi-webfrontend (1.91) vili; urgency=medium
+
+  * Support to set default email. 
+
+ -- PA Nilsson <pa@openproducts.se>  Mon, 26 Nov 2018 15:29:28 +0100
+
 opi-webfrontend (1.90) vili; urgency=medium
 
   * Support for moduleproviders (set unitid)
