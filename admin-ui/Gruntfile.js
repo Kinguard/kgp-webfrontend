@@ -98,7 +98,7 @@ module.exports = function(grunt) {
             src: '**',
             dest: './public/uib/template/'
           }          
-		]
+		    ]
       },
       target: {
         files: [

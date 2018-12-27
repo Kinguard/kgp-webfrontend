@@ -9,20 +9,9 @@ opiaControllers.controller('MeCtrl', ['$scope',function($scope){
 opiaControllers.controller('Me__UserProfileCtrl', ['$scope','UserService','UserAPI','Helpers','ModalService','MailAPI',function($scope,User,Users,Helpers,Modals,Mail){
 
   function loademailaddresses() {
-    $scope.emailaddresses = [];
-    var domains = Mail.getReceiverDomains(function(){
-      _.each(domains, function(domainItem){
-        // collect each domain's addresses
-        var load = Mail.getReceivers({domain:domainItem.domain, userfilter:User.username}, function(receivers)
-        {
-          _.each(receivers, function(receiver){
-            $scope.emailaddresses.push(receiver.address);
-          });
-        });
-      });
+    Users.get( { id:User.username,action:'identities'}, function(data) {
+      $scope.emailaddresses = data.identities;
     });
-    console.log("Loaded addresses:");
-    console.log($scope.emailaddresses);      
   }
 
 
