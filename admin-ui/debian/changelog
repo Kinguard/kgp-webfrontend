@@ -1,3 +1,9 @@
+opi-webfrontend (1.93) vili; urgency=medium
+
+  * Require send and/or receive options when using external smtp server.
+
+ -- PA Nilsson <pa@openproducts.se>  Thu, 27 Dec 2018 22:33:09 +0100
+
 opi-webfrontend (1.92) vili; urgency=medium
 
   * Load remote and local email addresses for "default" email select. 
