@@ -146,7 +146,9 @@ opiaServices.factory('ShutdownAPI', ['OPI','$resource',function(opi,$resource){
     return $resource(
                     opi.apiUrl+'shutdown', 
                     {  },
-                    {  }
+                    {
+                      'doAction' : {method : 'POST'}  
+                    }
     );
   }]);
 

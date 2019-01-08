@@ -197,21 +197,23 @@ function load_nextframe() {
 }
 
 function redirect(timeout,url) {
-	/*
-	if(!url) {
-		url = "/admin";
-	}
-	*/
 	if(!NC_waitlogout && !ADM_waitlogout && !RC_waitlogout) {
-		if(timeout > 0) {
-			setTimeout(function() {
-				/*
-				location.href=url;		  
-				*/
-				set_url(baseurl);
-			}, timeout*1000);
-		}
-		
+		debug_log("Trying to redirect");
+		setTimeout(function() {
+			$.ajax({
+	        	type: "HEAD",
+	        	async: true,
+	        	timeout: 2000,
+	        	url : baseurl
+			})
+			.success(function(){
+					set_url(baseurl);
+				})
+			.fail(function(){
+					debug_log("UI not available, waiting");
+					redirect(0,baseurl);
+			});
+		}, 5000);
 	}	
 }
 
