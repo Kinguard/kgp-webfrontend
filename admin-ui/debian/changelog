@@ -1,3 +1,9 @@
+opi-webfrontend (1.95) vili; urgency=medium
+
+  * Fixed OpenProducts module provider info. 
+
+ -- PA Nilsson <pa@openproducts.se>  Tue, 15 Jan 2019 19:29:24 +0100
+
 opi-webfrontend (1.94) vili; urgency=medium
 
   * Shutdown / Reboot pages support theme. 

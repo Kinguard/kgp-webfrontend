@@ -11,6 +11,6 @@
 	"website": "https://www.openproducts.com",
 	"description" : "OpenProducts is based in Sweden and provides a number of services targeted to The Kinguard Project"
 },
-"services" : ["DynDNS","Backup","VPN"],
+"services" : ["DynDNS","Backup"],
 "controller" : "openproducts"
 }
