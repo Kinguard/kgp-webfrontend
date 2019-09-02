@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 8.0.0),
  yui-compressor,
  nodejs (>=8.10),
  npm,
- ruby-compass
+ ruby-sass
 Standards-Version: 3.9.4
 
 Package: opi-webfrontend
