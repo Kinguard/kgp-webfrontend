@@ -1,3 +1,9 @@
+opi-webfrontend (1.97+bpo1) vili; urgency=medium
+
+  * Update Angular version
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 22 Nov 2019 09:34:30 +0100
+
 opi-webfrontend (1.95) vili; urgency=medium
 
   * Fixed OpenProducts module provider info. 
