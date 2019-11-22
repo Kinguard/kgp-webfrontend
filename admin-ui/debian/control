@@ -5,7 +5,7 @@ Maintainer: PA Nilsson <pa@openproducts.se>
 Build-Depends: debhelper (>= 8.0.0),
  yui-compressor,
  nodejs (>=8.10),
- npm,
+ npm (>=5.8.0),
  ruby-compass
 Standards-Version: 3.9.4
 
