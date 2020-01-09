@@ -47,12 +47,12 @@
         <div class="row">
           <div class="col-md-9 col-sm-8 col-xs-7">
             <span ng-show=packages.opi>{{packages.opi}}<br></span>
-            <span ng-show=packages.keep>{{packages.keep | limitTo : -10 : -4}}<br></span>
+            <span ng-show=packages.keep>{{packages.keep | limitTo : -15 : -4}}<br></span>
             <a ng-click="showpkgs = ! showpkgs">{{showpkgs ? "Hide" : "Show more"}} packages</a>
             <div ng-show="showpkgs"> 
             <table class="package-table">
               <tr ng-repeat="(package,version) in packages">
-                <td>{{package}}:</td><td>{{version| limitTo : -10 : -4}}</td><td>Status: <span class="pkg-status">{{version| limitTo : 10 : -4}}</span></td>
+                <td>{{package}}:</td><td>{{version| limitTo : -15 : -4}}</td><td>Status: <span class="pkg-status">{{version| limitTo : 10 : -4}}</span></td>
               </tr>
             </table>
             </div>
