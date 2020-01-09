@@ -1,3 +1,9 @@
+opi-webfrontend (1.97+bpo2) vili; urgency=medium
+
+  * Extend package version field length to allow longer version nrs
+
+ -- Tor Krill <tor@openproducts.se>  Thu, 09 Jan 2020 10:52:11 +0100
+
 opi-webfrontend (1.97+bpo1) vili; urgency=medium
 
   * Update Angular version
