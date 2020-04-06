@@ -94,4 +94,14 @@
 
   </div>
 </div>
+<p><br></p>
+<div ng-show="user.isAdmin() && upgrade.available">
+<h2 class="mbot1">System upgrade</h2>
+<div class="form-box">
+<div>
+{{upgrade.description}}
+</div>
+<button class="btn btn-primary" ng-click="startUpgrade()">Start upgrade</button>
+</div>
+</div>
 </article>

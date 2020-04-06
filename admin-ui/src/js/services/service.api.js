@@ -109,6 +109,8 @@ opiaServices.factory('BackupAPI', ['OPI','$resource',function(opi,$resource){
                     'getQuota': { method: 'GET', params: { param1:'quota' } },
                     'getStatus': { method: 'GET', params: { param1:'status' } },
 
+                    'startBackup': { method: 'POST', params: { param1:'start' } },
+
                     'getSubscriptions': { method: 'GET', params: { param1:'subscriptions' }, isArray: true },
                     'addSubscription' : { method: 'POST', params: { param1:'subscriptions' } },
                     'getSubscription' : { method: 'GET', params: { param1:'subscriptions', param2: '@id' } }
@@ -128,6 +130,9 @@ opiaServices.factory('SystemAPI', ['OPI','$resource',function(opi,$resource){
                     'setUnitid': { method: 'POST', params: { param1:"unitid" } },
                     'getUpdateSettings': { method: 'GET', params: { param1:'updatesettings' } },
                     'setUpdateSettings': { method: 'POST', params: { param1:'updatesettings' } },
+                    'getUpgrades': { method: 'GET', params: { param1: 'upgrade' } },
+                    'startUpgrade': { method: 'POST', params: { param1: 'upgrade' } },
+                    'startUpdate' : { method: 'POST', params: { param1: 'update' } },
                   },
                   {  }
   );

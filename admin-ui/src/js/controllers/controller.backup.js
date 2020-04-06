@@ -62,6 +62,10 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','SystemAPI','$fil
     $scope.subscriptions = Backup.getSubscriptions(callback);
   }
 
+  $scope.startBackup = function(){
+    Backup.startBackup();
+  }
+
   $scope.loadAll = function(){
     $scope.loadSettings();
     $scope.loadBackupStatus();
