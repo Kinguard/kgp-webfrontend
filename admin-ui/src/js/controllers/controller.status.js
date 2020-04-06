@@ -1,4 +1,4 @@
-opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$filter','$interval','Helpers','ModalService',function($scope,Backup,Status,$filter,$interval,Helpers,Modals){
+opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','SystemAPI','$filter','$interval','Helpers','ModalService',function($scope,Backup,Status,System,$filter,$interval,Helpers,Modals){
 
   $scope.MaxMsgLength = 25;
   $scope.showpkgs = false;
@@ -128,8 +128,36 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','$fil
       });
   }
 
+  $scope.getUpgrades = function() {
+    System.getUpgrades(
+      function(value)
+      {
+        console.log("Get upgrades succeded");
+        console.log(value);
+        $scope.upgrade = {
+          available: value.available,
+          description: value.description
+        };
+      },
+      function(resp)
+      {
+        console.log("Get upgrades failed");
+        console.log(resp);
+      }
+    );
+  }
+
+  $scope.startUpgrade = function() {
+	System.startUpgrade();
+  }
+
+  $scope.startUpdate = function() {
+	System.startUpdate();
+  }
+
   if( $scope.user.isAdmin() ) {
     $scope.loadBackupStatus();
+    $scope.getUpgrades();
   }
 
   $scope.loadStatus();

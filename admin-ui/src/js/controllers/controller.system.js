@@ -24,6 +24,12 @@ opiaControllers.controller('System__UpdateCtrl', ['$scope','SystemAPI','$filter'
   loadSettings();
 
 
+  $scope.startUpdate = function()
+  {
+    System.startUpdate();
+  }
+
+
   $scope.submit = function(form){
     if(form.$invalid) return;
     

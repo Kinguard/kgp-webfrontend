@@ -138,6 +138,10 @@
 
     <hr ng-show="backupStatus.date">
 
+	<p class="form-buttons" style="text-align: left;" ng-click="startBackup()">
+		<button type="button" class="btn">Manual Start</button>
+	</p>
+
   </div>
 
 
