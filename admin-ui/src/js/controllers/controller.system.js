@@ -26,7 +26,11 @@ opiaControllers.controller('System__UpdateCtrl', ['$scope','SystemAPI','$filter'
 
   $scope.startUpdate = function()
   {
-    System.startUpdate();
+    System.startUpdate( function(){
+		$scope.status = 'started';
+	}, function(){
+		$scope.status = 'error';
+	});
   }
 
 
