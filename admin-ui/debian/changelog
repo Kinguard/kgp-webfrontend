@@ -1,3 +1,11 @@
+opi-webfrontend (1.99~test2) vili; urgency=medium
+
+  * Add system upgrade functionality
+  * Add manual start of backup
+  * Add manual start of update
+
+ -- Tor Krill <tor@openproducts.se>  Mon, 06 Apr 2020 09:30:03 +0200
+
 opi-webfrontend (1.98) vili; urgency=medium
 
   * Extend package version field length to allow longer version nrs
