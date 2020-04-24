@@ -154,6 +154,7 @@
   <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
   <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
   <div form-status-message="success" class="alert alert-success pop">Saved!</div>
+  <div form-status-message="started" class="alert alert-success pop">Started!</div>
 
 
 </form>

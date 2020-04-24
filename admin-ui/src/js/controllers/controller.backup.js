@@ -63,7 +63,13 @@ opiaControllers.controller('BackupCtrl', ['$scope','BackupAPI','SystemAPI','$fil
   }
 
   $scope.startBackup = function(){
-    Backup.startBackup();
+    Backup.startBackup(
+		function(){
+                $scope.status = 'started';
+        }, function(){
+                $scope.status = 'error';
+        }
+	);
   }
 
   $scope.loadAll = function(){
