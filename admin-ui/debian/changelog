@@ -1,3 +1,9 @@
+opi-webfrontend (1.99~test3) vili; urgency=medium
+
+  * Updated colors of upgrade/backup start buttons. 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 13 May 2020 08:18:37 +0200
+
 opi-webfrontend (1.99~test2) vili; urgency=medium
 
   * Add system upgrade functionality
