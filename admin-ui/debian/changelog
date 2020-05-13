@@ -1,3 +1,9 @@
+opi-webfrontend (1.97+bpo3) vili; urgency=medium
+
+  * Fixed colors on update/backup start buttons. 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 13 May 2020 08:15:53 +0200
+
 opi-webfrontend (1.97+bpo2) vili; urgency=medium
 
   * Extend package version field length to allow longer version nrs
