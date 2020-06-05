@@ -172,6 +172,20 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','Syst
 
   $scope.loadPackages();
 
+  System.getType(
+    function(value)
+    {
+      $scope.osversion = value.osversion;
+    },
+    function(resp)
+    {
+      $scope.osversion = "Unavailable";
+	  console.log("Failed to get type");
+      console.log(resp);
+    }
+  );
+
+
 
   $scope.$on('$destroy', function() {
     //console.log("Element destroy");

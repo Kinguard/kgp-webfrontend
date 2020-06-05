@@ -46,8 +46,7 @@
       <div class="control">
         <div class="row">
           <div class="col-md-9 col-sm-8 col-xs-7">
-            <span ng-show=packages.opi>{{packages.opi}}<br></span>
-            <span ng-show=packages.keep>{{packages.keep | limitTo : -15 : -4}}<br></span>
+            <span>{{osversion}}<br></span>
             <a ng-click="showpkgs = ! showpkgs">{{showpkgs ? "Hide" : "Show more"}} packages</a>
             <div ng-show="showpkgs"> 
             <table class="package-table">
