@@ -132,8 +132,6 @@ opiaControllers.controller('StatusCtrl', ['$scope','BackupAPI','StatusAPI','Syst
     System.getUpgrades(
       function(value)
       {
-        console.log("Get upgrades succeded");
-        console.log(value);
         $scope.upgrade = {
           available: value.available,
           description: value.description
