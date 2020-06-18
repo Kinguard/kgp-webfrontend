@@ -23,7 +23,7 @@
   	"buildpackage" : "grunt buildpackage"
   },
   "devDependencies": {
-    "angular": "~1.7.9",
+    "angular": "~1.8.0",
     "angular-animate": "*",
     "angular-cookies": "*",
     "angular-gettext": "*",
