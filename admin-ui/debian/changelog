@@ -1,3 +1,15 @@
+opi-webfrontend (1.99~test5) vili; urgency=medium
+
+  * Add links for logos to rpi3/4
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 12 Jun 2020 14:28:41 +0200
+
+opi-webfrontend (1.99~test4) vili; urgency=medium
+
+  * Read system version from system.getType instead of keep/opi pkg
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 05 Jun 2020 14:43:43 +0200
+
 opi-webfrontend (1.99~test3) vili; urgency=medium
 
   * Updated colors of upgrade/backup start buttons. 
