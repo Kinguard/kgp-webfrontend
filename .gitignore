@@ -3,6 +3,8 @@ exclude/
 *.db
 *.pyc
 *~
+*.changes
+*.upload
 admin-ui/debian/opi-webfrontend
 admin-ui/debian/files
 admin-ui/public_dist
