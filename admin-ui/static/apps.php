@@ -10,20 +10,27 @@ include "helpers.php";
 
 <title>Really Important Stuff Inside</title>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="themes/kgp/css/frames.css">
-<link rel="stylesheet" type="text/css" href="themes/kgp/css/popbox.css">
+<link rel="stylesheet" type="text/css" href="themes/kgp/css/frames-base.css">
+<link rel="stylesheet" id="mainstyle_menutop" title="Top KGP" type="text/css" href="themes/kgp/css/frames-top.css">
+<link rel="stylesheet" id="mainstyle_menuleft" title="Left KGP" type="text/css" href="themes/kgp/css/frames-left.css">
+<link rel="stylesheet" id="mainstyle_menuright" title="Right KGP" type="text/css" href="themes/kgp/css/frames-right.css">
+<link rel="stylesheet" id="mainstyle_menubottom" title="Bottom KGP" type="text/css" href="themes/kgp/css/frames-bottom.css">
 <?php
 	if(checkCustomThemeFile("css/frames.css")) {
 		print "<link rel='stylesheet' type='text/css' href='".createThemepath("css/frames.css")."'>\n";
 	}
-	if(checkCustomThemeFile("css/popbox.css")) {
-		print "<link rel='stylesheet' type='text/css' href='".createThemepath("/css/popbox.css")."'>\n";	
-}
 ?>
 
 <link rel="shortcut icon" href="<?=createThemepath("")?>favicon.png" />
-<script src="js/jquery.min.js"></script>
-<script src="js/popbox.min.js"></script>
+<script src="js/jquery-3.5.1.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/opmenu_base.css">
+<link rel="stylesheet" id="menustyle_menutop" title="Top KGP" type="text/css" href="css/opmenu_menutop.css">
+<link rel="stylesheet" id="menustyle_menuleft" title="Left KGP" type="text/css" href="css/opmenu_menuleft.css">
+<link rel="stylesheet" id="menustyle_menubottom" title="Bottom KGP" type="text/css" href="css/opmenu_menubottom.css">
+<link rel="stylesheet" id="menustyle_menuright" title="Right KGP" type="text/css" href="css/opmenu_menuright.css">
+<script src="js/opmenu.js"></script>
+
 <script src="js/texts.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script src="opiframes.js"></script>
@@ -37,9 +44,6 @@ include "helpers.php";
 </head>
 
 <body id="op_wrapper">
-<div id="op_nav">
-
-</div>
 
 <div id="confirm_logout_backdrop" class="hidden"></div>
 <div id="confirm_logout" class="hidden">
@@ -60,61 +64,81 @@ include "helpers.php";
 		</div>
 	</div>
 </div>
-<div id="top_header">
-	<span class="hidden" id="label_curr_user">Logged in as: </span><span id="current_user">Not logged in</span>
-	<div class='popbox' id="opi-apps">
-	  <a class='open' href='#'>
-	  	<img src="<?=createThemepath("img/opi-apps.png")?>" /></a>
-	  <div class='collapse'>
-		<!--  Content of box goes here -->
-	    <div class='box' id="app-box">
-	      <div class='arrow'></div>
-	      <div class='arrow-border'></div>
-	      <a href="#" class="close"><img id="nav-box-close" src="<?=createThemepath("img/close.png")?>" /></a>
+<div id="mainview">
+	<div id="nav_line" class="opmenu">
+		<div class="opmenu_content">
+			<div id="username">
+				<div id="label_curr_user"></div><span id="current_user">Not logged in</span>
+				<!--span class="hidden" id="label_curr_user">User: </span><br/><span id="current_user">Not logged in</span-->
+			</div>
 			<div id="op_nav">
-			<button id="button_mail" class="nav_button close" target="frame_mail">
-				<div class="nav_control nav-icon" id="nav_mail"> </div>
-				<div class="nav_text" id="txt_nav_mail">Mail</div>
-			</button>
-			<button id="button_nc_files" class="nav_button close" target="frame_nc" data-app="files">
-				<div class="nav_control nav-icon" id="nav_files"> </div>
-				<div class="nav_text" id="txt_nav_files">Files</div>
-			</button>
-			<button id="button_nc_cal" class="nav_button close" target="frame_nc" data-app="calendar">
-				<div class="nav_control nav-icon" id="nav_cal"> </div>
-				<div class="nav_text" id="txt_nav_cal">Calendar</div>
-			</button>
-			<button id="button_nc_contacts" class="nav_button close" target="frame_nc" data-app="contacts">
-				<div class="nav_control nav-icon" id="nav_contacts"> </div>
-				<div class="nav_text" id="txt_nav_contacts">Contacts</div>
-			</button>
-			<button id="button_nc_gallery" class="nav_button close" target="frame_nc" data-app="gallery">
-				<div class="nav_control nav-icon" id="nav_gallery"> </div>
-				<div class="nav_text" id="txt_nav_gallery">Image<br>Gallery</div>
-			</button>
-			<button id="button_nc_tasks" class="nav_button close" target="frame_nc" data-app="tasks">
-				<div class="nav_control nav-icon" id="nav_tasks"> </div>
-				<div class="nav_text" id="txt_nav_tasks">Tasks</div>
-			</button>
-			<button id="button_admin" class="nav_button close" target="frame_admin">
-				<div class="nav_control nav-icon" id="nav_admin"> </div>
-				<div class="nav_text" id="txt_nav_admin">Admin</div>
-			</button>
+				<button id="button_mail" class="nav_button close" target="frame_mail">
+					<div class="nav_control nav-icon" id="nav_mail"> </div>
+					<div class="nav_text" id="txt_nav_mail">Mail</div>
+				</button>
+				<button id="button_nc_files" class="nav_button close" target="frame_nc" data-app="files">
+					<div class="nav_control nav-icon" id="nav_files"> </div>
+					<div class="nav_text" id="txt_nav_files">Files</div>
+				</button>
+				<button id="button_nc_cal" class="nav_button close" target="frame_nc" data-app="calendar">
+					<div class="nav_control nav-icon" id="nav_cal"> </div>
+					<div class="nav_text" id="txt_nav_cal">Calendar</div>
+				</button>
+				<button id="button_nc_contacts" class="nav_button close" target="frame_nc" data-app="contacts">
+					<div class="nav_control nav-icon" id="nav_contacts"> </div>
+					<div class="nav_text" id="txt_nav_contacts">Contacts</div>
+				</button>
+				<button id="button_nc_gallery" class="nav_button close" target="frame_nc" data-app="gallery">
+					<div class="nav_control nav-icon" id="nav_gallery"> </div>
+					<div class="nav_text" id="txt_nav_gallery">Gallery</div>
+				</button>
+				<button id="button_nc_tasks" class="nav_button close" target="frame_nc" data-app="tasks">
+					<div class="nav_control nav-icon" id="nav_tasks"> </div>
+					<div class="nav_text" id="txt_nav_tasks">Tasks</div>
+				</button>
+				<button id="button_admin" class="nav_button close" target="frame_admin">
+					<div class="nav_control nav-icon" id="nav_admin"> </div>
+					<div class="nav_text" id="txt_nav_admin">Admin</div>
+				</button>
+				<div id="top-nav-logout">
+					<a href="#" class="top-nav" alt="Logout"><img src="<?=createThemepath("/img/logout_grey.png")?>" /></a>
+				</div>
+			</div>
+			<div class="opmenu_settings">
+				<div id="opmenu_pindiv">
+					<input type="checkbox" id="opmenu_pinned" name="pinned" value="true">
+					<label for="opmenu_pinned" class="opmenu_icon"></label>
+				</div>
+				<div id="opmenu_osel">
+					<div id="opmenu_topsel">
+						<input type="radio" id="opm_top" name="opmenu_orientation" value="0">
+						<!-- label for="opm_top">Top</label><br -->
+					</div>
+					<div id="opmenu_rightsel">
+						<input type="radio" id="opm_right" name="opmenu_orientation" value="1">
+						<!-- label for="opm_right">Right</label><br -->
+					</div>
+					<div id="opmenu_bottomsel">
+						<input type="radio" id="opm_bottom" name="opmenu_orientation" value="2">
+						<!-- label for="opm_bottom">Bottom</label><br -->
+					</div>
+					<div id="opmenu_leftsel">
+						<input type="radio" id="opm_left" name="opmenu_orientation" value="3">
+						<!-- label for="opm_left">Left</label><br -->
+					</div>
+				</div>
+			</div>
 		</div>
-	    </div>
-	  </div>
+		<div class="opmenu_togglebar">
+			<img class="opmenu_grip" style="width:17px;" src="<?=createThemepath("img/grip-lines.png")?>" />
+		</div>
 	</div>
-	<div id="top-nav-logout">
-		<a href="#" class="top-nav" alt="Logout"><img src="<?=createThemepath("/img/logout_grey.png")?>" /></a>
-	</div>
-</div>
-
-
 <div id="content">
 	<iframe class="subpage z2 z0" id="frame_admin" src = "admin.php"></iframe>
 	<iframe class="subpage z1" id="frame_loading" src = "loading.php"></iframe>
 	<iframe class="subpage z3" id="frame_mail" src = "loading.php"></iframe>
 	<iframe class="subpage z4" id="frame_nc" src = "loading.php" allowfullscreen></iframe>
+</div>
 </div>
 </body>
 

@@ -1,0 +1,12 @@
+:root {
+
+	--opmenu_spritesheet: url("/admin/img/Pins.png");
+}
+
+#nav_line {
+	background: antiquewhite;
+}
+
+#op_nav {
+	border-radius: 10px;
+}

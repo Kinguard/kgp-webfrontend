@@ -175,8 +175,7 @@ function load_nextframe() {
 	// this function is called from admin UI when it has finished loading.
 
 	debug_log("load_nextframe");
-	$("#label_curr_user").show();
-	$("#top_header").show();
+	menu.show();
 	view_frame(activeFrame);
 	
 	if(NC_waitlogin || RC_waitlogin) {
@@ -206,7 +205,7 @@ function redirect(timeout,url) {
 	        	timeout: 2000,
 	        	url : baseurl
 			})
-			.success(function(){
+			.done(function(){
 					set_url(baseurl);
 				})
 			.fail(function(){
@@ -242,7 +241,7 @@ function NC_logout(timeout=0,url="",callback,cb_args) {
 		{ 	url: logout_url,
 			headers: { 'OCS-APIRequest': 'true'}
 		})
-	.success(function(response,status,xhr){
+	.done(function(response,status,xhr){
 			debug_log(status);
 			debug_log(xhr);
 			debug_log("NC logout done");
@@ -267,7 +266,7 @@ function logout(timeout,url) {
 	RC_waitlogout = true;
 	NC_waitlogout = true;
 	ADM_waitlogout = true;
-	$("#top_header").hide();
+	menu.hide();
 	$("#app-box").hide();
 
 	debug_log("NC token: " + NC_token);
@@ -304,11 +303,6 @@ function logout(timeout,url) {
 
 function view_frame(Frame) {
 
-	// add a class to top-header so it can be styled dependent on the current app being shown.
-	$("#top_header").removeClass (function (index, css) {
-		return (css.match (/\bframe_\S+/g) || []).join(' ');
-	});
-	$("#top_header").addClass(Frame);
 	$(".subpage").removeClass("z0");
 	if(FramesLoaded[Frame]) {
 		$("#"+Frame).addClass("z0");
@@ -372,13 +366,16 @@ function update_nav(app) {
 
 }
 
-$(document).ready(function() {
-	$('.popbox').popbox();
+var menu;
 
+$(document).ready(function() {
+
+	menu = new Menu($("#nav_line"));
+	menu.hide();
 	get_systype();
 
 	debug_log("Starting load");
-	$(".subpage").load( function() {
+	$(".subpage").on("load", function() {
 		debug_log("Loading: "+$(this).attr("id"));
 
 		frame_id = $(this).attr('id');
@@ -426,7 +423,7 @@ $(document).ready(function() {
 
 		debug_log("Calling setframe from navbutton");
 		set_frame($(this).attr("target"),$(this).attr("data-app"));
-
+		menu.close();
 		update_nav(this);
 
 	});

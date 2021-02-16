@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+html, body {
+	height: 100%;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+
+#top-nav-logout {
+	display : inline-block;
+	margin-left : 25px;
+}
+
+
+#mainview {
+	height: 100%;
+	display : flex;
+	flex-flow : column;
+}
+
+#nav_line {
+	margin-bottom: 1px;
+}
+
+
+#username {
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+
+#op_nav {
+	background-color: var(--nav_bgcolor, rgb(241, 199, 145));
+	align-items: center;
+	display: flex;
+	flex-flow: row;
+	width: min-content;
+	margin: auto;
+}
+

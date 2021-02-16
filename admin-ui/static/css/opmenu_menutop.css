@@ -1,0 +1,111 @@
+.opmenu_content {
+	display: flex;
+	position:inherit;
+	font-size : small;
+	z-index: 1;
+	overflow: hidden;
+	transition-delay: 0.2s;
+	flex-flow: row-reverse;
+	width: 100%;
+	max-height: 0px;
+	transition: max-height 1s;
+}
+
+.opmenu_settings {
+	margin-right: 10px;
+	display: grid;
+}
+
+#opmenu_pindiv {
+	grid-column: 1;
+}
+
+#opmenu_osel {
+	grid-column: 2;
+	display: grid;
+	grid-template-columns: 15px 15px 15px;
+	grid-template-rows: 15px 15px 15px;
+}
+
+#opmenu_topsel {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+#opmenu_rightsel {
+	grid-column: 3;
+	grid-row: 2;
+}
+
+#opmenu_bottomsel {
+	grid-column: 2;
+	grid-row: 3;
+}
+
+#opmenu_leftsel {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.opmenu_settings input[type="checkbox"] {
+	display: none;
+}
+
+.opmenu_icon {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-image: var(--opmenu_spritesheet);
+	cursor: pointer;
+	position: relative;
+	top: 10px;
+}
+
+.opmenu_unchecked {
+	background-position: 0px 0px ;
+}
+
+.opmenu_checked {
+	background-position: -32px 0px;
+}
+
+#opmenu_pinned + label {
+i	background-position: 0px -32px;
+}
+
+#opmenu_pinned:checked + label {
+	background-position: -96px -32px ;
+}
+
+#opmenu_horizontal + label {
+	background-position: 0px -64px;
+}
+
+#opmenu_horizontal:checked + label {
+	background-position: -32px -64px;
+}
+
+.opmenu_togglebar {
+	width: 100%;
+}
+
+.opmenu_grip {
+	width: 17px;
+	margin: auto;
+	display: block;
+}
+
+.opmenu {
+	max-height: 200px;
+	width: 100%;
+	float: right;
+	display: flex;
+	align-items: center;
+	border-right: 2px solid black;
+	border-left: 2px solid black;
+	flex-flow: column;
+	border-bottom: 2px solid black;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
