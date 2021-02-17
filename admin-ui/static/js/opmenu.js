@@ -170,7 +170,6 @@ class Menu
 
 	_handle_leave()
 	{
-		console.log("Leaving menu");
 		this.isfocused = false;
 
 		if( this.defered_close )
@@ -183,7 +182,6 @@ class Menu
 
 	_handle_enter()
 	{
-		console.log("Enter menu");
 		this.isfocused = true;
 	}
 
@@ -203,7 +201,6 @@ class Menu
 
 	_setCSS(orientation)
 	{
-		console.log("Set css: "+orientation);
 
 		if( orientation >= this.position.length)
 		{
@@ -213,7 +210,6 @@ class Menu
 		// Start by disabling all sheets. Wont work otherwise
 		for(let i in this.position)
 		{
-			console.log("Element");
 			for(let j=0; j < this.position[i].css.length; j++)
 			{
 				this.position[i].css[j].disabled=true;
@@ -229,7 +225,6 @@ class Menu
 
 	setorientation(val, force = false)
 	{
-		console.log("Set orientation: "+val);
 
 		let curo = this.orientation.get();
 		if( curo == val && !force )
@@ -296,7 +291,6 @@ class Menu
 
 		if( this.isfocused )
 		{
-			console.log("Close requested while in focus, defering");
 			this.defered_close = true;
 			return;
 		}
