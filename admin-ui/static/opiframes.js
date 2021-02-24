@@ -2,6 +2,7 @@ var FramesLoaded = {};
 // always concider admin frame to be loaded since this is always has something to show.
 FramesLoaded['frame_admin'] = true;
 
+var activeFrame = "frame_admin";
 var currentFrame = 0;
 var allow_loadscript = false;
 var Frame_ref = {};
@@ -10,6 +11,12 @@ var NC_token = "";
 var current_user;
 var cookie;
 var baseurl = "/admin/apps.php";
+var RC_waitlogin = false;
+var NC_waitlogin = false;
+var RC_waitlogout = false;
+var NC_waitlogout = false;
+var ADM_waitlogout = false;
+var TimeoutLeaveID;
 var DEBUG = false;
 
 var FrameOrder = [
@@ -28,10 +35,6 @@ var FrameSrcDefaultApp = {
 	frame_mail      :   "",
 	frame_nc		: 	"/apps/files"
 }
-var activeFrame = "frame_admin";
-
-
-var TimeoutLeaveID;
 
 function debug_log(msg) {
 	if (DEBUG) console.log(msg);
@@ -44,7 +47,9 @@ function set_name(name) {
 	if($.cookie(current_user)) {
 		cookie = $.parseJSON($.cookie(current_user));
 
-		debug_log("Set menu indicatior.");
+		
+		debug_log("Cookie App: "+cookie.current_app);
+		debug_log("Cookie Frame: "+cookie.current_frame);
 		if (cookie.current_app) {
 			$(".nav_button[data-app='"+cookie.current_app+"']").addClass("active");
 		} else {
@@ -75,36 +80,14 @@ function load_frame(id) {
 	$("#"+id).attr('src',FrameSrc[id]);
 }
 
-var RC_waitlogin = false;
-var NC_waitlogin = false;
-var RC_waitlogout = false;
-var NC_waitlogout = false;
-var ADM_waitlogout = false;
 
 function login_NC(args) {
 	var nc_args = {};
 
-	// get login args from nextcloud page
-	console.log("Trying NC login")
-	$("<div id='nc_login'>").load("/nc/index.php/login form",function(response,status,xhr) {
-		debug_log("Loaded NC login form.");
-		if ( status == "error") {
-			debug_log( "Failed to load login form" + xhr.status + " " + xhr.statusText );
-		} else {
-			if($(this).contents().find("input[name='install']").val()) {
-				nc_args = { adminlogin: args.username, adminpass: args.password, 'adminpass-clone': args.password };
-			} else {
-				// grab request token 
-				token = $(this).contents().find("input[name='requesttoken']").val()
-				nc_args = { user: args.username, password: args.password, requesttoken: token };	
-			}
+	nc_args = { user: args.username, password: args.password, requesttoken: NC_token };
 			$.post( "/nc/index.php/login", nc_args, function( data ) { 
 				NC_waitlogin = false;
-				//if(! RC_waitlogin) {
 					load_nextframe();		
-				//}
-			});
-		}
 	});
 	
 }
@@ -328,7 +311,7 @@ function set_frame(activeFrame,app="") {
 		view_frame(activeFrame);
 }
 
-function get_systype() {
+function setTitle() {
 	$.get( "index.php/api/system/type", function( data ) {
 		switch (data.typeText) {
 		 	case ("Armada"):
@@ -372,7 +355,7 @@ $(document).ready(function() {
 
 	menu = new Menu($("#nav_line"));
 	menu.hide();
-	get_systype();
+	setTitle();
 
 	debug_log("Starting load");
 	$(".subpage").on("load", function() {

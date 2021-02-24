@@ -1,3 +1,9 @@
+opi-webfrontend (1.99~test6) vili; urgency=medium
+
+  * Fix login for NextCloud17 
+
+ -- PA Nilsson <pa@openproducts.se>  Wed, 24 Feb 2021 13:30:12 +0100
+
 opi-webfrontend (1.99~test5) vili; urgency=medium
 
   * Add links for logos to rpi3/4
