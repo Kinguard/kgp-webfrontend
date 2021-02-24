@@ -88,7 +88,7 @@ include "helpers.php";
 					<div class="nav_control nav-icon" id="nav_contacts"> </div>
 					<div class="nav_text" id="txt_nav_contacts">Contacts</div>
 				</button>
-				<button id="button_nc_gallery" class="nav_button close" target="frame_nc" data-app="gallery">
+				<button id="button_nc_gallery" class="nav_button close" target="frame_nc" data-app="photos">
 					<div class="nav_control nav-icon" id="nav_gallery"> </div>
 					<div class="nav_text" id="txt_nav_gallery">Gallery</div>
 				</button>

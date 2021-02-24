@@ -1,3 +1,9 @@
+opi-webfrontend (1.99~test8) vili; urgency=medium
+
+  * Change gallery app  to photos app. New in NC18.
+
+ -- Tor Krill <tor@openproducts.se>  Wed, 24 Feb 2021 14:41:37 +0100
+
 opi-webfrontend (1.99~test7) vili; urgency=medium
 
   * Fix login for NextCloud17 
