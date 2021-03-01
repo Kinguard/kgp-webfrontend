@@ -247,20 +247,6 @@ class Menu
 		this.orientation.set(val);
 	}
 
-	_checkorientation()
-	{
-		if( this.element.height() > this.element.width() )
-		{
-			// Vertical arrangement
-			this.showvertical()
-		}
-		else
-		{
-			// Assume horizontal orientation
-			this.showhorizontal();
-		}
-	}
-
 	hide()
 	{
 		this.element.hide();
@@ -281,7 +267,7 @@ class Menu
 		}
 	}
 
-	close()
+	close(force = false)
 	{
 
 		if( this.pinned.get() || !this.isopen )
@@ -289,7 +275,7 @@ class Menu
 			return;
 		}
 
-		if( this.isfocused )
+		if( this.isfocused && !force)
 		{
 			this.defered_close = true;
 			return;
@@ -304,11 +290,11 @@ class Menu
 	{
 		if( this.isopen )
 		{
-			this.close();
+			this.close(true);
 		}
 		else
 		{
-			this.open();
+			this.open(true);
 		}
 	}
 
