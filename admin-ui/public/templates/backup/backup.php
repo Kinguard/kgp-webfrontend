@@ -64,7 +64,7 @@
 
     <div ng-show="settings.location=='amazon'">
       <p class="form-group">
-        <label for="bs-awsseckey">Amazon Bucket to use</label>
+        <label for="bs-awsbucket">Amazon Bucket to use</label>
         <span class="control">
           <input 
             type="text" 
@@ -74,6 +74,17 @@
             ng-pattern="regexAWSbucket()"
             ng-minlength="3" ng-maxlength="63"
             validation-icon="'Invalid value' | translate ">
+        </span>
+      </p>
+    </div>
+    <div ng-show="settings.location=='amazon'">
+      <p class="form-group">
+        <label for="bs-awsregion">Amazon region</label>
+        <span class="control">
+	<select name="AWSregion" class="form-control"
+		ng-options="key as value for (key, value) in settings.AWSregions"
+		ng-model="settings.AWSregion">
+	</select>
         </span>
       </p>
     </div>
