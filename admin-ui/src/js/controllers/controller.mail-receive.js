@@ -96,7 +96,7 @@ opiaControllers.controller('Mail__ReceiveListCtrl', ['$scope','UserAPI','MailAPI
 
   $scope.reloadTable = function(){
     //$scope.tableParams.settings().groupBy = $scope.groupBy;
-    //$scope.tableParams.count($scope.receivers.length);
+    $scope.tableParams.count($scope.receivers.length);
     $scope.tableParams.reload();
   }
 
