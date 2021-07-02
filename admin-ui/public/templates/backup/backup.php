@@ -81,7 +81,8 @@
       <p class="form-group">
         <label for="bs-awsregion">Amazon region</label>
         <span class="control">
-	<select name="AWSregion" class="form-control" required
+	<select name="AWSregion" class="form-control"
+		ng-required="settings.location=='amazon'"
 		ng-options="key as value for (key, value) in settings.AWSregions"
 		ng-model="settings.AWSregion">
 	</select>
