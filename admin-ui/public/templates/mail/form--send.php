@@ -21,13 +21,13 @@
       <p class="form-group">
         <label for="ms-sendexternal" class="subsection">Send mail via OpenProducts servers</label>
         <span class="control">
-          <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal" ng-required="settings.smtpsettings=='useexternal' && !settings.receiverelay">
+          <input type="checkbox" ng-model="settings.sendexternal" id="ms-sendexternal" ng-required="settings.smtpsettings=='useexternal' && !settings.receiverelay" ng-disabled="!settings.relaysend">
         </span>
       </p>
       <p class="form-group">
         <label for="ms-receiverelay" class="subsection">Recieve mail via OpenProducts servers</label>
         <span class="control">
-          <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay" ng-required="settings.smtpsettings=='useexternal' &&  !settings.sendexternal">
+          <input type="checkbox" ng-model="settings.receiverelay" id="ms-receiverelay" ng-required="settings.smtpsettings=='useexternal' &&  !settings.sendexternal" ng-disabled="!settings.relayreceive">
         </span>
       </p>
       <p class="form-group" ng-show="settings.smtpsettings=='useexternal' && (!settings.receiverelay && !settings.sendexternal)">
