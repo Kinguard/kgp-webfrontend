@@ -36,7 +36,9 @@
          <span class="alert-danger">Please select at least one option</span>
         </span>
       </p>
-
+      <p class="form-group" ng-hide="settings.relayreceive">
+	<label class="alert-warning subsection">Receive via OpenProducts servers only supported on dyndns enabled systems</label>
+      </p>
       <hr>
     </div>
 

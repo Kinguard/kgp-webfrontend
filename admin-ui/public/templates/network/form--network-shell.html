@@ -1,30 +1,33 @@
 <div class="form-box" ng-controller="Network__ShellCtrl">
-<form class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)">
+<form class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)" ng-disabled="!settings.available">
+	<p ng-hide="settings.available">
+		<span class="text-warning">KGP SSH shell control disabled. Use OS default operations to configure.</span>
+		<hr/>
+	</p>
+	<fieldset ng-disabled="!settings.available">
+		<p class="form-group">
+			<label for="shell_access">Allow shell (SSH) access to your device</label>
+			<span class="control">
+				<input type="checkbox" ng-model="settings.enabled" ng-true-value="'1'" ng-false-value="'0'" id="shell_access" />
+			</span>
+		</p>
+		<p class="form-group">
+			<span class="control" style="white-space: normal">
+				<i>When enabling shell access, an email will be sent to the admin users of your device with a password that can be used to access as 'root' using SSH.</i>
+			</span>
+		</p>
 
-  <p class="form-group">
-    <label for="shell_access">Allow shell (SSH) access to your device</label>
-    <span class="control">
-      <input type="checkbox" ng-disabled="!settings.available" ng-model="settings.enabled" ng-true-value="'1'" ng-false-value="'0'" id="shell_access" />
-    </span>
-  </p>
-    <p class="form-group">
-      <span class="control" style="white-space: normal">
-      <i>When enabling shell access, an email will be sent to the admin users of your device with a password that can be used to access as 'root' using SSH.</i>
-      </span>
-    </p>
-  
-  <hr>
-
-
-  <p class="form-buttons">
-    <button type="submit" ng-disabled="!settings.available" class="btn btn-primary">Save Changes</button>
-  </p>
-
-    <div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
-    <div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
-    <div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
-    <div form-status-message="success" class="alert alert-success pop">Saved!</div>
+		<hr>
 
 
+		<p class="form-buttons">
+			<button type="submit" class="btn btn-primary">Save Changes</button>
+		</p>
+
+		<div form-status-message="invalid" class="alert alert-danger pop">Form is invalid</div>
+		<div form-status-message="submitting" class="alert alert-info pop">Saving...</div>
+		<div form-status-message="error" class="alert alert-danger pop">An error occurred. Please try again.</div>
+		<div form-status-message="success" class="alert alert-success pop">Saved!</div>
+	</fieldset>
 </form>
 </div>
