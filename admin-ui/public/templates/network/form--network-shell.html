@@ -1,5 +1,5 @@
 <div class="form-box" ng-controller="Network__ShellCtrl">
-<form class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)" ng-disabled="!settings.available">
+<form class="form-group-table" form-status="status" name="nsForm" ng-submit="submit(nsForm)">
 	<p ng-hide="settings.available">
 		<span class="text-warning">KGP SSH shell control disabled. Use OS default operations to configure.</span>
 		<hr/>
@@ -8,7 +8,7 @@
 		<p class="form-group">
 			<label for="shell_access">Allow shell (SSH) access to your device</label>
 			<span class="control">
-				<input type="checkbox" ng-model="settings.enabled" ng-true-value="'1'" ng-false-value="'0'" id="shell_access" />
+				<input type="checkbox" ng-model="settings.enabled" id="shell_access" />
 			</span>
 		</p>
 		<p class="form-group">
