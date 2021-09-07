@@ -1,3 +1,69 @@
+opi-webfrontend (1.99) vili; urgency=medium
+
+  * Buster release
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 07 Sep 2021 11:12:55 +0200
+
+opi-webfrontend (1.99~test18) vili; urgency=medium
+
+  * Update Network shell to work better with shell access availability
+
+ -- Tor Krill <tor@openproducts.se>  Wed, 11 Aug 2021 09:44:06 +0200
+
+opi-webfrontend (1.99~test17) vili; urgency=medium
+
+  * Add comments on why features disabled
+
+ -- Tor Krill <tor@openproducts.se>  Mon, 09 Aug 2021 11:56:07 +0200
+
+opi-webfrontend (1.99~test16) vili; urgency=medium
+
+  * Disable shell access control if not supported
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 06 Aug 2021 17:03:50 +0200
+
+opi-webfrontend (1.99~test15) vili; urgency=medium
+
+  * Disable send/receive smtp if not supported by backend
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 06 Jul 2021 12:12:06 +0200
+
+opi-webfrontend (1.99~test14) vili; urgency=medium
+
+  * AWS region should only be required if backup to S3 selected
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 02 Jul 2021 15:07:41 +0200
+
+opi-webfrontend (1.99~test13) vili; urgency=medium
+
+  * Update ngTable size when adding new local mail account #637
+
+ -- Tor Krill <tor@openproducts.se>  Wed, 30 Jun 2021 13:41:27 +0200
+
+opi-webfrontend (1.99~test12) vili; urgency=medium
+
+  * Add kgp-logo for PC
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 29 Jun 2021 09:15:59 +0200
+
+opi-webfrontend (1.99~test11) vili; urgency=medium
+
+  * Make sure region is required in s3-backup config
+
+ -- Tor Krill <tor@openproducts.se>  Wed, 16 Jun 2021 11:47:47 +0200
+
+opi-webfrontend (1.99~test10) vili; urgency=medium
+
+  * Add AWS Region to backup config
+
+ -- Tor Krill <tor@openproducts.se>  Wed, 16 Jun 2021 11:10:39 +0200
+
+opi-webfrontend (1.99~test9) vili; urgency=medium
+
+  * Always close menu upon click on grabber #621
+
+ -- Tor Krill <tor@openproducts.se>  Mon, 01 Mar 2021 09:35:04 +0100
+
 opi-webfrontend (1.99~test8) vili; urgency=medium
 
   * Change gallery app  to photos app. New in NC18.
