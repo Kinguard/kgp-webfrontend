@@ -1,37 +1,5 @@
-var FramesLoaded = {};
-// always concider admin frame to be loaded since this is always has something to show.
-FramesLoaded['frame_admin'] = true;
-
-var activeFrame = "frame_admin";
-
-// Pointer into FrameOrder
-/*
-var currentFrame = 0;
-var FrameOrder = [
-	"frame_admin",
-	"frame_mail",
-	"frame_nc"
-];
-*/
-/*
-var FrameSrc = {
-	frame_admin	:	"/admin/admin.php",
-	frame_mail      :	"/mail/index.php",
-	frame_nc	: 	"/nc/index.php"
-};
-
-var FrameSrcDefaultApp = {
-	frame_admin	:	"",
-	frame_mail      :	"",
-	frame_nc	:	"/apps/files"
-}
-*/
-
-//var current_user;
-//var cookie;
 var baseurl = "/admin/apps.php";
 var DEBUG = true;
-
 
 function debug_log(msg) {
 	if (DEBUG) console.log(msg);
@@ -40,10 +8,11 @@ function debug_log(msg) {
 // Global objects
 var menu;
 var apps;
+var mgr;
 var store;
 
 /*
- * Localstorage wrapper to store objects as stringified json
+ * Base class for storage. Store objects as stringified json
  * all keys are prefixed with a "namespace" prefix
  */
 class Storage
@@ -51,36 +20,111 @@ class Storage
 	constructor(prefix)
 	{
 		this.prefix = prefix+"_";
+		this.log("Created");
 	}
-
 
 	initialize(obj)
 	{
+		this.log("Initialize");
 		for( const key in obj)
 		{
+			this.log("Key: "+key+" val: "+obj[key]);
 			this.set(key,obj[key]);
 		}
 	}
 
+	doGet(key)
+	{
+		console.error("Missing get implementation");
+	}
+
+	doSet(key, value)
+	{
+		console.error("Missing set implementation");
+	}
+
+	doHas(key)
+	{
+		console.error("Missing has implementation");
+	}
+
 	get(key)
 	{
-		if( localStorage.hasOwnProperty(this.prefix+key) )
-		{
-			return JSON.parse(localStorage.getItem(this.prefix+key))
-		}
-		return null;
+		this.log("Get: "+key);
+		return JSON.parse(this.doGet(this.prefix+key));
 	}
 
 	set(key, value)
 	{
-		localStorage.setItem(this.prefix+key, JSON.stringify(value));
+		this.log("Set: "+key+" : "+value);
+		this.doSet(this.prefix+key, JSON.stringify(value));
 	}
 
 	has(key)
 	{
-		return localStorage.hasOwnProperty(this.prefix+key);
+		this.log("Has: "+key);
+		return this.doHas(this.prefix+key);
+	}
+
+	log(msg)
+	{
+		//debug_log("Store ("+this.prefix+"): "+msg);
+	}
+
+}
+
+/*
+* Storage class implementation storing data in local storage
+*/
+class LocalStorage extends Storage
+{
+	doGet(key)
+	{
+		if( localStorage.hasOwnProperty(key) )
+		{
+			return localStorage.getItem(key);
+		}
+		return null;
+	}
+
+	doSet(key, value)
+	{
+		localStorage.setItem(key, value);
+	}
+
+	doHas(key)
+	{
+		return localStorage.hasOwnProperty(key);
 	}
 }
+
+/*
+* Storage class implementation storing data in cookie
+*/
+class CookieStorage extends Storage
+{
+
+	doGet(key)
+	{
+		if( this.doHas(key) )
+		{
+			return $.cookie(key);
+		}
+		return null;
+	}
+
+	doSet(key, value)
+	{
+		$.cookie(key, value);
+	}
+
+	doHas(key)
+	{
+		return !(typeof $.cookie(key) === "undefined");
+	}
+
+}
+
 
 /*
  * Base class for web-apps
@@ -93,13 +137,14 @@ class WebApp
 		this.name = name;
 		this.frame = document.getElementById(this.name);
 		this.page = null;
-		this.waitlogin = false;
 		this.waitlogout = false;
 		this.token = "";
 		this.src = "";
+		this.subapp = "";
 		this.loaded = false;
-		this.log("class created");
 		this.loggedin = false;
+		this.viewonload = false; // Should this app be visible when loaded?
+		this.log("class created");
 	}
 
 	show()
@@ -140,8 +185,20 @@ class WebApp
 		this.loggedin = false;
 	}
 
-	load()
+	load(subapp = "", force = false)
 	{
+		this.log("load (app:"+subapp+")");
+
+		if( !force && this.loaded && this.frame.src != "" )
+		{
+			let url = new URL(this.frame.src);
+			if( url.pathname == this.src )
+			{
+				this.log("Page already loaded");
+				return;
+			}
+		}
+
 		this.frame.src = this.src;
 	}
 
@@ -156,8 +213,13 @@ class WebApp
 		});
 		
 		this.loaded = true;
-		//debug_log(this.page);
-		//this.log("onload page dumped");
+
+		if( this.viewonload == true )
+		{
+			// Loading page shown while loading, now show loaded page
+			this.show();
+			this.viewonload = false;
+		}
 	}
 
 	static frameToApp(frame)
@@ -180,13 +242,6 @@ class WebApp
 		return apps[WebApp.frameToApp(frame)];
 	}
 
-	static hideAll()
-	{
-		for( const app in apps)
-		{
-			apps[app].hide();
-		}
-	}
 }
 
 class LoadingApp extends WebApp
@@ -214,12 +269,12 @@ class RCApp extends WebApp
 	onload()
 	{
 		super.onload();
-		//debug_log($(this.page).contents());
+
 		let token = $(this.page).contents().find("input[name=_token]").val();
 		if( token != undefined )
 		{
 			this.token = token;
-			this.log("Token "+this.token);
+			//this.log("Token "+this.token);
 		}
 		else
 		{
@@ -236,11 +291,11 @@ class RCApp extends WebApp
 			})
 		.done( function( response, stat, xhr)
 			{
-				debug_log("RC logout done");
+				this.log("logout done");
 			})
 		.fail( function()
 			{
-				debug_log("RC logut call failed");
+				this.log("logout call failed");
 			})
 		.always( function()
 			{
@@ -260,7 +315,7 @@ class RCApp extends WebApp
 			})
 		.done( function( response, stat, xhr)
 			{
-				debug_log("RC retrieve token done");
+				this.log("retrieve token done");
 				this.token = RCApp.getToken(response);
 				$.ajax( {
 					url:	"/mail/?_task=login",
@@ -278,18 +333,18 @@ class RCApp extends WebApp
 				})
 				.done( function( response, stat, xhr )
 					{
-						debug_log("RC login request succeded");
-						//debug_log(response);
-						this.waitlogin = false;
+						this.log("login request succeded");
+						// Forde page reload
+						this.load("",true);
 					})
 				.fail( function()
 					{
-						debug_log("RC login call failed");
+						this.log("login call failed");
 					});
 			})
 		.fail( function()
 			{
-				debug_log("RC retrieve token call failed");
+				this.log("retrieve token call failed");
 			});
 
 	}
@@ -310,7 +365,7 @@ class RCApp extends WebApp
 		try
 		{
 			token = match[1];
-			debug_log("Found RC token: " + token);
+			//debug_log("Found RC token: " + token);
 		}
 		catch(e)
 		{
@@ -337,16 +392,28 @@ class NCApp extends WebApp
 	{
 		super.onload();
 		this.token = $(this.page).contents().find("head").attr("data-requesttoken");
-		this.log("Token: "+ this.token);
-		debug_log(this.page);
+		//this.log("Token: "+ this.token);
+		//debug_log(this.page);
 
-		let isrc = $(this.page).attr("URL");
-		this.current = isrc.substr(isrc.lastIndexOf('/')+1);
+		let isrc = new URL($(this.page).attr("URL"));
+		let ptarr = isrc.pathname.split("/");
+		if( ptarr.length > 3 )
+		{
+			this.current = ptarr[4];
+		}
+		//this.log("Src: "+isrc.pathname+" current: " + this.current);
 	}
 
-	load(sub="")
+	load(sub="", force = false)
 	{
-		this.log("load: "+sub+" ("+this.current+")");
+		this.log("load: "+sub+" (last: "+this.current+")");
+
+		if( !force && this.current != "" && this.current == sub )
+		{
+			this.log("Page already loaded");
+			return;
+		}
+
 		this.frame.src = this.src + "/apps/"+sub;
 		this.current = sub;
 	}
@@ -355,9 +422,9 @@ class NCApp extends WebApp
 	login(args)
 	{
 		super.login();
-		let nc_args = {};
 
-		nc_args = { user: args.username, password: args.password, requesttoken: this.token };
+		//let nc_args = {};
+		let nc_args = { user: args.username, password: args.password, requesttoken: this.token };
 
 		$.ajax( {
 				url:	"/nc/index.php/login",
@@ -368,18 +435,20 @@ class NCApp extends WebApp
 			})
 		.done( function( response, stat, xhr )
 			{
-				debug_log("NC login request succeded");
+				this.log("login request succeded");
 				//debug_log(response);
-				this.waitlogin = false;
 				this.loggedin = true;
-				load_nextframe();
+				// Force page reload
+				this.load(this.current, true);
 			})
-		.fail( function()
+		.fail( function( xhr, textStatus, errorThrown)
 			{
-				debug_log("NC login failed");
+				//this.log("login failed: "+textStatus);
+				this.log("Err thrown: "+ errorThrown);
+				//debug_log(xhr);
 			});
 
-		debug_log("login completed");
+		this.log("login completed");
 	}
 
 	isLoggedIn()
@@ -489,11 +558,11 @@ class ADMApp extends WebApp
 					this.waitlogout = false;
 					if( xhr.status == 405 )
 					{
-						debug_log("ADM already logged out?=");
+						this.log("ADM already logged out?");
 					}
 					else
 					{
-						debug_log("ADM logout failed: " + error);
+						this.log("ADM logout failed: " + error);
 					}
 					redirect( timeout, url);
 				}
@@ -508,7 +577,95 @@ class AppManager
 {
 	constructor()
 	{
+
+		// Initialize apps
+		apps =
+		{
+			'admin' : new ADMApp(),
+			'mail' : new RCApp(),
+			'nc' : new NCApp(),
+			'loading': new LoadingApp()
+		};
+
 		this.log("Constructed");
+		this.default = "admin";
+		this.args = null;
+	}
+
+	loadApps(force=false)
+	{
+		this.log("Load apps");
+		apps.mail.load("", force);
+		apps.nc.load("", force);
+	}
+
+	login(args)
+	{
+		this.log("Login");
+		this.args = args;
+		for( const app in apps)
+		{
+			apps[app].login(args);
+		}
+	}
+
+	logout(timeout=null, url="")
+	{
+		for(const app in apps)
+		{
+			apps[app].logout(timeout, url);
+		}
+	}
+
+
+	hideAll()
+	{
+		this.log("hideAll");
+		for( const app in apps)
+		{
+			apps[app].hide();
+		}
+	}
+
+	view(app, subapp = "")
+	{
+		this.hideAll();
+
+		this.log("view: "+app);
+
+		if( apps.hasOwnProperty(app) )
+		{
+			apps[app].load(subapp);
+		}
+
+		if( apps.hasOwnProperty(app) && apps[app].loaded )
+		{
+			apps[app].show();
+		} else {
+			try
+			{
+//			this.log("Not loaded? "+ apps[app].loaded);
+				this.log("Not loaded? "+ app);
+				apps[app].viewonload = true;
+				apps["loading"].show();
+			}
+			catch(err)
+			{
+				debug_log(apps);
+				debug_log(app);
+				this.log("Failed with:"+err.message);
+			}
+		}
+	}
+
+	isLoggedIn()
+	{
+		let res = true;
+		for( const app in apps)
+		{
+			res = res & apps[app].isLoggedIn();
+		}
+		return res;
 	}
 
 	log(msg)
@@ -522,58 +679,39 @@ class AppManager
 function set_name(name) {
 	$("#current_user").text(name);
 	store.set("user",name);
-	//current_user = name;
 
+/*
 	debug_log("Read config");
 	debug_log("Config App: "+store.get("app"));
 	debug_log("Config Frame: "+store.get("frame"));
+*/
+
+	//TODO: Move to menu?
 	
 	// Update menu with user stored app
 	if (store.get("app"))
 	{
+		debug_log("Set menu by app ("+store.get("app")+")");
 		// Select element by app-assigned "data-app" attribute
 		$(".nav_button[data-app='"+store.get("app")+"']").addClass("active");
 	} 
 	else 
 	{
 		// Select element by target frame
+		debug_log("Set menu by frame ("+store.get("frame")+")");
 		$(".nav_button[target='"+store.get("frame")+"']").addClass("active");	
 	}
-}
 
-function load_frame(id) {
 
-	let app = apps[WebApp.frameToApp(id)];
-	let subapp = "";
-
-	if( store.get("app") )
-	{
-		subapp = store.get("app");;
-	}
-	debug_log("load_frame:"+id+ " app " + subapp);
-
-	app.load(subapp);
+	mgr.view(WebApp.frameToApp(store.get("frame")), store.get("app"));
 }
 
 // Called externally from opiadmin
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
 	debug_log("Login");
-	apps.mail.waitlogin = true;
-	apps.nc.waitlogin = true;
 
-	// only need to logout NC, RC handles change of user when a new login is done.
-	apps.nc.logout(0, "", app_login, args);
-}
-
-function app_login(args)
-{
-	debug_log("APP Login");
-
-	for( const app in apps)
-	{
-		apps[app].login(args);
-	}
+	mgr.login(args);
 }
 
 function set_url(url) 
@@ -587,17 +725,6 @@ function load_nextframe()
 
 	debug_log("load_nextframe");
 	menu.show();
-	view_frame(store.get("frame"));
-	
-	if(apps.nc.waitlogin || apps.mail.waitlogin) {
-		debug_log("Apps not loaded yet: " + apps.nc.waitlogin + " " + apps.mail.waitlogin);
-		return false;
-	}
-/*
-	currentFrame++;
-	debug_log("Current Frame: " + currentFrame);
-	load_frame(FrameOrder[currentFrame]);
-*/
 }
 
 function redirect(timeout,url)
@@ -641,7 +768,7 @@ function icon_logout(timeout,url) {
 	});
 	$("#btn_logout_confirm").click(function() {
 		$("#confirm_logout").addClass("hidden");
-		view_frame("frame_loading");
+		mgr.view("loading");
 		logout(timeout,url);
 	});
 }
@@ -652,27 +779,15 @@ function logout(timeout,url)
 	apps.nc.waitlogout = true;
 	apps.admin.waitlogout = true;
 	menu.hide();
+	mgr.logout(timeout, url);
 
+/*
 	//debug_log("NC token: " + apps.nc.token);
 	for(const app in apps)
 	{
 		apps[app].logout(timeout, url);
 	}
-}
-
-function view_frame(Frame)
-{
-	WebApp.hideAll();
-	let app = WebApp.frameToApp(Frame);
-
-	debug_log("view_frame: "+Frame+" app "+app);
-	if( apps.hasOwnProperty(app) && apps[app].loaded )
-	{
-		apps[app].show();
-	} else {
-		debug_log("Not loaded? "+ apps[app].loaded);
-		apps["loading"].show();
-	}
+*/
 }
 
 function set_frame(activeFrame,app="") {
@@ -681,7 +796,7 @@ function set_frame(activeFrame,app="") {
 	store.set("frame",activeFrame);
 	store.set("app", app);
 
-	view_frame(activeFrame);
+	mgr.view(WebApp.frameToApp(activeFrame), app);
 }
 
 function setTitle() {
@@ -703,20 +818,25 @@ function setTitle() {
 }
 
 function update_nav(app) {
+	debug_log("Navbutton update: " + app);
 	debug_log("NavButton update, id: "+$(app).attr("data-app")+"("+app+")");
 	if ($(app).hasClass("active")) {
 		// a click on the current active item
 		debug_log("Already on the active item.");
 	} else {
 		if ($(app).attr("data-app")) {
+			// This is one of the NC menus
 			// Set the subpage of the frame
-			debug_log("Page SRC:");
+			debug_log("Page SRC:"+$(app).attr("data-app"));
 			debug_log($("#"+$(app).attr("target")).attr("src"));
+			mgr.view("nc", $(app).attr("data-app"));
+			/*
 			if( $("#"+$(app).attr("target")).attr("src").includes("/apps/"+$(app).attr("data-app")) ) {
 				debug_log("Already on the active subpage");
 			} else {
 				$("#"+$(app).attr("target")).attr("src","/nc/index.php/apps/"+$(app).attr("data-app"));
 			}
+			*/
 		}
 	}
 
@@ -730,7 +850,8 @@ $(document).ready(function() {
 	menu = new Menu($("#nav_line"));
 	menu.hide();
 	
-	store = new Storage("opiadmin");
+	store = new CookieStorage("opiadmin");
+	//store = new LocalStorage("opiadmin");
 
 	if( ! store.has("user") )
 	{
@@ -742,16 +863,8 @@ $(document).ready(function() {
 		});
 	}
 
-	apps =
-	{
-		'admin' : new ADMApp(),
-		'mail' : new RCApp(),
-		'nc' : new NCApp(),
-		'loading': new LoadingApp()
-	};
-
-	apps.mail.load();
-	apps.nc.load();
+	mgr = new AppManager();
+	mgr.loadApps();
 
 	setTitle();
 
@@ -777,24 +890,6 @@ $(document).ready(function() {
 		if(e.which == 27) {
 			// hide dialog if 'esc' is pressed
 			logout_cancel();
-		}
-	});
-
-	$(window).on('hashchange', function (e) {
-		frame = location.hash.substr(1);
-		target_src=$("#"+frame).attr('src');
-		if( target_src == "loading.php") {
-			set_url(baseurl);
-		} else {
-			pattern = /\/apps\/(\w+)/;
-			let app = pattern.exec(target_src);
-			if (app != null) {
-				debug_log("HASH CHANGE APP: " + app[1]);
-				set_frame(frame,app[1]);
-			} else {
-				debug_log("HASH CHANGE");
-				set_frame(frame);
-			}
 		}
 	});
 
