@@ -125,7 +125,6 @@ class CookieStorage extends Storage
 
 }
 
-
 /*
  * Base class for web-apps
  * wraps an iframe and manage an app running within.
@@ -137,7 +136,6 @@ class WebApp
 		this.name = name;
 		this.frame = document.getElementById(this.name);
 		this.page = null;
-		this.waitlogout = false;
 		this.token = "";
 		this.src = "";
 		this.subapp = "";
@@ -168,10 +166,16 @@ class WebApp
 		debug_log("WebApp ("+this.name+"): "+msg);
 	}
 
-	login()
+	async login()
 	{
 		this.log("login");
 		this.loggedin = true;
+		return Promise.resolve();
+	}
+
+	checkLoggedIn()
+	{
+		return this.loggedin;
 	}
 
 	isLoggedIn()
@@ -179,12 +183,19 @@ class WebApp
 		return this.loggedin;
 	}
 
-	logout()
+	async logout()
 	{
 		this.log("logout");
 		this.loggedin = false;
+		return Promise.resolve();
 	}
 
+	/*
+	* Load page into frame
+	* Return
+	*  - true if page load initiated
+	*  - false if current page kept
+	*/
 	load(subapp = "", force = false)
 	{
 		this.log("load (app:"+subapp+")");
@@ -195,11 +206,12 @@ class WebApp
 			if( url.pathname == this.src )
 			{
 				this.log("Page already loaded");
-				return;
+				return false;
 			}
 		}
 
 		this.frame.src = this.src;
+		return true;
 	}
 
 	onload()
@@ -251,6 +263,7 @@ class LoadingApp extends WebApp
 		super("frame_loading");
 		$(this.frame).on("load", this.onload.bind(this));
 		this.src = "loading.php";
+		this.loggedin = true; // Have no login
 	}
 }
 
@@ -282,83 +295,148 @@ class RCApp extends WebApp
 		}
 	}
 
-	logout(timeout, url)
+	load(subapp = "", force = false)
 	{
-		super.logout();
-		$.ajax( {
-				url: "/mail/?_task=logout&_token="+this.token,
-				context: this
-			})
-		.done( function( response, stat, xhr)
+		this.log("load (app:"+subapp+")");
+
+		if( this.loggedin && ! this.checkLoggedIn())
+		{
+			// We are out of sync
+			this.log("Out of sync, force reload");
+			force = true;
+		}
+
+		if( !force && this.loaded && this.frame.src != "" )
+		{
+			let url = new URL(this.frame.src);
+			if( url.pathname == this.src )
 			{
-				this.log("logout done");
-			})
-		.fail( function()
+				this.log("Page already loaded");
+				return false;
+			}
+		}
+
+		this.frame.src = this.src;
+		return true;
+	}
+
+	async logout()
+	{
+		this.log("logout");
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
 			{
-				this.log("logout call failed");
-			})
-		.always( function()
+				$.ajax( {
+						url: "/mail/?_task=logout&_token="+caller.token,
+						context: caller
+					})
+				.done( function( response, stat, xhr)
+					{
+						this.log("logout done");
+						this.loggedin = false;
+						completed();
+					})
+				.fail( function( xhr, textStatus, errorThrown )
+					{
+						this.log("logout call failed");
+						this.log("Request token failed: "+textStatus);
+						this.log("Err thrown: "+ errorThrown);
+						fail();
+					})
+			}
+		);
+
+		return prom;
+	}
+
+	async getToken()
+	{
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
 			{
-				this.waitlogout = false;
-				redirect( timeout, url);
+				// Retrieve login token
+				$.ajax( {
+						url: "/mail/?_task=login",
+						context: caller
+					})
+				.done( function( response, stat, xhr)
+					{
+						//this.log("retrieve token done");
+						let token = RCApp.extractToken(response);
+
+						completed(token);
+					})
+				.fail( function( xhr, textStatus, errorThrown )
+					{
+						this.log("retrieve token call failed");
+						this.log("Request token failed: "+textStatus);
+						this.log("Err thrown: "+ errorThrown);
+						fail();
+					});
 			});
+		return prom;
 	}
 
 
-	login(args)
+	async login(args)
 	{
-		super.login();
-		// Retrieve login token
-		$.ajax( {
-				url: "/mail/?_task=login",
-				context: this
-			})
-		.done( function( response, stat, xhr)
+		this.log("login");
+
+		this.token = await this.getToken();
+		//this.log("Got token: "+this.token);
+
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
 			{
-				this.log("retrieve token done");
-				this.token = RCApp.getToken(response);
 				$.ajax( {
 					url:	"/mail/?_task=login",
 					data: { 
 						'_user': args.username,
 						'_pass': args.password,
-						'_token': this.token,
+						'_token': caller.token,
 						'_task': 'login',
 						'_action': 'login',
 						'_timezone': '',
 						'_url': ''
 					},
-					context: this,
+					context: caller,
 					type: "POST"
 				})
 				.done( function( response, stat, xhr )
 					{
-						this.log("login request succeded");
-						// Forde page reload
-						this.load("",true);
+						this.log("login done: "+stat);
+						debug_log("login done: "+stat);
+						//debug_log(xhr);
+						//debug_log(response);
+						this.loggedin = true;
+						completed();
 					})
-				.fail( function()
+				.fail( function( xhr, textStatus, errorThrown )
 					{
 						this.log("login call failed");
+						this.log("Request token failed: "+textStatus);
+						this.log("Err thrown: "+ errorThrown);
+						debug_log("login fail: "+textStatus);
+						debug_log("Err thrown: "+ errorThrown);
+						fail();
 					});
-			})
-		.fail( function()
-			{
-				this.log("retrieve token call failed");
 			});
-
+		return prom;
 	}
 
-	isLoggedIn()
+	checkLoggedIn()
 	{
-		if( this.page && this.page.defaultView.rcmail.env.hasOwnProperty("user_id") )
+		if( this.page && this.page.defaultView.rcmail && this.page.defaultView.rcmail.env.hasOwnProperty("user_id") )
 		{
 			return true;
 		}
 		return false;
 	}
 
-	static getToken(data) {
+	static extractToken(data) {
 		let token_pattern = /request_token\"\s*\:\s*\"(\w+)\"/;
 		let match = token_pattern.exec(data);
 		let token;
@@ -392,8 +470,6 @@ class NCApp extends WebApp
 	{
 		super.onload();
 		this.token = $(this.page).contents().find("head").attr("data-requesttoken");
-		//this.log("Token: "+ this.token);
-		//debug_log(this.page);
 
 		let isrc = new URL($(this.page).attr("URL"));
 		let ptarr = isrc.pathname.split("/");
@@ -401,7 +477,6 @@ class NCApp extends WebApp
 		{
 			this.current = ptarr[4];
 		}
-		//this.log("Src: "+isrc.pathname+" current: " + this.current);
 	}
 
 	load(sub="", force = false)
@@ -411,47 +486,88 @@ class NCApp extends WebApp
 		if( !force && this.current != "" && this.current == sub )
 		{
 			this.log("Page already loaded");
-			return;
+			return false;
 		}
 
 		this.frame.src = this.src + "/apps/"+sub;
 		this.current = sub;
+		return true;
 	}
 
 
-	login(args)
+	async getToken()
 	{
-		super.login();
-
-		//let nc_args = {};
-		let nc_args = { user: args.username, password: args.password, requesttoken: this.token };
-
-		$.ajax( {
-				url:	"/nc/index.php/login",
-				headers: { 'OCS-APIRequest': 'true'},
-				data:	nc_args,
-				context: this,
-				type: "POST"
-			})
-		.done( function( response, stat, xhr )
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
 			{
-				this.log("login request succeded");
-				//debug_log(response);
-				this.loggedin = true;
-				// Force page reload
-				this.load(this.current, true);
-			})
-		.fail( function( xhr, textStatus, errorThrown)
-			{
-				//this.log("login failed: "+textStatus);
-				this.log("Err thrown: "+ errorThrown);
-				//debug_log(xhr);
+				$.ajax( {
+						url:	"/nc/index.php/csrftoken",
+						headers: { 'OCS-APIRequest': 'true'},
+						context: caller,
+						type: "GET"
+					})
+				.done( function( response, stat, xhr )
+					{
+						this.log("token request succeded");
+						if( response.hasOwnProperty("token") )
+						{
+							completed(response["token"]);
+						}
+						else
+						{
+							fail();
+						}
+					})
+				.fail( function( xhr, textStatus, errorThrown )
+					{
+						this.log("Request token failed: "+textStatus);
+						this.log("Err thrown: "+ errorThrown);
+						//debug_log(xhr);
+						fail();
+					});
 			});
 
-		this.log("login completed");
+		return prom;
 	}
 
-	isLoggedIn()
+	async login(args)
+	{
+		this.log("login");
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
+			{
+				let nc_args = { user: args.username, password: args.password, requesttoken: caller.token };
+
+				$.ajax( {
+						url:	"/nc/index.php/login",
+						headers: { 'OCS-APIRequest': 'true'},
+						data:	nc_args,
+						context: caller,
+						type: "POST"
+					})
+				.done( function( response, stat, xhr )
+					{
+						this.log("login done");
+						this.loggedin = true;
+						completed();
+					})
+				.fail( function( xhr, textStatus, errorThrown )
+					{
+						//this.log("login failed: "+textStatus);
+						this.log("Err thrown: "+ errorThrown);
+						//debug_log(xhr);
+						fail();
+					});
+			});
+
+
+		return prom;
+	}
+
+	/* Try figure out if we are logged in */
+	checkLoggedIn()
 	{
 		if( this.page && $(this.page).contents().find("head").attr("data-user"))
 		{
@@ -466,43 +582,39 @@ class NCApp extends WebApp
 	}
 
 
-	logout(timeout = 0, url = "", callback, cb_args)
+	async logout()
 	{
-		super.logout();
+		this.log("logout");
+		this.token = await this.getToken();
+
 		let logout_url = "/nc/index.php/logout?requesttoken="+encodeURIComponent(this.token);
 		//debug_log("URL" + logout_url);
 
-		$.ajax(	{
-				url: logout_url,
-				headers: { 'OCS-APIRequest': 'true'},
-				context: this
-			})
-		.done( function( response, stat, xhr )
+		let caller = this;
+		let prom = new Promise(
+			function(completed, fail)
 			{
-				//debug_log(stat);
-				//debug_log(xhr);
-				this.log("NC logout done");
-				this.loggedin = false;
-			})
-		.fail( function()
-			{
-				this.log("NC logout failed");
-			})
-		.always( function()
-			{
-				this.log("Running NC logout 'always'");
-				if( timeout && url )
-				{
-					this.waitlogout = false;
-					redirect(timeout, url);
-				}
-
-				if( typeof callback != "undefined")
-				{
-					this.log("NC logout running 'callback'");
-					callback(cb_args);
-				}
-			});
+				$.ajax(	{
+						url: logout_url,
+						headers: { 'OCS-APIRequest': 'true'},
+						context: caller
+					})
+				.done( function( response, stat, xhr )
+					{
+						this.log("logout done");
+						this.loggedin = false;
+						completed();
+					})
+				.fail( function(xhr, textStatus, errorThrown)
+					{
+						this.log("logout failed");
+						this.log("Err thrown: "+ errorThrown);
+						this.waitlogout = false;
+						fail();
+					});
+			}
+		);
+		return prom;
 	}
 
 }
@@ -519,7 +631,7 @@ class ADMApp extends WebApp
 		this.src = "/admin/admin.php";
 	}
 
-	isLoggedIn()
+	checkLoggedIn()
 	{
 		if( this.page && this.page.getElementById("admin"))
 		{
@@ -527,7 +639,6 @@ class ADMApp extends WebApp
 		}
 		return false;
 	}
-
 
 	getUser()
 	{
@@ -540,33 +651,41 @@ class ADMApp extends WebApp
 
 	// Login provided by opiapp which calls into opiframes
 
-	logout(timeout, url)
+	async logout()
 	{
-		super.logout();
-		$.ajax(
+		this.log("logout");
+		let caller = this;
+		let prom = new Promise(
+			function(completed, failed)
 			{
-				url: '/admin/index.php/api/session',
-				type: 'DELETE',
-				context: this,
-				success: function(result, stat)
-				{
-					this.waitlogout = false;
-					redirect(timeout, url);
-				},
-				error: function( xhr, stat, error )
-				{
-					this.waitlogout = false;
-					if( xhr.status == 405 )
+				$.ajax(
 					{
-						this.log("ADM already logged out?");
-					}
-					else
-					{
-						this.log("ADM logout failed: " + error);
-					}
-					redirect( timeout, url);
-				}
-			});
+						url: '/admin/index.php/api/session',
+						type: 'DELETE',
+						context: caller,
+						success: function(result, stat)
+						{
+							this.log("logout done");
+							this.loggedin = false;
+							completed();
+						},
+						error: function( xhr, stat, error )
+						{
+							this.waitlogout = false;
+							if( xhr.status == 405 )
+							{
+								this.log("ADM already logged out?");
+							}
+							else
+							{
+								this.log("ADM logout failed: " + error);
+							}
+							failed();
+						}
+					});
+			}
+		);
+		return prom;
 	}
 }
 
@@ -587,9 +706,28 @@ class AppManager
 			'loading': new LoadingApp()
 		};
 
-		this.log("Constructed");
 		this.default = "admin";
+		this.current_app = "";
+		this.current_subapp = "";
 		this.args = null;
+		this.setupStatus();
+		this.log("Constructed");
+	}
+
+
+	setupStatus()
+	{
+		this.log("SetupStatus");
+		for( const app in apps)
+		{
+			this.log(app + " : " + apps[app].checkLoggedIn());
+			apps[app].loggedin = apps[app].checkLoggedIn();
+		}
+	}
+
+	startPage()
+	{
+		location.href = baseurl;
 	}
 
 	loadApps(force=false)
@@ -605,15 +743,48 @@ class AppManager
 		this.args = args;
 		for( const app in apps)
 		{
-			apps[app].login(args);
+			let caller = this;
+			apps[app].login(args).then(
+				function()
+				{
+					caller.log("Login completed for: "+app);
+					if( caller.isLoggedIn() )
+					{
+						caller.log("All apps logged in");
+						caller.viewCurrent();
+					}
+				},
+				function()
+				{
+					caller.log("Login failed for: "+app);
+				}
+
+			);
 		}
 	}
 
-	logout(timeout=null, url="")
+	logout()
 	{
+		this.log("Logout");
 		for(const app in apps)
 		{
-			apps[app].logout(timeout, url);
+			let caller = this;
+			apps[app].logout().then(
+				function()
+				{
+					caller.log("Logout completed for: "+app);
+					if( caller.isLoggedOut() )
+					{
+						caller.log("All apps logged out");
+						caller.startPage();
+					}
+				},
+				function()
+				{
+					caller.log("Logout failed for: "+app);
+				}
+
+			);
 		}
 	}
 
@@ -627,30 +798,53 @@ class AppManager
 		}
 	}
 
+	viewCurrent()
+	{
+		this.view(WebApp.frameToApp(store.get("frame")), store.get("app"));
+	}
+
 	view(app, subapp = "")
 	{
+		this.log("view app: "+app+" sub: "+subapp);
+
+		if( this.current_app == app && this.current_subapp == subapp )
+		{
+			this.log("view is current, ignore request");
+			return;
+		}
+		this.current_app = app;
+		this.current_subapp = subapp;
+
 		this.hideAll();
 
-		this.log("view: "+app);
 
-		if( apps.hasOwnProperty(app) )
+		if( ! apps.hasOwnProperty(app) )
 		{
-			apps[app].load(subapp);
+			console.error("Missing application: "+app);
+			debug_log(apps);
+			return;
 		}
 
-		if( apps.hasOwnProperty(app) && apps[app].loaded )
+		if( apps[app].load(subapp) )
+		{
+			// We have a change/reload of page
+			apps[app].viewonload = true;
+		}
+
+		if( !apps[app].viewonload )
 		{
 			apps[app].show();
-		} else {
+		}
+		else
+		{
 			try
 			{
-//			this.log("Not loaded? "+ apps[app].loaded);
-				this.log("Not loaded? "+ app);
-				apps[app].viewonload = true;
+				this.log(app + " not yet loaded");
 				apps["loading"].show();
 			}
 			catch(err)
 			{
+				console.error("Failed to setup app "+app+" for load");
 				debug_log(apps);
 				debug_log(app);
 				this.log("Failed with:"+err.message);
@@ -663,8 +857,22 @@ class AppManager
 		let res = true;
 		for( const app in apps)
 		{
+			this.log(app + " : " + apps[app].isLoggedIn());
 			res = res & apps[app].isLoggedIn();
 		}
+		this.log("isLoggedIn: "+res);
+		return res;
+	}
+
+	isLoggedOut()
+	{
+		let res = true;
+		for( const app in apps)
+		{
+			this.log(app + " : " + !apps[app].isLoggedIn());
+			res = res & !apps[app].isLoggedIn();
+		}
+		this.log("isLoggedOut: "+res);
 		return res;
 	}
 
@@ -680,14 +888,9 @@ function set_name(name) {
 	$("#current_user").text(name);
 	store.set("user",name);
 
-/*
-	debug_log("Read config");
-	debug_log("Config App: "+store.get("app"));
-	debug_log("Config Frame: "+store.get("frame"));
-*/
 
 	//TODO: Move to menu?
-	
+
 	// Update menu with user stored app
 	if (store.get("app"))
 	{
@@ -703,14 +906,14 @@ function set_name(name) {
 	}
 
 
-	mgr.view(WebApp.frameToApp(store.get("frame")), store.get("app"));
+	//mgr.view(WebApp.frameToApp(store.get("frame")), store.get("app"));
 }
 
 // Called externally from opiadmin
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
 	debug_log("Login");
-
+	mgr.view("loading","");
 	mgr.login(args);
 }
 
@@ -727,34 +930,6 @@ function load_nextframe()
 	menu.show();
 }
 
-function redirect(timeout,url)
-{
-	debug_log("Redirect: " + url + " timeout: " + timeout);
-	if(!apps.nc.waitlogout && !apps.admin.waitlogout && !apps.mail.waitlogout)
-	{
-		debug_log("Trying to redirect");
-		setTimeout(function() {
-			$.ajax({
-	        	type: "HEAD",
-	        	async: true,
-	        	timeout: 2000,
-	        	url : baseurl
-			})
-			.done(function(){
-					set_url(baseurl);
-				})
-			.fail(function(){
-					debug_log("UI not available, waiting");
-					redirect(0,baseurl);
-			});
-		}, 5000);
-	}	
-	else
-	{
-		debug_log("Not redirecting "+apps.nc.waitlogout +" "+ apps.admin.waitlogout +" "+ apps.mail.waitlogout);
-	}
-}
-
 function logout_cancel() {
 	$("#confirm_logout").addClass("hidden");
 	$("#confirm_logout_backdrop").addClass("hidden");
@@ -769,28 +944,18 @@ function icon_logout(timeout,url) {
 	$("#btn_logout_confirm").click(function() {
 		$("#confirm_logout").addClass("hidden");
 		mgr.view("loading");
-		logout(timeout,url);
+		logout();
 	});
 }
 
-function logout(timeout,url)
+function logout()
 {
-	apps.mail.waitlogout = true;
-	apps.nc.waitlogout = true;
-	apps.admin.waitlogout = true;
 	menu.hide();
-	mgr.logout(timeout, url);
-
-/*
-	//debug_log("NC token: " + apps.nc.token);
-	for(const app in apps)
-	{
-		apps[app].logout(timeout, url);
-	}
-*/
+	mgr.logout();
 }
 
-function set_frame(activeFrame,app="") {
+function set_frame(activeFrame,app="")
+{
 	location.hash = activeFrame;
 	debug_log("Update config, current Frame: "+activeFrame+", App: "+app);
 	store.set("frame",activeFrame);
@@ -799,7 +964,8 @@ function set_frame(activeFrame,app="") {
 	mgr.view(WebApp.frameToApp(activeFrame), app);
 }
 
-function setTitle() {
+function setTitle()
+{
 	$.get( "index.php/api/system/type", function( data ) {
 		switch (data.typeText) {
 		 	case ("Armada"):
@@ -817,9 +983,10 @@ function setTitle() {
 	});
 }
 
-function update_nav(app) {
-	debug_log("Navbutton update: " + app);
-	debug_log("NavButton update, id: "+$(app).attr("data-app")+"("+app+")");
+function update_nav(app)
+{
+	//debug_log("Navbutton update: " + app);
+	///debug_log("NavButton update, id: "+$(app).attr("data-app")+"("+app+")");
 	if ($(app).hasClass("active")) {
 		// a click on the current active item
 		debug_log("Already on the active item.");
@@ -827,16 +994,9 @@ function update_nav(app) {
 		if ($(app).attr("data-app")) {
 			// This is one of the NC menus
 			// Set the subpage of the frame
-			debug_log("Page SRC:"+$(app).attr("data-app"));
-			debug_log($("#"+$(app).attr("target")).attr("src"));
+			//debug_log("Page SRC:"+$(app).attr("data-app"));
+			//debug_log($("#"+$(app).attr("target")).attr("src"));
 			mgr.view("nc", $(app).attr("data-app"));
-			/*
-			if( $("#"+$(app).attr("target")).attr("src").includes("/apps/"+$(app).attr("data-app")) ) {
-				debug_log("Already on the active subpage");
-			} else {
-				$("#"+$(app).attr("target")).attr("src","/nc/index.php/apps/"+$(app).attr("data-app"));
-			}
-			*/
 		}
 	}
 
