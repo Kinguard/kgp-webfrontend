@@ -161,6 +161,12 @@ class WebApp
 		this.frame.classList.remove("z0");
 	}
 
+	// Make sure frame is synchronized with login status
+	update()
+	{
+		this.log("update");
+	}
+
 	log(msg)
 	{
 		debug_log("WebApp ("+this.name+"): "+msg);
@@ -232,6 +238,8 @@ class WebApp
 			this.show();
 			this.viewonload = false;
 		}
+		// TODO: directly calling manager not very nice
+		mgr.onLoaded(WebApp.frameToApp(this.name));
 	}
 
 	static frameToApp(frame)
@@ -264,6 +272,7 @@ class LoadingApp extends WebApp
 		$(this.frame).on("load", this.onload.bind(this));
 		this.src = "loading.php";
 		this.loggedin = true; // Have no login
+		this.loaded = true; // App loaded by html
 	}
 }
 
@@ -292,6 +301,17 @@ class RCApp extends WebApp
 		else
 		{
 			this.log("No token provided");
+		}
+	}
+
+	update()
+	{
+		super.update();
+		if( this.loggedin && ! this.checkLoggedIn())
+		{
+			// Out of sync
+			this.log("update: forcing reload");
+			this.load("");
 		}
 	}
 
@@ -408,7 +428,6 @@ class RCApp extends WebApp
 				.done( function( response, stat, xhr )
 					{
 						this.log("login done: "+stat);
-						debug_log("login done: "+stat);
 						//debug_log(xhr);
 						//debug_log(response);
 						this.loggedin = true;
@@ -476,6 +495,16 @@ class NCApp extends WebApp
 		if( ptarr.length > 3 )
 		{
 			this.current = ptarr[4];
+		}
+	}
+
+
+	update()
+	{
+		super.update();
+		if( this.loggedin != this.checkLoggedIn() )
+		{
+			this.load(this.current,true);
 		}
 	}
 
@@ -710,7 +739,7 @@ class AppManager
 		this.current_app = "";
 		this.current_subapp = "";
 		this.args = null;
-		this.setupStatus();
+		this.inoperation = false; // Are we currently in login/logout operation
 		this.log("Constructed");
 	}
 
@@ -740,6 +769,8 @@ class AppManager
 	login(args)
 	{
 		this.log("Login");
+		mgr.view("loading","");
+		this.inoperation = true;
 		this.args = args;
 		for( const app in apps)
 		{
@@ -751,7 +782,10 @@ class AppManager
 					if( caller.isLoggedIn() )
 					{
 						caller.log("All apps logged in");
+						caller.inoperation = false;
+						caller.update();
 						caller.viewCurrent();
+						menu.show();
 					}
 				},
 				function()
@@ -766,6 +800,10 @@ class AppManager
 	logout()
 	{
 		this.log("Logout");
+		menu.hide();
+		this.view("loading");
+
+		this.inoperation = true;
 		for(const app in apps)
 		{
 			let caller = this;
@@ -776,6 +814,7 @@ class AppManager
 					if( caller.isLoggedOut() )
 					{
 						caller.log("All apps logged out");
+						caller.inoperation = false;
 						caller.startPage();
 					}
 				},
@@ -785,6 +824,15 @@ class AppManager
 				}
 
 			);
+		}
+	}
+
+	update()
+	{
+		this.log("update");
+		for( const app in apps)
+		{
+			apps[app].update();
 		}
 	}
 
@@ -852,12 +900,40 @@ class AppManager
 		}
 	}
 
-	isLoggedIn()
+	// Callback used by frames to report when they are loaded
+	onLoaded(app)
 	{
+		this.log("onLoaded: "+app+ " oper:" + this.inoperation);
+		if( !this.inoperation && this.isLoaded() )
+		{
+			this.setupStatus();
+			if( this.isLoggedIn() )
+			{
+				this.viewCurrent();
+			}
+		}
+	}
+
+	isLoaded()
+	{
+		this.log("isLoaded");
 		let res = true;
 		for( const app in apps)
 		{
-			this.log(app + " : " + apps[app].isLoggedIn());
+			this.log("loaded: " + apps[app].loaded+ " ("+app+")" );
+			res = res & apps[app].loaded;
+		}
+		this.log("isLoaded: "+res);
+		return res;
+	}
+
+	isLoggedIn()
+	{
+		this.log("isLoggedIn");
+		let res = true;
+		for( const app in apps)
+		{
+			this.log("loggedin: " + apps[app].isLoggedIn() + " ("+app+")");
 			res = res & apps[app].isLoggedIn();
 		}
 		this.log("isLoggedIn: "+res);
@@ -866,10 +942,11 @@ class AppManager
 
 	isLoggedOut()
 	{
+		this.log("isLoggedOut");
 		let res = true;
 		for( const app in apps)
 		{
-			this.log(app + " : " + !apps[app].isLoggedIn());
+			this.log("loggedout: " + !apps[app].isLoggedIn()+ " ("+app+")");
 			res = res & !apps[app].isLoggedIn();
 		}
 		this.log("isLoggedOut: "+res);
@@ -904,30 +981,19 @@ function set_name(name) {
 		debug_log("Set menu by frame ("+store.get("frame")+")");
 		$(".nav_button[target='"+store.get("frame")+"']").addClass("active");	
 	}
-
-
-	//mgr.view(WebApp.frameToApp(store.get("frame")), store.get("app"));
 }
 
 // Called externally from opiadmin
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
 	debug_log("Login");
-	mgr.view("loading","");
 	mgr.login(args);
-}
-
-function set_url(url) 
-{
-	location.href=url;
 }
 
 function load_nextframe()
 {
 	// this function is called from admin UI when it has finished loading.
-
-	debug_log("load_nextframe");
-	menu.show();
+	//debug_log("load_nextframe");
 }
 
 function logout_cancel() {
@@ -943,15 +1009,8 @@ function icon_logout(timeout,url) {
 	});
 	$("#btn_logout_confirm").click(function() {
 		$("#confirm_logout").addClass("hidden");
-		mgr.view("loading");
-		logout();
+		mgr.logout();
 	});
-}
-
-function logout()
-{
-	menu.hide();
-	mgr.logout();
 }
 
 function set_frame(activeFrame,app="")
@@ -1025,7 +1084,8 @@ $(document).ready(function() {
 
 	mgr = new AppManager();
 	mgr.loadApps();
-
+	//mgr.view(WebApp.frameToApp(store.get("frame")),store.get("app"));
+	
 	setTitle();
 
 	$(".nav_button").click(function() {
