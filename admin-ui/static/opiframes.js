@@ -1,15 +1,106 @@
 var baseurl = "/admin/apps.php";
 var DEBUG = true;
 
+const LOG_NONE = 0; // No log output at all
+const LOG_DEBUG = 1;
+const LOG_INFO = 2;
+const LOG_WARN = 3;
+const LOG_ERR = 4;
+
+// Default debug log threshold if nothing else set
+var DEBUG_LEVEL = LOG_WARN;
+
 function debug_log(msg) {
 	if (DEBUG) console.log(msg);
 }
 
 // Global objects
 var menu;
+var nav;
 var apps;
 var mgr;
 var store;
+
+/*
+* Levels, debug(0, log), info(1), warn(2), error(3)
+*/
+class Logger
+{
+	constructor(logname = "", threshold = DEBUG_LEVEL)
+	{
+		this.prefix = logname+": ";
+		this.threshold = threshold;
+	}
+
+	verbose(threshold)
+	{
+		this.threshold = threshold;
+	}
+
+	logname(name)
+	{
+		this.prefix = name + ": ";
+	}
+
+	log(msg, level = LOG_DEBUG)
+	{
+		if( DEBUG_LEVEL == LOG_NONE )
+		{
+			return;
+		}
+
+		if( this.threshold > level )
+		{
+			return;
+		}
+
+		switch(level)
+		{
+		case LOG_ERR:
+			console.error(this.prefix+msg);
+			break;
+		case LOG_WARN:
+			console.warn(this.prefix+msg);
+			break;
+		case LOG_INFO:
+			console.info(this.prefix+msg);
+			break;
+		case LOG_DEBUG:
+			console.log(this.prefix+msg);
+			break;
+		default:
+			console.error("Unknown debug level: "+level);
+		}
+	}
+
+	debug(msg)
+	{
+		this.log(msg, LOG_DEBUG);
+	}
+
+	info(msg)
+	{
+		this.log(msg, LOG_INFO);
+	}
+
+	warn(msg)
+	{
+		this.log(msg, LOG_WARN);
+	}
+
+	error(msg)
+	{
+		this.log(msg, LOG_ERR);
+	}
+
+	raw(msg, level = LOG_DEBUG)
+	{
+		console.log(msg);
+	}
+}
+
+var log = new Logger("Global");
+
 
 /*
  * Base class for storage. Store objects as stringified json
@@ -17,52 +108,61 @@ var store;
  */
 class Storage
 {
-	constructor(prefix)
+	constructor(prefix, logger = null)
 	{
 		this.prefix = prefix+"_";
-		this.log("Created");
+		if( ! logger )
+		{
+			this.log = new Logger("Storage ("+prefix+")", LOG_ERR);
+		}
+		else
+		{
+			this.log = logger;
+		}
+		this.log.info("Created");
 	}
 
 	initialize(obj)
 	{
-		this.log("Initialize");
+		this.log.info("Initialize");
 		for( const key in obj)
 		{
-			this.log("Key: "+key+" val: "+obj[key]);
+			this.log.debug("Key: "+key+" val: "+obj[key]);
 			this.set(key,obj[key]);
 		}
 	}
 
 	doGet(key)
 	{
-		console.error("Missing get implementation");
+		this.log.error("Missing get implementation");
 	}
 
 	doSet(key, value)
 	{
-		console.error("Missing set implementation");
+		this.log.error("Missing set implementation");
 	}
 
 	doHas(key)
 	{
-		console.error("Missing has implementation");
+		this.log.error("Missing has implementation");
 	}
 
 	get(key)
 	{
-		this.log("Get: "+key);
+		this.log.debug("Get: "+key);
 		return JSON.parse(this.doGet(this.prefix+key));
 	}
 
 	set(key, value)
 	{
-		this.log("Set: "+key+" : "+value);
+		value = (value === null)?"":value;
+		this.log.debug("Set: "+key+" : "+value);
 		this.doSet(this.prefix+key, JSON.stringify(value));
 	}
 
 	has(key)
 	{
-		this.log("Has: "+key);
+		this.log.debug("Has: "+key);
 		return this.doHas(this.prefix+key);
 	}
 
@@ -108,19 +208,19 @@ class CookieStorage extends Storage
 	{
 		if( this.doHas(key) )
 		{
-			return $.cookie(key);
+			return Cookies.get(key);
 		}
 		return null;
 	}
 
 	doSet(key, value)
 	{
-		$.cookie(key, value);
+		Cookies.set(key, value,{ sameSite:'strict', secure:true});
 	}
 
 	doHas(key)
 	{
-		return !(typeof $.cookie(key) === "undefined");
+		return !(typeof Cookies.get(key) === "undefined");
 	}
 
 }
@@ -131,7 +231,7 @@ class CookieStorage extends Storage
  */
 class WebApp
 {
-	constructor(name)
+	constructor(name, logger = null)
 	{
 		this.name = name;
 		this.frame = document.getElementById(this.name);
@@ -142,39 +242,44 @@ class WebApp
 		this.loaded = false;
 		this.loggedin = false;
 		this.viewonload = false; // Should this app be visible when loaded?
-		this.log("class created");
+
+		if( ! logger )
+		{
+			this.log = new Logger("WebApp");
+		}
+		else
+		{
+			this.log = logger;
+		}
+
+		this.log.info("class created");
 	}
 
 	show()
 	{
-		this.log("Show");
+		this.log.debug("Show");
 		if( ! this.loaded )
 		{
-			this.log("Show called before page loaded!");
+			this.log.info("Show called before page loaded!");
 		}
 		this.frame.classList.add("z0");
 	}
 
 	hide()
 	{
-		this.log("Hide");
+		this.log.debug("Hide");
 		this.frame.classList.remove("z0");
 	}
 
 	// Make sure frame is synchronized with login status
 	update()
 	{
-		this.log("update");
-	}
-
-	log(msg)
-	{
-		debug_log("WebApp ("+this.name+"): "+msg);
+		this.log.debug("update");
 	}
 
 	async login()
 	{
-		this.log("login");
+		this.log.debug("login");
 		this.loggedin = true;
 		return Promise.resolve();
 	}
@@ -191,7 +296,7 @@ class WebApp
 
 	async logout()
 	{
-		this.log("logout");
+		this.log.debug("logout");
 		this.loggedin = false;
 		return Promise.resolve();
 	}
@@ -204,14 +309,14 @@ class WebApp
 	*/
 	load(subapp = "", force = false)
 	{
-		this.log("load (app:"+subapp+")");
+		this.log.debug("load (app:"+subapp+")");
 
 		if( !force && this.loaded && this.frame.src != "" )
 		{
 			let url = new URL(this.frame.src);
 			if( url.pathname == this.src )
 			{
-				this.log("Page already loaded");
+				this.log.info("Page already loaded");
 				return false;
 			}
 		}
@@ -222,14 +327,14 @@ class WebApp
 
 	onload()
 	{
-		this.log("onload");
+		this.log.debug("onload");
 		this.page = this.frame.contentWindow.document;
 
 		$(this.page).contents().find("body").click(function() {
 			// any click anywhere should close the OP-menu.
 			menu.close();
 		});
-		
+
 		this.loaded = true;
 
 		if( this.viewonload == true )
@@ -300,7 +405,7 @@ class RCApp extends WebApp
 		}
 		else
 		{
-			this.log("No token provided");
+			this.log.info("No token provided");
 		}
 	}
 
@@ -310,19 +415,19 @@ class RCApp extends WebApp
 		if( this.loggedin && ! this.checkLoggedIn())
 		{
 			// Out of sync
-			this.log("update: forcing reload");
+			this.log.debug("update: forcing reload");
 			this.load("");
 		}
 	}
 
 	load(subapp = "", force = false)
 	{
-		this.log("load (app:"+subapp+")");
+		this.log.debug("load (app:"+subapp+")");
 
 		if( this.loggedin && ! this.checkLoggedIn())
 		{
 			// We are out of sync
-			this.log("Out of sync, force reload");
+			this.log.info("Out of sync, force reload");
 			force = true;
 		}
 
@@ -331,7 +436,7 @@ class RCApp extends WebApp
 			let url = new URL(this.frame.src);
 			if( url.pathname == this.src )
 			{
-				this.log("Page already loaded");
+				this.log.info("Page already loaded");
 				return false;
 			}
 		}
@@ -342,7 +447,7 @@ class RCApp extends WebApp
 
 	async logout()
 	{
-		this.log("logout");
+		this.log.debug("logout");
 		let caller = this;
 		let prom = new Promise(
 			function(completed, fail)
@@ -353,15 +458,15 @@ class RCApp extends WebApp
 					})
 				.done( function( response, stat, xhr)
 					{
-						this.log("logout done");
+						this.log.debug("logout done");
 						this.loggedin = false;
 						completed();
 					})
 				.fail( function( xhr, textStatus, errorThrown )
 					{
-						this.log("logout call failed");
-						this.log("Request token failed: "+textStatus);
-						this.log("Err thrown: "+ errorThrown);
+						this.log.info("logout call failed");
+						this.log.info("Request token failed: "+textStatus);
+						this.log.info("Err thrown: "+ errorThrown);
 						fail();
 					})
 			}
@@ -390,9 +495,9 @@ class RCApp extends WebApp
 					})
 				.fail( function( xhr, textStatus, errorThrown )
 					{
-						this.log("retrieve token call failed");
-						this.log("Request token failed: "+textStatus);
-						this.log("Err thrown: "+ errorThrown);
+						this.log.info("retrieve token call failed");
+						this.log.info("Request token failed: "+textStatus);
+						this.log.info("Err thrown: "+ errorThrown);
 						fail();
 					});
 			});
@@ -402,7 +507,7 @@ class RCApp extends WebApp
 
 	async login(args)
 	{
-		this.log("login");
+		this.log.debug("login");
 
 		this.token = await this.getToken();
 		//this.log("Got token: "+this.token);
@@ -413,7 +518,7 @@ class RCApp extends WebApp
 			{
 				$.ajax( {
 					url:	"/mail/?_task=login",
-					data: { 
+					data: {
 						'_user': args.username,
 						'_pass': args.password,
 						'_token': caller.token,
@@ -427,19 +532,15 @@ class RCApp extends WebApp
 				})
 				.done( function( response, stat, xhr )
 					{
-						this.log("login done: "+stat);
-						//debug_log(xhr);
-						//debug_log(response);
+						this.log.debug("login done: "+stat);
 						this.loggedin = true;
 						completed();
 					})
 				.fail( function( xhr, textStatus, errorThrown )
 					{
-						this.log("login call failed");
-						this.log("Request token failed: "+textStatus);
-						this.log("Err thrown: "+ errorThrown);
-						debug_log("login fail: "+textStatus);
-						debug_log("Err thrown: "+ errorThrown);
+						this.log.info("login call failed");
+						this.log.info("Request token failed: "+textStatus);
+						this.log.info("Err thrown: "+ errorThrown);
 						fail();
 					});
 			});
@@ -466,7 +567,7 @@ class RCApp extends WebApp
 		}
 		catch(e)
 		{
-			debug_log("Failed to match request token");
+			log.error("Failed to match request token");
 		}
 		return token;
 	}
@@ -510,11 +611,11 @@ class NCApp extends WebApp
 
 	load(sub="", force = false)
 	{
-		this.log("load: "+sub+" (last: "+this.current+")");
+		this.log.debug("load: "+sub+" (last: "+this.current+")");
 
 		if( !force && this.current != "" && this.current == sub )
 		{
-			this.log("Page already loaded");
+			this.log.info("Page already loaded");
 			return false;
 		}
 
@@ -538,7 +639,7 @@ class NCApp extends WebApp
 					})
 				.done( function( response, stat, xhr )
 					{
-						this.log("token request succeded");
+						this.log.debug("token request succeded");
 						if( response.hasOwnProperty("token") )
 						{
 							completed(response["token"]);
@@ -550,9 +651,8 @@ class NCApp extends WebApp
 					})
 				.fail( function( xhr, textStatus, errorThrown )
 					{
-						this.log("Request token failed: "+textStatus);
-						this.log("Err thrown: "+ errorThrown);
-						//debug_log(xhr);
+						this.log.info("Request token failed: "+textStatus);
+						this.log.info("Err thrown: "+ errorThrown);
 						fail();
 					});
 			});
@@ -562,7 +662,7 @@ class NCApp extends WebApp
 
 	async login(args)
 	{
-		this.log("login");
+		this.log.debug("login");
 		let caller = this;
 		let prom = new Promise(
 			function(completed, fail)
@@ -578,15 +678,13 @@ class NCApp extends WebApp
 					})
 				.done( function( response, stat, xhr )
 					{
-						this.log("login done");
+						this.log.debug("login done");
 						this.loggedin = true;
 						completed();
 					})
 				.fail( function( xhr, textStatus, errorThrown )
 					{
-						//this.log("login failed: "+textStatus);
-						this.log("Err thrown: "+ errorThrown);
-						//debug_log(xhr);
+						this.log.error("Err thrown: "+ errorThrown);
 						fail();
 					});
 			});
@@ -613,7 +711,7 @@ class NCApp extends WebApp
 
 	async logout()
 	{
-		this.log("logout");
+		this.log.debug("logout");
 		this.token = await this.getToken();
 
 		let logout_url = "/nc/index.php/logout?requesttoken="+encodeURIComponent(this.token);
@@ -630,14 +728,14 @@ class NCApp extends WebApp
 					})
 				.done( function( response, stat, xhr )
 					{
-						this.log("logout done");
+						this.log.debug("logout done");
 						this.loggedin = false;
 						completed();
 					})
 				.fail( function(xhr, textStatus, errorThrown)
 					{
-						this.log("logout failed");
-						this.log("Err thrown: "+ errorThrown);
+						this.log.info("logout failed");
+						this.log.info("Err thrown: "+ errorThrown);
 						this.waitlogout = false;
 						fail();
 					});
@@ -682,7 +780,7 @@ class ADMApp extends WebApp
 
 	async logout()
 	{
-		this.log("logout");
+		this.log.debug("logout");
 		let caller = this;
 		let prom = new Promise(
 			function(completed, failed)
@@ -694,7 +792,7 @@ class ADMApp extends WebApp
 						context: caller,
 						success: function(result, stat)
 						{
-							this.log("logout done");
+							this.log.debug("logout done");
 							this.loggedin = false;
 							completed();
 						},
@@ -703,11 +801,11 @@ class ADMApp extends WebApp
 							this.waitlogout = false;
 							if( xhr.status == 405 )
 							{
-								this.log("ADM already logged out?");
+								this.log.info("ADM already logged out?");
 							}
 							else
 							{
-								this.log("ADM logout failed: " + error);
+								this.log.info("ADM logout failed: " + error);
 							}
 							failed();
 						}
@@ -723,7 +821,7 @@ class ADMApp extends WebApp
  */
 class AppManager
 {
-	constructor()
+	constructor(logger = null)
 	{
 
 		// Initialize apps
@@ -740,16 +838,25 @@ class AppManager
 		this.current_subapp = "";
 		this.args = null;
 		this.inoperation = false; // Are we currently in login/logout operation
-		this.log("Constructed");
+
+		if( !logger )
+		{
+			this.log = new Logger("AppMGR");
+		}
+		else
+		{
+			this.log = logger;
+		}
+		this.log.info("Constructed");
 	}
 
 
-	setupStatus()
+	_setupStatus()
 	{
-		this.log("SetupStatus");
+		this.log.debug("SetupStatus");
 		for( const app in apps)
 		{
-			this.log(app + " : " + apps[app].checkLoggedIn());
+			this.log.debug(app + " : " + apps[app].checkLoggedIn());
 			apps[app].loggedin = apps[app].checkLoggedIn();
 		}
 	}
@@ -761,14 +868,14 @@ class AppManager
 
 	loadApps(force=false)
 	{
-		this.log("Load apps");
+		this.log.debug("Load apps");
 		apps.mail.load("", force);
 		apps.nc.load("", force);
 	}
 
 	login(args)
 	{
-		this.log("Login");
+		this.log.debug("Login");
 		mgr.view("loading","");
 		this.inoperation = true;
 		this.args = args;
@@ -778,10 +885,10 @@ class AppManager
 			apps[app].login(args).then(
 				function()
 				{
-					caller.log("Login completed for: "+app);
+					caller.log.debug("Login completed for: "+app);
 					if( caller.isLoggedIn() )
 					{
-						caller.log("All apps logged in");
+						caller.log.info("All apps logged in");
 						caller.inoperation = false;
 						caller.update();
 						caller.viewCurrent();
@@ -790,7 +897,7 @@ class AppManager
 				},
 				function()
 				{
-					caller.log("Login failed for: "+app);
+					caller.log.info("Login failed for: "+app);
 				}
 
 			);
@@ -799,7 +906,7 @@ class AppManager
 
 	logout()
 	{
-		this.log("Logout");
+		this.log.debug("Logout");
 		menu.hide();
 		this.view("loading");
 
@@ -810,17 +917,17 @@ class AppManager
 			apps[app].logout().then(
 				function()
 				{
-					caller.log("Logout completed for: "+app);
+					caller.log.debug("Logout completed for: "+app);
 					if( caller.isLoggedOut() )
 					{
-						caller.log("All apps logged out");
+						caller.log.info("All apps logged out");
 						caller.inoperation = false;
 						caller.startPage();
 					}
 				},
 				function()
 				{
-					caller.log("Logout failed for: "+app);
+					caller.log.info("Logout failed for: "+app);
 				}
 
 			);
@@ -829,7 +936,7 @@ class AppManager
 
 	update()
 	{
-		this.log("update");
+		this.log.debug("update");
 		for( const app in apps)
 		{
 			apps[app].update();
@@ -839,7 +946,7 @@ class AppManager
 
 	hideAll()
 	{
-		this.log("hideAll");
+		this.log.debug("hideAll");
 		for( const app in apps)
 		{
 			apps[app].hide();
@@ -853,11 +960,11 @@ class AppManager
 
 	view(app, subapp = "")
 	{
-		this.log("view app: "+app+" sub: "+subapp);
+		this.log.debug("view app: "+app+" sub: "+subapp);
 
 		if( this.current_app == app && this.current_subapp == subapp )
 		{
-			this.log("view is current, ignore request");
+			this.log.info("view is current, ignore request");
 			return;
 		}
 		this.current_app = app;
@@ -868,8 +975,8 @@ class AppManager
 
 		if( ! apps.hasOwnProperty(app) )
 		{
-			console.error("Missing application: "+app);
-			debug_log(apps);
+			this.log.error("Missing application: "+app);
+			this.log.raw(apps);
 			return;
 		}
 
@@ -887,15 +994,15 @@ class AppManager
 		{
 			try
 			{
-				this.log(app + " not yet loaded");
+				this.log.info(app + " not yet loaded");
 				apps["loading"].show();
 			}
 			catch(err)
 			{
-				console.error("Failed to setup app "+app+" for load");
-				debug_log(apps);
-				debug_log(app);
-				this.log("Failed with:"+err.message);
+				this.log.error("Failed to setup app "+app+" for load");
+				this.log.raw(apps);
+				this.log.raw(app);
+				this.log.info("Failed with:"+err.message);
 			}
 		}
 	}
@@ -903,12 +1010,13 @@ class AppManager
 	// Callback used by frames to report when they are loaded
 	onLoaded(app)
 	{
-		this.log("onLoaded: "+app+ " oper:" + this.inoperation);
+		this.log.debug("onLoaded: "+app+ " oper:" + this.inoperation);
 		if( !this.inoperation && this.isLoaded() )
 		{
-			this.setupStatus();
+			this._setupStatus();
 			if( this.isLoggedIn() )
 			{
+				menu.show();
 				this.viewCurrent();
 			}
 		}
@@ -916,111 +1024,169 @@ class AppManager
 
 	isLoaded()
 	{
-		this.log("isLoaded");
+		this.log.debug("isLoaded");
 		let res = true;
 		for( const app in apps)
 		{
-			this.log("loaded: " + apps[app].loaded+ " ("+app+")" );
+			this.log.debug("loaded: " + apps[app].loaded+ " ("+app+")" );
 			res = res & apps[app].loaded;
 		}
-		this.log("isLoaded: "+res);
+		this.log.debug("isLoaded: "+res);
 		return res;
 	}
 
 	isLoggedIn()
 	{
-		this.log("isLoggedIn");
+		this.log.debug("isLoggedIn");
 		let res = true;
 		for( const app in apps)
 		{
-			this.log("loggedin: " + apps[app].isLoggedIn() + " ("+app+")");
+			this.log.debug("loggedin: " + apps[app].isLoggedIn() + " ("+app+")");
 			res = res & apps[app].isLoggedIn();
 		}
-		this.log("isLoggedIn: "+res);
+		this.log.debug("isLoggedIn: "+res);
 		return res;
 	}
 
 	isLoggedOut()
 	{
-		this.log("isLoggedOut");
+		this.log.debug("isLoggedOut");
 		let res = true;
 		for( const app in apps)
 		{
-			this.log("loggedout: " + !apps[app].isLoggedIn()+ " ("+app+")");
+			this.log.debug("loggedout: " + !apps[app].isLoggedIn()+ " ("+app+")");
 			res = res & !apps[app].isLoggedIn();
 		}
-		this.log("isLoggedOut: "+res);
+		this.log.debug("isLoggedOut: "+res);
 		return res;
-	}
-
-	log(msg)
-	{
-		debug_log("AppMGR: "+msg);
 	}
 }
 
+class Navigation
+{
+	constructor(app="", subapp = "")
+	{
+		this.log = new Logger("Nav");
+		this.log.info("Created, app: "+app+" sub: "+subapp);
+		this.items = {};
+		this.currentapp = app;
+		this.currentsub = subapp;
+		let buttons = $(".nav_button");
+		for( let i=0; i< buttons.length; i++)
+		{
+			let bp = this._parseId(buttons[i]);
+
+			if( this.items.hasOwnProperty(bp[0]) )
+			{
+				this.items[ bp[0] ][ bp[1] ] = buttons[i];
+			}
+			else
+			{
+				this.items[ bp[0] ]= { [bp[1]]:buttons[i] };
+			}
+		}
+	}
+
+	_parseId(item)
+	{
+		let parts = item.id.split("_");
+
+		if( parts.length == 3)
+		{
+			return [parts[1],parts[2]];
+		}
+		else if( parts.length == 2)
+		{
+			return [parts[1],""];
+		}
+		this.log.debug("Malformed item: "+item.id);
+		return ["",""];
+	}
+
+	_deActivate(app, subapp="")
+	{
+		this.log.debug("deActivate: "+app+" "+subapp);
+		if( this.items.hasOwnProperty(app) && this.items[app].hasOwnProperty(subapp) )
+		{
+			this.items[app][subapp].classList.remove("active");
+		}
+		else
+		{
+			this.log.info("No such app/subapp: "+app+" "+subapp);
+		}
+	}
+
+	activate(app, subapp="")
+	{
+		if( subapp == null )
+		{
+			subapp = "";
+		}
+		this.log.debug("activate: "+app+" "+subapp);
+
+		if( this.currentapp == app && this.currentsub == subapp )
+		{
+			this.log.debug("No nav change, ignoring request");
+			return;
+		}
+
+		if( this.currentapp != "" )
+		{
+			this._deActivate(this.currentapp, this.currentsub);
+		}
+
+		if( this.items.hasOwnProperty(app) && this.items[app].hasOwnProperty(subapp) )
+		{
+			this.items[app][subapp].classList.add("active");
+			this.currentapp = app;
+			this.currentsub = subapp;
+		}
+		else
+		{
+			this.log.info("No such app/subapp: "+app+" "+subapp);
+		}
+	}
+}
 
 // Called from opiadmin app upon login
 function set_name(name) {
 	$("#current_user").text(name);
 	store.set("user",name);
-
-
 	//TODO: Move to menu?
 
 	// Update menu with user stored app
 	if (store.get("app"))
 	{
-		debug_log("Set menu by app ("+store.get("app")+")");
+		log.debug("Set menu by app ("+store.get("app")+")");
 		// Select element by app-assigned "data-app" attribute
 		$(".nav_button[data-app='"+store.get("app")+"']").addClass("active");
-	} 
-	else 
+	}
+	else
 	{
 		// Select element by target frame
-		debug_log("Set menu by frame ("+store.get("frame")+")");
-		$(".nav_button[target='"+store.get("frame")+"']").addClass("active");	
+		log.debug("Set menu by frame ("+store.get("frame")+")");
+		$(".nav_button[target='"+store.get("frame")+"']").addClass("active");
 	}
 }
 
 // Called externally from opiadmin
 function login(args) {
 	// called when admin UI has verified login, pass the same to the owncloud and roundcube
-	debug_log("Login");
+	log.info("Login");
 	mgr.login(args);
 }
 
+// Called externally from opiadmin
+function logout()
+{
+	log.info("External logout");
+	mgr.logout();
+}
+
+// Called externally from opiadmin, not used anymore
 function load_nextframe()
 {
 	// this function is called from admin UI when it has finished loading.
-	//debug_log("load_nextframe");
-}
-
-function logout_cancel() {
-	$("#confirm_logout").addClass("hidden");
-	$("#confirm_logout_backdrop").addClass("hidden");
-	$("#confirm_logout_backdrop").css({ opacity: 0 });}
-
-function icon_logout(timeout,url) {
-	$("#confirm_logout_backdrop").removeClass("hidden");
-	$("#confirm_logout_backdrop").animate({ 'opacity': 0.5 },100, function() {
-		$("#confirm_logout").removeClass("hidden");
-		$("#btn_logout_confirm").focus();
-	});
-	$("#btn_logout_confirm").click(function() {
-		$("#confirm_logout").addClass("hidden");
-		mgr.logout();
-	});
-}
-
-function set_frame(activeFrame,app="")
-{
-	location.hash = activeFrame;
-	debug_log("Update config, current Frame: "+activeFrame+", App: "+app);
-	store.set("frame",activeFrame);
-	store.set("app", app);
-
-	mgr.view(WebApp.frameToApp(activeFrame), app);
 }
 
 function setTitle()
@@ -1042,39 +1208,50 @@ function setTitle()
 	});
 }
 
-function update_nav(app)
+function logout_cancel()
 {
-	//debug_log("Navbutton update: " + app);
-	///debug_log("NavButton update, id: "+$(app).attr("data-app")+"("+app+")");
-	if ($(app).hasClass("active")) {
-		// a click on the current active item
-		debug_log("Already on the active item.");
-	} else {
-		if ($(app).attr("data-app")) {
-			// This is one of the NC menus
-			// Set the subpage of the frame
-			//debug_log("Page SRC:"+$(app).attr("data-app"));
-			//debug_log($("#"+$(app).attr("target")).attr("src"));
-			mgr.view("nc", $(app).attr("data-app"));
-		}
-	}
-
-	$(app).parent().children().removeClass("active");
-	$(app).addClass("active");
-
+	$("#confirm_logout").addClass("hidden");
+	$("#confirm_logout_backdrop").addClass("hidden");
+	$("#confirm_logout_backdrop").css({ opacity: 0 });
 }
 
-$(document).ready(function() {
+function icon_logout()
+{
+	$("#confirm_logout_backdrop").removeClass("hidden");
+	$("#confirm_logout_backdrop").animate({ 'opacity': 0.5 },100, function()
+	{
+		$("#confirm_logout").removeClass("hidden");
+		$("#btn_logout_confirm").focus();
+	});
+	$("#btn_logout_confirm").click(function()
+	{
+		$("#confirm_logout").addClass("hidden");
+		mgr.logout();
+	});
+}
 
+function set_frame(activeFrame,app="")
+{
+	location.hash = activeFrame;
+	log.info("Update config, current Frame: "+activeFrame+", App: "+app);
+	store.set("frame",activeFrame);
+	store.set("app", app);
+	nav.activate(WebApp.frameToApp(activeFrame), app);
+	mgr.view(WebApp.frameToApp(activeFrame), app);
+}
+
+
+$(document).ready(function()
+{
 	menu = new Menu($("#nav_line"));
 	menu.hide();
-	
+
 	store = new CookieStorage("opiadmin");
 	//store = new LocalStorage("opiadmin");
 
 	if( ! store.has("user") )
 	{
-		debug_log("Initialize config");
+		log.info("Initialize config");
 		store.initialize( {
 			"user": "",
 			"frame": "admin",
@@ -1082,25 +1259,24 @@ $(document).ready(function() {
 		});
 	}
 
+	nav = new Navigation(WebApp.frameToApp(store.get("frame")), store.get("app"));
+
 	mgr = new AppManager();
 	mgr.loadApps();
-	//mgr.view(WebApp.frameToApp(store.get("frame")),store.get("app"));
-	
+
 	setTitle();
 
 	$(".nav_button").click(function() {
 
-		debug_log("Calling setframe from navbutton");
-		set_frame($(this).attr("target"),$(this).attr("data-app"));
+		log.debug("Calling setframe from navbutton");
+		set_frame(this.getAttribute("target"),this.getAttribute("data-app"));
 		menu.close();
-		update_nav(this);
-
 	});
 
 	$("#op_nav button").hover(function() {
 		$(this).children().toggleClass("hover");
-	});		
-	
+	});
+
 	$("#top-nav-logout a").click(function(e) {
 		e.preventDefault();
 		icon_logout(0.1,"/admin");

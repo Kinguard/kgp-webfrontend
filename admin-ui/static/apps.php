@@ -32,7 +32,7 @@ include "helpers.php";
 <script src="js/opmenu.js"></script>
 
 <script src="js/texts.js"></script>
-<script src="js/jquery.cookie.js"></script>
+<script src="js/js.cookie.min.js"></script>
 <script src="opiframes.js"></script>
 
 <meta http-equiv="cache-control" content="max-age=0" />
@@ -80,7 +80,7 @@ include "helpers.php";
 					<div class="nav_control nav-icon" id="nav_files"> </div>
 					<div class="nav_text" id="txt_nav_files">Files</div>
 				</button>
-				<button id="button_nc_cal" class="nav_button close" target="frame_nc" data-app="calendar">
+				<button id="button_nc_calendar" class="nav_button close" target="frame_nc" data-app="calendar">
 					<div class="nav_control nav-icon" id="nav_cal"> </div>
 					<div class="nav_text" id="txt_nav_cal">Calendar</div>
 				</button>
@@ -88,7 +88,7 @@ include "helpers.php";
 					<div class="nav_control nav-icon" id="nav_contacts"> </div>
 					<div class="nav_text" id="txt_nav_contacts">Contacts</div>
 				</button>
-				<button id="button_nc_gallery" class="nav_button close" target="frame_nc" data-app="photos">
+				<button id="button_nc_photos" class="nav_button close" target="frame_nc" data-app="photos">
 					<div class="nav_control nav-icon" id="nav_gallery"> </div>
 					<div class="nav_text" id="txt_nav_gallery">Gallery</div>
 				</button>
