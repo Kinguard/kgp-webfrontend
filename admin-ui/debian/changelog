@@ -1,3 +1,10 @@
+opi-webfrontend (1.100) vili; urgency=medium
+
+  * Rework navigation
+  * Use js-cookie instead of jquery-cookie
+
+ -- Tor Krill <tor@openproducts.se>  Thu, 14 Oct 2021 08:49:22 +0200
+
 opi-webfrontend (1.99) vili; urgency=medium
 
   * Buster release
