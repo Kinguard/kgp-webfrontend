@@ -1019,6 +1019,10 @@ class AppManager
 				menu.show();
 				this.viewCurrent();
 			}
+			else
+			{
+				this.view("admin");
+			}
 		}
 	}
 

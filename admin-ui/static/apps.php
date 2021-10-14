@@ -134,8 +134,8 @@ include "helpers.php";
 		</div>
 	</div>
 <div id="content">
-	<iframe class="subpage z2 z0" id="frame_admin" src = "admin.php"></iframe>
-	<iframe class="subpage z1" id="frame_loading" src = "loading.php"></iframe>
+	<iframe class="subpage z2" id="frame_admin" src = "admin.php"></iframe>
+	<iframe class="subpage z1 z0" id="frame_loading" src = "loading.php"></iframe>
 	<iframe class="subpage z3" id="frame_mail" ></iframe>
 	<iframe class="subpage z4" id="frame_nc"></iframe>
 </div>
