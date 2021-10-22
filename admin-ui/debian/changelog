@@ -1,3 +1,9 @@
+opi-webfrontend (1.101) vili; urgency=medium
+
+  * Update shutdown and reboot communication between opiframes and opiadmin
+
+ -- Tor Krill <tor@openproducts.se>  Fri, 22 Oct 2021 15:59:44 +0200
+
 opi-webfrontend (1.100) vili; urgency=medium
 
   * Rework navigation
