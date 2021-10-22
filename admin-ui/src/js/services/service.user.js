@@ -73,26 +73,26 @@ opiaServices.factory('UserService', ['SessionAPI','UserAPI','_', function(Sessio
     },
     shutdown: function(args){
         var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
-      //console.log("User service shutdown");
+        //console.log("User service shutdown");
         Session.logout(function(data,status){
           success(data,status);
         });
-    if(window.self !== window.top) {
-          // Call parent (frame wrapper) logout function
-      //console.log("logout OC/RC");
-      window.parent.logout(0); 
-    }
+		if(window.self !== window.top) {
+			// Call parent (frame wrapper) logout function
+			//console.log("logout OC/RC");
+			window.parent.shutdown();
+		}
       },
     reboot: function(args){
-    var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
-    //console.log("User service reboot: ");
-    if(window.self !== window.top) {
-      //console.log("logout OC/RC");
-      window.parent.logout(args.timeout,args.url); 
-    }
-    Session.logout(function(data,status){
-      success(data,status);
-    });
+		var success = (typeof args === 'function') ? args : (typeof args === 'object') ? args.success : function(){};
+		//console.log("User service reboot: ");
+		if(window.self !== window.top) {
+			//console.log("logout OC/RC");
+			window.parent.reboot(args.timeout,args.url);
+		}
+		Session.logout(function(data,status){
+			success(data,status);
+		});
     }
   };
 

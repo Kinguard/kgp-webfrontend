@@ -1,5 +1,4 @@
 var baseurl = "/admin/apps.php";
-var DEBUG = true;
 
 const LOG_NONE = 0; // No log output at all
 const LOG_DEBUG = 1;
@@ -9,10 +8,6 @@ const LOG_ERR = 4;
 
 // Default debug log threshold if nothing else set
 var DEBUG_LEVEL = LOG_WARN;
-
-function debug_log(msg) {
-	if (DEBUG) console.log(msg);
-}
 
 // Global objects
 var menu;
@@ -165,12 +160,6 @@ class Storage
 		this.log.debug("Has: "+key);
 		return this.doHas(this.prefix+key);
 	}
-
-	log(msg)
-	{
-		//debug_log("Store ("+this.prefix+"): "+msg);
-	}
-
 }
 
 /*
@@ -563,7 +552,6 @@ class RCApp extends WebApp
 		try
 		{
 			token = match[1];
-			//debug_log("Found RC token: " + token);
 		}
 		catch(e)
 		{
@@ -715,7 +703,6 @@ class NCApp extends WebApp
 		this.token = await this.getToken();
 
 		let logout_url = "/nc/index.php/logout?requesttoken="+encodeURIComponent(this.token);
-		//debug_log("URL" + logout_url);
 
 		let caller = this;
 		let prom = new Promise(
@@ -934,6 +921,34 @@ class AppManager
 		}
 	}
 
+	shutdown()
+	{
+		this.log.debug("Shutdown");
+		menu.hide();
+		//this.logout();
+		// If logout fails, make sure we reload startpage
+		//window.location.href="/admin/templates/shutdown.php";
+		setTimeout( function(me){
+				me.log.debug("Redirecting to startpage");
+				window.location.href="/admin/templates/shutdown.php";
+			}
+			, 4, this);
+	}
+
+	reboot(timeout,url)
+	{
+		this.log.debug("Reboot, url:"+url+" timeout: "+timeout);
+		menu.hide();
+		//this.logout();
+		setTimeout(function(me)
+		{
+			me.log.debug("Trigger redirect to: "+url);
+			window.location.href = url;
+		}, timeout*1000, this);
+
+	}
+
+
 	update()
 	{
 		this.log.debug("update");
@@ -949,7 +964,14 @@ class AppManager
 		this.log.debug("hideAll");
 		for( const app in apps)
 		{
-			apps[app].hide();
+			if( app != this.current_app )
+			{
+				apps[app].hide();
+			}
+			else
+			{
+				this.log.debug("Skip hide: "+app);
+			}
 		}
 	}
 
@@ -965,6 +987,9 @@ class AppManager
 		if( this.current_app == app && this.current_subapp == subapp )
 		{
 			this.log.info("view is current, ignore request");
+			// Sometimes we get a lingering loading with same z-order as
+			// current app, make sure this is hidden if needed.
+			this.hideAll();
 			return;
 		}
 		this.current_app = app;
@@ -1186,6 +1211,22 @@ function logout()
 	log.info("External logout");
 	mgr.logout();
 }
+
+
+// Called externally from opiadmin when shutdown is requested
+function shutdown()
+{
+	log.info("System shutdown initiated");
+	mgr.shutdown();
+}
+
+// Called externally from opiadmin when reboot is requested
+function reboot(timeout, url)
+{
+	log.info("System reboot initiated");
+	mgr.reboot(timeout, url);
+}
+
 
 // Called externally from opiadmin, not used anymore
 function load_nextframe()
