@@ -1,3 +1,9 @@
+opi-webfrontend (1.102) vigrid; urgency=medium
+
+  * Bullseye build
+
+ -- Tor Krill <tor@openproducts.se>  Tue, 01 Feb 2022 07:51:19 +0100
+
 opi-webfrontend (1.101) vili; urgency=medium
 
   * Update shutdown and reboot communication between opiframes and opiadmin
